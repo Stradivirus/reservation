@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './PreRegistrationForm.css';
 
+// 실제 서버 주소로 변경하세요
+const API_URL = 'http://218.156.126.186:8000';
+
 function PreRegistrationForm() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -25,7 +28,7 @@ function PreRegistrationForm() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/preregister', {
+      const response = await fetch(`${API_URL}/api/preregister`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,8 +47,8 @@ function PreRegistrationForm() {
         alert(`오류: ${errorData.detail}`);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('사전 등록 중 오류가 발생했습니다.');
+      console.error('Error details:', error);
+      alert(`사전 등록 중 오류가 발생했습니다: ${error.message}`);
     }
   };
 
