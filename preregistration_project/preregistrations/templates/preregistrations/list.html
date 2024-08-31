@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>사전 등록 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            margin-right: 20px;
+        }
+        .content {
+            flex-grow: 1;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #009ea381;
+            color: white;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #00f7ff;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        .button-container {
+            margin-top: 0; /* 버튼을 테이블 헤더와 같은 높이로 설정 */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>사전 등록 목록</h1>
+        <p>총 등록 인원: {{ preregistrations|length }}명</p>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="button-container">
+                <a href="?filter=all" class="button">전체</a>
+                {% for date_count in date_counts %}
+                    <a href="?filter={{ date_count.date|date:'Y-m-d' }}" class="button">
+                        {{ date_count.date|date:'Y-m-d' }} ({{ date_count.count }}명)
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>이메일</th>
+                        <th>전화번호</th>
+                        <th>개인정보 동의</th>
+                        <th>등록 일시</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for preregistration in preregistrations %}
+                    <tr>
+                        <td>{{ preregistration.email }}</td>
+                        <td>{{ preregistration.phone }}</td>
+                        <td>{{ preregistration.privacy_consent|yesno:"예,아니오" }}</td>
+                        <td>{{ preregistration.created_at_kst|date:"H:i:s" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
