@@ -1,0 +1,62 @@
+.pre-registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .pre-registration-form input[type="email"],
+  .pre-registration-form input[type="tel"],
+  .pre-registration-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .pre-registration-form button {
+    background-color: #61dafb;
+    color: #282c34;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .pre-registration-form button:hover {
+    background-color: #21a1c9;
+  }
+  
+  .privacy-agreement {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .privacy-agreement input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .privacy-policy {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .privacy-policy h4 {
+    margin-top: 0;
+    color: #282c34;
+  }
+  
+  .privacy-policy p {
+    margin-bottom: 0;
+    line-height: 1.4;
+  }

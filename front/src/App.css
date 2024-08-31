@@ -1,0 +1,123 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #282c34; /* 기존 중앙 배경색을 body 전체에 적용 */
+}
+
+.App {
+  display: flex;
+  min-height: 100vh;
+}
+
+.side-margin {
+  width: 10%;
+  background-color: #282c34; /* 좌우 여백 배경색을 중앙과 동일하게 변경 */
+}
+
+.content {
+  width: 80%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f0f0f0; /* 중앙 컨텐츠 영역 배경색을 밝은 색으로 변경 */
+}
+
+.title {
+  text-align: center;
+  color: #282c34; /* 제목 색상을 어두운 색으로 변경 */
+  margin-bottom: 20px;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-content {
+  width: 70%;
+  display: flex;
+  flex-direction: row; /* 가로 배치 유지 */
+  align-items: flex-start;
+}
+
+.image-container {
+  width: 40%;
+  margin-right: 20px;
+}
+
+.character-image {
+  width: 100%;
+  height: auto;
+}
+
+.game-introduction {
+  width: 60%;
+  color: #282c34;
+  text-align: left;
+  padding: 20px;
+  /* 스크롤 관련 속성 제거 */
+}
+
+.game-introduction h2, .game-introduction h3 {
+  color: #282c34; /* 제목 색상을 어두운 색으로 변경 */
+}
+
+.right-content {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.new-character-image {
+  width: 40%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.company-info {
+  text-align: center;
+  width: 100%;
+}
+
+.company-info h2 {
+  color: #282c34;
+}
+
+.pre-registration-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+input[type="email"],
+input[type="tel"],
+button {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #21a1c9;
+}
