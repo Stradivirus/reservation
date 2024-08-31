@@ -1,21 +1,52 @@
 import React, { useState } from 'react';
-import './PreRegistrationForm.css'; // 새로운 CSS 파일을 import합니다.
+import './PreRegistrationForm.css';
 
 function PreRegistrationForm() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [privacyConsent, setPrivacyConsent] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/[^\d]/g, '');
+    if (value.length <= 11) {
+      setPhone(value);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!privacyConsent) {
       alert('개인정보 수집 및 이용에 동의해주세요.');
       return;
     }
-    console.log('사전 등록:', { email, phone, privacyConsent });
-    setEmail('');
-    setPhone('');
-    setPrivacyConsent(false);
+    if (phone.length !== 11) {
+      alert('전화번호를 11자리로 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/preregister', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, phone, privacy_consent: privacyConsent }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(`${data.message} 등록 시간: ${new Date(data.created_at).toLocaleString()}`);
+        setEmail('');
+        setPhone('');
+        setPrivacyConsent(false);
+      } else {
+        const errorData = await response.json();
+        alert(`오류: ${errorData.detail}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('사전 등록 중 오류가 발생했습니다.');
+    }
   };
 
   return (
@@ -30,8 +61,9 @@ function PreRegistrationForm() {
       <input
         type="tel"
         value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-        placeholder="전화번호를 입력하세요"
+        onChange={handlePhoneChange}
+        placeholder="전화번호를 입력하세요 (숫자 11자리)"
+        pattern="[0-9]{11}"
         required
       />
       <button type="submit">사전등록</button>
