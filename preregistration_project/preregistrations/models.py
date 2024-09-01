@@ -1,15 +1,24 @@
 from django.db import models
+from django.utils import timezone
+import pytz
 
 class Preregistration(models.Model):
-    id = models.AutoField(primary_key=True)
-    email = models.EmailField()
-    phone = models.CharField(max_length=20)
-    privacy_consent = models.BooleanField()
-    created_at = models.DateTimeField()
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=11, unique=True)  # 길이를 13으로 변경
+    privacy_consent = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        managed = False
-        db_table = 'preregistrations'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.email
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created_at = timezone.now().astimezone(pytz.timezone('Asia/Seoul'))
+        super(Preregistration, self).save(*args, **kwargs)
+
+    @property
+    def created_at_kst(self):
+        return self.created_at.astimezone(pytz.timezone('Asia/Seoul'))

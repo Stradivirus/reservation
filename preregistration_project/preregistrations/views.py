@@ -1,51 +1,59 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from .models import Preregistration
-from django.db.models import Count, F, Value, ExpressionWrapper, DateField, DateTimeField
-from django.db.models.functions import Cast
+from django.db.models import Count
 from django.utils import timezone
-from django.db.models.expressions import RawSQL
 import pytz
 
-class PreregistrationListView(ListView):
+class PreregistrationListView(LoginRequiredMixin, ListView):
     model = Preregistration
     template_name = 'preregistrations/list.html'
     context_object_name = 'preregistrations'
     ordering = ['-created_at']
+    login_url = reverse_lazy('login')  # 로그인 URL을 동적으로 설정
 
     def get_queryset(self):
         queryset = super().get_queryset()
         filter_date = self.request.GET.get('filter')
-        kst = pytz.timezone('Asia/Seoul')
-
+        
         if filter_date and filter_date != 'all':
-            # KST 날짜로 필터링
+            kst = pytz.timezone('Asia/Seoul')
             start_date = timezone.datetime.strptime(filter_date, "%Y-%m-%d").replace(tzinfo=kst)
             end_date = start_date + timezone.timedelta(days=1)
-            queryset = queryset.filter(created_at__gte=start_date.astimezone(pytz.UTC),
-                                       created_at__lt=end_date.astimezone(pytz.UTC))
+            queryset = queryset.filter(created_at__gte=start_date, created_at__lt=end_date)
 
-        # KST로 시간 변환 (데이터베이스 레벨에서 수행)
-        queryset = queryset.annotate(
-            created_at_kst=ExpressionWrapper(
-                RawSQL("created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Seoul'", []),
-                output_field=DateTimeField()
-            )
-        ).order_by('-created_at_kst')
+        # KST로 시간 변환
+        kst = pytz.timezone('Asia/Seoul')
+        for registration in queryset:
+            registration.created_at = registration.created_at.astimezone(kst)
 
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # KST 기준으로 날짜별 등록 수 계산
-        kst_date = ExpressionWrapper(
-            RawSQL("DATE(created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Seoul')", []),
-            output_field=DateField()
-        )
-        
-        date_counts = Preregistration.objects.annotate(
-            date=kst_date
+        date_counts = Preregistration.objects.extra(
+            select={'date': "DATE(created_at AT TIME ZONE 'Asia/Seoul')"}
         ).values('date').annotate(count=Count('id')).order_by('-date')
 
         context['date_counts'] = date_counts
         return context
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(reverse('preregistration_list'))
+        else:
+            return render(request, 'preregistrations/login.html', {'error': 'Invalid credentials'})
+    return render(request, 'preregistrations/login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

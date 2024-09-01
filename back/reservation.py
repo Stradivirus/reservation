@@ -1,9 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field  # Field를 import 했습니다
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker  # declarative_base를 orm에서 import
 from datetime import datetime
 
 # FastAPI 앱 생성
@@ -27,22 +26,21 @@ Base = declarative_base()
 
 # 데이터베이스 모델
 class Preregistration(Base):
-    __tablename__ = "preregistrations"
+    __tablename__ = "preregistrations_preregistration"
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
-    phone = Column(String, unique=True, index=True)
+    phone = Column(String(11), unique=True, index=True)  # 길이를 11로 변경했습니다
     privacy_consent = Column(Boolean)
-    created_at = Column(DateTime, default=datetime.utcnow)  # 생성 날짜 필드 추가
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class PreregistrationCreate(BaseModel):
+    email: str
+    phone: str = Field(..., max_length=11)  # Pydantic 모델에서도 길이 제한
+    privacy_consent: bool
 
 # 데이터베이스 테이블 생성
 Base.metadata.create_all(bind=engine)
-
-# Pydantic 모델 (요청 바디 검증용)
-class PreregistrationCreate(BaseModel):
-    email: str
-    phone: str
-    privacy_consent: bool
 
 @app.post("/api/preregister")
 async def preregister(preregistration: PreregistrationCreate):

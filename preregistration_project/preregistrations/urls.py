@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import PreregistrationListView
+from . import views
 
 urlpatterns = [
-    path('', PreregistrationListView.as_view(), name='preregistration_list'),
+    path('preregistration_list/', views.PreregistrationListView.as_view(), name='preregistration_list'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]
