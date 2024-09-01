@@ -1,0 +1,14 @@
+# Django 관련
+Django
+psycopg2-binary
+pytz
+uvicorn
+# FastAPI 관련
+fastapi
+gunicorn
+sqlalchemy
+pydantic
+
+# 공통 또는 추가 유틸리티
+python-multipart
+python-dotenv
