@@ -1,8 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy import create_engine, Table, MetaData, select
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 import pytz
 
@@ -18,41 +19,61 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 데이터베이스 연결
+# 데이터베이스 연결 설정
 DATABASE_URL = "postgresql://myuser:mypassword@localhost/preregistration_db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
-# 데이터베이스 모델
-class Preregistration(Base):
-    __tablename__ = "preregistrations_preregistration"
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    phone = Column(String(11), unique=True, index=True)
-    privacy_consent = Column(Boolean)
-    created_at = Column(DateTime, default=lambda: datetime.now(pytz.timezone('Asia/Seoul')))
+# 기존 테이블 메타데이터 로드
+metadata = MetaData()
+preregistrations = Table('preregistrations_preregistration', metadata, autoload_with=engine)
 
+# Pydantic 모델 (요청 데이터 검증용)
 class PreregistrationCreate(BaseModel):
     email: str
     phone: str = Field(..., max_length=11)
     privacy_consent: bool
 
-# 데이터베이스 테이블 생성
-Base.metadata.create_all(bind=engine)
-
 @app.post("/api/preregister")
 async def preregister(preregistration: PreregistrationCreate):
     db = SessionLocal()
     try:
-        db_preregistration = Preregistration(**preregistration.dict())
-        db.add(db_preregistration)
+        # 이메일 중복 체크
+        email_exists = db.execute(
+            select(preregistrations).where(preregistrations.c.email == preregistration.email)
+        ).first() is not None
+
+        if email_exists:
+            raise HTTPException(status_code=400, detail="이미 등록된 이메일 주소입니다.")
+
+        # 전화번호 중복 체크
+        phone_exists = db.execute(
+            select(preregistrations).where(preregistrations.c.phone == preregistration.phone)
+        ).first() is not None
+
+        if phone_exists:
+            raise HTTPException(status_code=400, detail="이미 등록된 전화번호입니다.")
+
+        # 새로운 사전등록 데이터 삽입
+        new_preregistration = preregistrations.insert().values(
+            email=preregistration.email,
+            phone=preregistration.phone,
+            privacy_consent=preregistration.privacy_consent,
+            created_at=datetime.now(pytz.timezone('Asia/Seoul'))
+        )
+        db.execute(new_preregistration)
         db.commit()
-        db.refresh(db_preregistration)
         return {
-            "message": "사전 등록이 완료되었습니다.", 
-            "created_at": db_preregistration.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            "message": "사전 등록이 완료되었습니다.",
+            "created_at": datetime.now(pytz.timezone('Asia/Seoul')).strftime('%Y-%m-%d %H:%M:%S')
         }
+    except IntegrityError as e:
+        db.rollback()
+        # 데이터베이스 레벨에서 발생하는 중복 오류 처리
+        raise HTTPException(status_code=400, detail="이메일 또는 전화번호가 이미 등록되어 있습니다.")
+    except HTTPException as e:
+        # 이미 발생한 HTTPException 그대로 전달
+        raise e
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
