@@ -38,7 +38,7 @@ function PreRegistrationForm() {
 
       if (response.ok) {
         const data = await response.json();
-        alert(`${data.message} 등록 시간: ${new Date(data.created_at).toLocaleString()}`);
+	alert(`${data.message} 등록 시간: ${data.created_at}`);
         setEmail('');
         setPhone('');
         setPrivacyConsent(false);
