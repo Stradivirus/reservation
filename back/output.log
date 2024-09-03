@@ -1,0 +1,6 @@
+nohup: ignoring input
+INFO:     Started server process [1243]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     154.213.184.18:48206 - "CONNECT example.com%3A443 HTTP/1.1" 404 Not Found

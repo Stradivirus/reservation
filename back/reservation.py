@@ -13,7 +13,7 @@ app = FastAPI()
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://34.64.196.23"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -64,7 +64,7 @@ async def preregister(preregistration: PreregistrationCreate):
         db.execute(new_preregistration)
         db.commit()
         return {
-            "message": "사전 등록이 완료되었습니다.",
+                "message": "사전 등록이 완료되었습니다.",
             "created_at": datetime.now(pytz.timezone('Asia/Seoul')).strftime('%Y-%m-%d %H:%M:%S')
         }
     except IntegrityError as e:

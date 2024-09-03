@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './PreRegistrationForm.css';
 
 // 실제 서버 주소로 변경하세요
-const API_URL = 'http://218.156.126.186:8000';
+const API_URL = 'http://34.64.196.23:8000';
 
 function PreRegistrationForm() {
   const [email, setEmail] = useState('');
