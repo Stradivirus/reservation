@@ -27,10 +27,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # 기존 테이블 메타데이터 로드 및 새 컬럼 추가
 metadata = MetaData()
 preregistrations = Table('preregistrations_preregistration', metadata, autoload_with=engine)
-if 'coupon_code' not in preregistrations.c:
-    Column('coupon_code', String(8), nullable=True, unique=True)
-if 'is_coupon_used' not in preregistrations.c:
-    Column('is_coupon_used', Boolean, default=False)
 
 metadata.create_all(engine)
 

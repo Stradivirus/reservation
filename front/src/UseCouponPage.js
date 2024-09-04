@@ -7,12 +7,10 @@ function UseCouponPage() {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  // 새로 추가된 상태
   const [inputCouponCode, setInputCouponCode] = useState('');
   const couponCode = new URLSearchParams(location.search).get('code');
 
   const handleUseCoupon = async () => {
-    // 수정된 부분: URL의 쿠폰 코드 또는 입력된 쿠폰 코드 사용
     const codeToUse = couponCode || inputCouponCode;
     if (!codeToUse) {
       setMessage('쿠폰 코드를 입력해주세요.');
@@ -53,7 +51,6 @@ function UseCouponPage() {
             <p className="coupon-code">{couponCode}</p>
           </div>
         ) : (
-          // 새로 추가된 부분: 쿠폰 코드 입력 필드
           <div className="coupon-input-container">
             <input
               type="text"
