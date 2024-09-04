@@ -1,10 +1,14 @@
+.pre-registration-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
 .pre-registration-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
 }
 
 .pre-registration-form input[type="email"],
@@ -33,13 +37,25 @@
 
 .privacy-agreement {
   display: flex;
-  align-items: center;
+  align-items: center; /* 이미 중앙 정렬이 되어 있습니다 */
   margin-bottom: 10px;
   width: 100%;
+  position: relative; /* 추가: 자식 요소의 절대 위치 지정을 위해 */
+  padding-left: 40px;
 }
 
 .privacy-agreement input[type="checkbox"] {
-  margin-right: 10px;
+  position: absolute; /* 변경: 절대 위치로 변경 */
+  left: -130px; /* 유지 */
+  top: 50%; /* 추가: 상위 요소의 중앙에 위치 */
+  transform: translateY(-50%); /* 추가: 자신의 높이의 반만큼 위로 이동 */
+  margin-right: -50px; /* 유지 */
+  
+}
+
+.privacy-agreement label {
+  white-space: nowrap; /* 유지: 텍스트를 한 줄로 유지 */
+  flex: 1; /* 유지 */
 }
 
 .privacy-policy {
@@ -61,7 +77,29 @@
   line-height: 1.4;
 }
 
-/* 새로 추가된 스타일 */
+.coupon-section {
+  margin-top: 20px;
+  text-align: center;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.enter-coupon-button {
+  background-color: #282c34;
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.enter-coupon-button:hover {
+  background-color: #4a4f5a;
+}
+
 .registration-success {
   text-align: center;
   max-width: 400px;
@@ -93,6 +131,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin: 5px;
 }
 
 .registration-success button:hover {

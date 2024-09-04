@@ -13,23 +13,27 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
     template_name = 'preregistrations/list.html'
     context_object_name = 'preregistrations'
     ordering = ['-created_at']
-    login_url = reverse_lazy('login')  # 로그인 URL을 동적으로 설정
+    login_url = reverse_lazy('login')
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        filter_date = self.request.GET.get('filter')
+        filter_date = self.request.GET.get('date')
+        filter_usage = self.request.GET.get('usage')
         
+        kst = pytz.timezone('Asia/Seoul')
+
         if filter_date and filter_date != 'all':
-            kst = pytz.timezone('Asia/Seoul')
             start_date = timezone.datetime.strptime(filter_date, "%Y-%m-%d").replace(tzinfo=kst)
             end_date = start_date + timezone.timedelta(days=1)
             queryset = queryset.filter(created_at__gte=start_date, created_at__lt=end_date)
 
-        # KST로 시간 변환
-        kst = pytz.timezone('Asia/Seoul')
-        for registration in queryset:
-            registration.created_at = registration.created_at.astimezone(kst)
+        if filter_usage:
+            if filter_usage == 'used':
+                queryset = queryset.filter(is_coupon_used=True)
+            elif filter_usage == 'unused':
+                queryset = queryset.filter(is_coupon_used=False)
 
+        
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -40,6 +44,8 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         ).values('date').annotate(count=Count('id')).order_by('-date')
 
         context['date_counts'] = date_counts
+        context['current_date'] = self.request.GET.get('date', 'all')
+        context['current_usage'] = self.request.GET.get('usage', 'all')
         return context
 
 def login_view(request):
