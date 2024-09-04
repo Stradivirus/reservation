@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './PreRegistrationForm.css';
 
 // 실제 서버 주소로 변경하세요
-const API_URL = 'http://34.64.196.23:8000';
+const API_URL = 'http://localhost:8000';
+//const API_URL = 'http://34.64.196.23:8000';
 
 function PreRegistrationForm() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [isRegistered, setIsRegistered] = useState(false);
+  const navigate = useNavigate();
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/[^\d]/g, '');
@@ -38,10 +43,9 @@ function PreRegistrationForm() {
 
       if (response.ok) {
         const data = await response.json();
-	alert(`${data.message} 등록 시간: ${data.created_at}`);
-        setEmail('');
-        setPhone('');
-        setPrivacyConsent(false);
+        setCouponCode(data.coupon_code);
+        setIsRegistered(true);
+        alert(`${data.message} 등록 시간: ${data.created_at}`);
       } else {
         const errorData = await response.json();
         alert(`오류: ${errorData.detail}`);
@@ -51,6 +55,30 @@ function PreRegistrationForm() {
       alert(`사전 등록 중 오류가 발생했습니다: ${error.message}`);
     }
   };
+
+  const resetForm = () => {
+    setEmail('');
+    setPhone('');
+    setPrivacyConsent(false);
+    setCouponCode('');
+    setIsRegistered(false);
+  };
+
+  const handleUseCoupon = () => {
+    navigate(`/use-coupon?code=${couponCode}`);
+  };
+
+  if (isRegistered) {
+    return (
+      <div className="registration-success">
+        <h2>사전 등록이 완료되었습니다!</h2>
+        <p>귀하의 쿠폰 코드: <strong>{couponCode}</strong></p>
+        <p>이 코드를 안전한 곳에 보관해 주세요.</p>
+        <button onClick={resetForm}>새로 등록하기</button>
+        <button onClick={handleUseCoupon}>쿠폰 사용하러 가기</button>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="pre-registration-form">

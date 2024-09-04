@@ -8,7 +8,7 @@ fastapi
 gunicorn
 sqlalchemy
 pydantic
-
+httpx
 # 공통 또는 추가 유틸리티
 python-multipart
 python-dotenv

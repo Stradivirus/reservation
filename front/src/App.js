@@ -1,10 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import PreRegistrationForm from './PreRegistrationForm';
+import UseCouponPage from './UseCouponPage';
 
 function App() {
-  return (
-    <div className="App">
+  const MainContent = () => (
+    <>
       <div className="side-margin left"></div>
       <div className="content">
         <h1 className="title">사전등록</h1>
@@ -50,7 +52,18 @@ function App() {
         </div>
       </div>
       <div className="side-margin right"></div>
-    </div>
+    </>
+  );
+
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<MainContent />} />
+          <Route path="/use-coupon" element={<UseCouponPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

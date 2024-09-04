@@ -4,9 +4,11 @@ import pytz
 
 class Preregistration(models.Model):
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=11, unique=True)  # 길이를 13으로 변경
+    phone = models.CharField(max_length=11, unique=True)
     privacy_consent = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
+    coupon_code = models.CharField(max_length=8, unique=True, null=True, blank=True)
+    is_coupon_used = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_at']

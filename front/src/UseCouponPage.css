@@ -1,0 +1,142 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .use-coupon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .use-coupon-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 3rem;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .use-coupon-title {
+    color: #4a4a4a;
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    font-weight: bold;
+  }
+  
+  .coupon-code-container {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .coupon-code-label {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+  
+  .coupon-code {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4a90e2;
+    letter-spacing: 2px;
+    margin: 0;
+  }
+  
+  .use-coupon-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  .use-coupon-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+  }
+  
+  .use-coupon-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .message {
+    margin-top: 1.5rem;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .no-coupon-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .back-button {
+    background-color: transparent;
+    color: #4a4a4a;
+    border: 2px solid #4a4a4a;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  .back-button:hover {
+    background-color: #4a4a4a;
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .use-coupon-card {
+      padding: 2rem;
+    }
+    
+    .use-coupon-title {
+      font-size: 1.8rem;
+    }
+    
+    .coupon-code {
+      font-size: 1.5rem;
+    }
+  }

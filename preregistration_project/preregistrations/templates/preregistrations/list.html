@@ -47,7 +47,11 @@
             cursor: pointer;
         }
         .button-container {
-            margin-top: 0; /* 버튼을 테이블 헤더와 같은 높이로 설정 */
+            margin-top: 0;
+        }
+        .used-coupon {
+            text-decoration: line-through;
+            color: #888;
         }
     </style>
 </head>
@@ -75,6 +79,8 @@
                         <th>전화번호</th>
                         <th>개인정보 동의</th>
                         <th>등록 일시</th>
+                        <th>쿠폰 코드</th>
+                        <th>사용 여부</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +90,12 @@
                         <td>{{ preregistration.phone }}</td>
                         <td>{{ preregistration.privacy_consent|yesno:"예,아니오" }}</td>
                         <td>{{ preregistration.created_at_kst|date:"H:i:s" }}</td>
+                        <td {% if preregistration.is_coupon_used %}class="used-coupon"{% endif %}>
+                            {{ preregistration.coupon_code|default:"없음" }}
+                        </td>
+                        <td {% if preregistration.is_coupon_used %}class="used-coupon"{% endif %}>
+                            {{ preregistration.is_coupon_used|yesno:"사용,미사용" }}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
