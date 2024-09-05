@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PreRegistrationForm.css';
 
-// 실제 서버 주소로 변경하세요
+// API 서버 URL 설정
 const API_URL = 'http://localhost:8000';
 //const API_URL = 'http://34.64.196.23:8000';
 
 function PreRegistrationForm() {
+  // 상태 변수들 정의
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [privacyConsent, setPrivacyConsent] = useState(false);
@@ -15,6 +16,7 @@ function PreRegistrationForm() {
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
 
+  // 전화번호 입력 처리 함수
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/[^\d]/g, '');
     if (value.length <= 11) {
@@ -22,6 +24,7 @@ function PreRegistrationForm() {
     }
   };
 
+  // 폼 제출 처리 함수
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!privacyConsent) {
@@ -34,6 +37,7 @@ function PreRegistrationForm() {
     }
 
     try {
+      // API 호출하여 사전 등록 처리
       const response = await fetch(`${API_URL}/api/preregister`, {
         method: 'POST',
         headers: {
@@ -57,6 +61,7 @@ function PreRegistrationForm() {
     }
   };
 
+  // 폼 초기화 함수
   const resetForm = () => {
     setEmail('');
     setPhone('');
@@ -65,15 +70,17 @@ function PreRegistrationForm() {
     setIsRegistered(false);
   };
 
+  // 쿠폰 사용 페이지로 이동하는 함수
   const handleUseCoupon = () => {
     navigate(`/use-coupon?code=${couponCode}`);
   };
 
-  // 변경된 부분: handleEnterCoupon 함수
+  // 쿠폰 입력 페이지로 이동하는 함수
   const handleEnterCoupon = () => {
-    navigate('/use-coupon'); // 수정된 부분: 쿠폰 코드 없이 이동
+    navigate('/use-coupon'); 
   };
 
+  // 등록 완료 후 표시될 컴포넌트
   if (isRegistered) {
     return (
       <div className="registration-success">
@@ -86,6 +93,7 @@ function PreRegistrationForm() {
     );
   }
 
+  // 사전 등록 폼 렌더링
   return (
     <div className="pre-registration-container">
       <form onSubmit={handleSubmit} className="pre-registration-form">
@@ -106,6 +114,7 @@ function PreRegistrationForm() {
         />
         <button type="submit">사전등록</button>
         
+        {/* 개인정보 수집 동의 체크박스 */}
         <div className="privacy-agreement">
           <input 
             type="checkbox" 
@@ -117,6 +126,7 @@ function PreRegistrationForm() {
           <label htmlFor="privacyConsent">개인정보 수집 및 이용에 동의합니다.</label>
         </div>
         
+        {/* 개인정보 처리방침 */}
         <div className="privacy-policy">
           <h4>개인정보 처리방침</h4>
           <p>
@@ -132,6 +142,7 @@ function PreRegistrationForm() {
         </div>
       </form>
       
+      {/* 기존 쿠폰 입력 섹션 */}
       <div className="coupon-section">
         <p>이미 쿠폰이 있으신가요?</p>
         <button onClick={handleEnterCoupon} className="enter-coupon-button">쿠폰 입력하기</button>

@@ -1,9 +1,11 @@
+/* 사전 등록 폼 컨테이너 스타일 */
 .pre-registration-container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
 }
 
+/* 사전 등록 폼 레이아웃 스타일 */
 .pre-registration-form {
   display: flex;
   flex-direction: column;
@@ -11,6 +13,7 @@
   width: 100%;
 }
 
+/* 입력 필드와 버튼의 공통 스타일 */
 .pre-registration-form input[type="email"],
 .pre-registration-form input[type="tel"],
 .pre-registration-form button {
@@ -23,6 +26,7 @@
   box-sizing: border-box;
 }
 
+/* 사전 등록 버튼 스타일 */
 .pre-registration-form button {
   background-color: #61dafb;
   color: #282c34;
@@ -31,33 +35,37 @@
   transition: background-color 0.3s;
 }
 
+/* 사전 등록 버튼 호버 효과 */
 .pre-registration-form button:hover {
   background-color: #21a1c9;
 }
 
+/* 개인정보 동의 체크박스 컨테이너 스타일 */
 .privacy-agreement {
   display: flex;
-  align-items: center; /* 이미 중앙 정렬이 되어 있습니다 */
+  align-items: center; 
   margin-bottom: 10px;
   width: 100%;
-  position: relative; /* 추가: 자식 요소의 절대 위치 지정을 위해 */
+  position: relative; 
   padding-left: 40px;
 }
 
+/* 개인정보 동의 체크박스 스타일 */
 .privacy-agreement input[type="checkbox"] {
-  position: absolute; /* 변경: 절대 위치로 변경 */
-  left: -130px; /* 유지 */
-  top: 50%; /* 추가: 상위 요소의 중앙에 위치 */
-  transform: translateY(-50%); /* 추가: 자신의 높이의 반만큼 위로 이동 */
-  margin-right: -50px; /* 유지 */
-  
+  position: absolute; 
+  left: -130px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  margin-right: -50px; 
 }
 
+/* 개인정보 동의 라벨 스타일 */
 .privacy-agreement label {
-  white-space: nowrap; /* 유지: 텍스트를 한 줄로 유지 */
-  flex: 1; /* 유지 */
+  white-space: nowrap; 
+  flex: 1; 
 }
 
+/* 개인정보 처리방침 섹션 스타일 */
 .privacy-policy {
   background-color: #f0f0f0;
   padding: 10px;
@@ -67,16 +75,19 @@
   width: 100%;
 }
 
+/* 개인정보 처리방침 제목 스타일 */
 .privacy-policy h4 {
   margin-top: 0;
   color: #282c34;
 }
 
+/* 개인정보 처리방침 내용 스타일 */
 .privacy-policy p {
   margin-bottom: 0;
   line-height: 1.4;
 }
 
+/* 쿠폰 입력 섹션 스타일 */
 .coupon-section {
   margin-top: 20px;
   text-align: center;
@@ -85,6 +96,7 @@
   border-radius: 4px;
 }
 
+/* 쿠폰 입력 버튼 스타일 */
 .enter-coupon-button {
   background-color: #282c34;
   color: #ffffff;
@@ -96,10 +108,12 @@
   transition: background-color 0.3s;
 }
 
+/* 쿠폰 입력 버튼 호버 효과 */
 .enter-coupon-button:hover {
   background-color: #4a4f5a;
 }
 
+/* 등록 성공 메시지 컨테이너 스타일 */
 .registration-success {
   text-align: center;
   max-width: 400px;
@@ -109,19 +123,23 @@
   border-radius: 4px;
 }
 
+/* 등록 성공 메시지 제목 스타일 */
 .registration-success h2 {
   color: #21a1c9;
 }
 
+/* 등록 성공 메시지 문단 스타일 */
 .registration-success p {
   margin-bottom: 15px;
 }
 
+/* 등록 성공 메시지 강조 텍스트 스타일 */
 .registration-success strong {
   font-size: 1.2em;
   color: #282c34;
 }
 
+/* 등록 성공 페이지 버튼 스타일 */
 .registration-success button {
   background-color: #61dafb;
   color: #282c34;
@@ -134,6 +152,7 @@
   margin: 5px;
 }
 
+/* 등록 성공 페이지 버튼 호버 효과 */
 .registration-success button:hover {
   background-color: #21a1c9;
 }

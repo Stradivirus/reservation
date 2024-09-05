@@ -22,3 +22,8 @@ INFO:     127.0.0.1:37290 - "POST /api/use-coupon HTTP/1.1" 200 OK
 INFO:     127.0.0.1:33142 - "POST /api/use-coupon HTTP/1.1" 404 Not Found
 INFO:     127.0.0.1:46566 - "POST /api/use-coupon HTTP/1.1" 200 OK
 INFO:     127.0.0.1:34472 - "POST /api/use-coupon HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38064 - "OPTIONS /api/preregister HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38070 - "POST /api/preregister HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44062 - "OPTIONS /api/use-coupon HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44062 - "POST /api/use-coupon HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59500 - "GET / HTTP/1.1" 404 Not Found

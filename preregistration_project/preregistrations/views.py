@@ -8,6 +8,7 @@ from django.db.models import Count
 from django.utils import timezone
 import pytz
 
+# 사전등록 목록 조회 뷰
 class PreregistrationListView(LoginRequiredMixin, ListView):
     model = Preregistration
     template_name = 'preregistrations/list.html'
@@ -22,23 +23,25 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         
         kst = pytz.timezone('Asia/Seoul')
 
+        # 날짜 필터링
         if filter_date and filter_date != 'all':
             start_date = timezone.datetime.strptime(filter_date, "%Y-%m-%d").replace(tzinfo=kst)
             end_date = start_date + timezone.timedelta(days=1)
             queryset = queryset.filter(created_at__gte=start_date, created_at__lt=end_date)
 
+        # 쿠폰 사용 여부 필터링
         if filter_usage:
             if filter_usage == 'used':
                 queryset = queryset.filter(is_coupon_used=True)
             elif filter_usage == 'unused':
                 queryset = queryset.filter(is_coupon_used=False)
 
-        
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
+        # 날짜별 사전등록 수 집계
         date_counts = Preregistration.objects.extra(
             select={'date': "DATE(created_at AT TIME ZONE 'Asia/Seoul')"}
         ).values('date').annotate(count=Count('id')).order_by('-date')
@@ -48,6 +51,7 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         context['current_usage'] = self.request.GET.get('usage', 'all')
         return context
 
+# 로그인 뷰
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -57,9 +61,10 @@ def login_view(request):
             login(request, user)
             return redirect(reverse('preregistration_list'))
         else:
-            return render(request, 'preregistrations/login.html', {'error': 'Invalid credentials'})
+            return render(request, 'preregistrations/login.html', {'error': '잘못된 사용자 정보입니다.'})
     return render(request, 'preregistrations/login.html')
 
+# 로그아웃 뷰
 def logout_view(request):
     logout(request)
     return redirect('login')

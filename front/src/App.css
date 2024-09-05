@@ -1,3 +1,4 @@
+/* CSS 변수 정의 */
 :root {
   --primary-bg: #282c34;
   --content-bg: #f0f0f0;
@@ -6,63 +7,75 @@
   --button-hover: #21a1c9;
 }
 
+/* 전역 스타일 리셋 */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* 기본 body 스타일 */
 body {
   font-family: Arial, sans-serif;
   background-color: var(--primary-bg);
   color: var(--primary-text);
 }
 
+/* App 컨테이너 스타일 */
 .App {
   display: flex;
   min-height: 100vh;
 }
 
+/* 좌우 여백 스타일 */
 .side-margin {
   width: 10%;
 }
 
+/* 메인 컨텐츠 영역 스타일 */
 .content {
   width: 80%;
   padding: 20px;
   background-color: var(--content-bg);
 }
 
+/* 제목 스타일 */
 .title {
   text-align: center;
   margin-bottom: 20px;
 }
 
+/* 메인 컨텐츠 레이아웃 */
 .main-content {
   display: flex;
   justify-content: space-between;
 }
 
+/* 좌측 컨텐츠 영역 스타일 */
 .left-content {
   width: 70%;
   display: flex;
 }
 
+/* 이미지 컨테이너 스타일 */
 .image-container {
   width: 40%;
   margin-right: 20px;
 }
 
+/* 캐릭터 이미지 스타일 */
 .character-image {
   width: 100%;
   height: auto;
 }
 
+/* 게임 소개 섹션 스타일 */
 .game-introduction {
   width: 60%;
   padding: 20px;
 }
 
+/* 우측 컨텐츠 영역 스타일 */
 .right-content {
   width: 30%;
   display: flex;
@@ -70,6 +83,7 @@ body {
   align-items: center;
 }
 
+/* 상단 섹션 스타일 */
 .top-section {
   display: flex;
   flex-direction: column;
@@ -77,16 +91,19 @@ body {
   margin-bottom: 20px;
 }
 
+/* 새 캐릭터 이미지 스타일 */
 .new-character-image {
   width: 40%;
   margin-bottom: 10px;
 }
 
+/* 회사 정보 스타일 */
 .company-info {
   text-align: center;
   width: 100%;
 }
 
+/* 사전 등록 폼 스타일 */
 .pre-registration-form {
   display: flex;
   flex-direction: column;
@@ -94,6 +111,7 @@ body {
   width: 100%;
 }
 
+/* 입력 필드와 버튼 공통 스타일 */
 input, button {
   width: 80%;
   padding: 10px;
@@ -103,6 +121,7 @@ input, button {
   border-radius: 4px;
 }
 
+/* 버튼 스타일 */
 button {
   background-color: var(--button-bg);
   color: var(--primary-text);
@@ -111,6 +130,7 @@ button {
   transition: background-color 0.3s;
 }
 
+/* 버튼 호버 효과 */
 button:hover {
   background-color: var(--button-hover);
 }

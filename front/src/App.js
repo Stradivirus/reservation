@@ -5,16 +5,20 @@ import PreRegistrationForm from './PreRegistrationForm';
 import UseCouponPage from './UseCouponPage';
 
 function App() {
+  // 메인 컨텐츠 컴포넌트 정의
   const MainContent = () => (
     <>
       <div className="side-margin left"></div>
       <div className="content">
         <h1 className="title">사전등록</h1>
         <div className="main-content">
+          {/* 좌측 컨텐츠 영역 */}
           <div className="left-content">
+            {/* 게임 캐릭터 이미지 */}
             <div className="image-container">
               <img src="/unnamed.webp" alt="게임 캐릭터" className="character-image" />
             </div>
+            {/* 게임 소개 섹션 */}
             <div className="game-introduction">
               <h2>게임 소개</h2>
               <p>또 다른 시작, 숨겨진 역사의 비밀 심연의 마물들로부터 마지막 도시 칼리를 지켜주세요.</p>
@@ -39,7 +43,9 @@ function App() {
               지금 바로 시작하세요!</p>
             </div>
           </div>
+          {/* 우측 컨텐츠 영역 */}
           <div className="right-content">
+            {/* 상단 섹션 */}
             <div className="top-section">
               <img src="/Demonhenter.png" alt="새 캐릭터 이미지" className="new-character-image" />
               <div className="company-info">
@@ -47,6 +53,7 @@ function App() {
                 <p>Handy communications</p>
               </div>
             </div>
+            {/* 사전 등록 폼 컴포넌트 */}
             <PreRegistrationForm />
           </div>
         </div>
@@ -55,11 +62,14 @@ function App() {
     </>
   );
 
+  // 앱 구조 및 라우팅 설정
   return (
     <Router>
       <div className="App">
         <Routes>
+          {/* 메인 페이지 라우트 */}
           <Route path="/" element={<MainContent />} />
+          {/* 쿠폰 사용 페이지 라우트 */}
           <Route path="/use-coupon" element={<UseCouponPage />} />
         </Routes>
       </div>

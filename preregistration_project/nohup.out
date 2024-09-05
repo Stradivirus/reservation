@@ -365,3 +365,16 @@ Watching for file changes with StatReloader
 [04/Sep/2024 11:43:41] "GET /preregistration_list/?date=all HTTP/1.0" 200 11267
 [04/Sep/2024 11:43:45] "GET /preregistration_list/?date=all&usage=unused HTTP/1.0" 200 5536
 [04/Sep/2024 11:43:46] "GET /preregistration_list/?date=all&usage=all HTTP/1.0" 200 11267
+[04/Sep/2024 15:17:55] "GET /login/ HTTP/1.0" 200 1871
+[04/Sep/2024 15:18:21] "GET /login/ HTTP/1.0" 200 1871
+[04/Sep/2024 15:18:27] "POST /login/ HTTP/1.0" 302 0
+[04/Sep/2024 15:18:27] "GET /preregistration_list/ HTTP/1.0" 200 11788
+[04/Sep/2024 15:18:31] "GET /preregistration_list/?date=2024-09-04 HTTP/1.0" 200 7672
+[04/Sep/2024 15:18:35] "GET /preregistration_list/?date=2024-09-03 HTTP/1.0" 200 8721
+[04/Sep/2024 15:18:36] "GET /preregistration_list/?date=all HTTP/1.0" 200 11788
+Not Found: /
+[04/Sep/2024 16:36:48] "GET / HTTP/1.1" 404 2816
+Not Found: /favicon.ico
+[04/Sep/2024 16:36:49] "GET /favicon.ico HTTP/1.1" 404 2867
+[04/Sep/2024 16:36:56] "GET /login HTTP/1.0" 301 0
+[04/Sep/2024 16:36:56] "GET /login/ HTTP/1.0" 200 1871

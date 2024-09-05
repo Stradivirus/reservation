@@ -10,7 +10,7 @@ import httpx
 
 app = FastAPI()
 
-# CORS 설정
+# CORS 설정: 모든 오리진에서의 요청 허용
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,23 +24,26 @@ DATABASE_URL = "postgresql://myuser:mypassword@localhost/preregistration_db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# 기존 테이블 메타데이터 로드 및 새 컬럼 추가
+# 기존 테이블 메타데이터 로드
 metadata = MetaData()
 preregistrations = Table('preregistrations_preregistration', metadata, autoload_with=engine)
 
 metadata.create_all(engine)
 
-# Cloud Function URL
+# Cloud Function URL (쿠폰 생성 함수)
 COUPON_FUNCTION_URL = "https://asia-northeast3-reservation-434214.cloudfunctions.net/create_coupon"
 
+# 사전등록 데이터 모델
 class PreregistrationCreate(BaseModel):
     email: str
     phone: str = Field(..., max_length=11)
     privacy_consent: bool
 
+# 쿠폰 사용 데이터 모델
 class CouponUse(BaseModel):
     coupon_code: str
 
+# 쿠폰 코드 생성 및 검증 함수
 async def generate_and_validate_coupon_code():
     max_attempts = 10
     for _ in range(max_attempts):
@@ -66,6 +69,7 @@ async def generate_and_validate_coupon_code():
     
     raise HTTPException(status_code=500, detail="유니크한 쿠폰 코드 생성 실패")
 
+# 사전등록 API 엔드포인트
 @app.post("/api/preregister")
 async def preregister(preregistration: PreregistrationCreate):
     db = SessionLocal()
@@ -116,6 +120,7 @@ async def preregister(preregistration: PreregistrationCreate):
     finally:
         db.close()
 
+# 쿠폰 사용 API 엔드포인트
 @app.post("/api/use-coupon")
 async def use_coupon(coupon: CouponUse):
     db = SessionLocal()
@@ -148,6 +153,7 @@ async def use_coupon(coupon: CouponUse):
     finally:
         db.close()
 
+# 애플리케이션 실행
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
