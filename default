@@ -7,7 +7,7 @@ server {
     index index.html index.htm;
 
     # Django 애플리케이션을 위한 설정
-    location ~ ^/(login|admin|api|preregistration_list) {
+    location ~ ^/(login|preregistration_list) {
         proxy_pass http://127.0.0.1:8080;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
