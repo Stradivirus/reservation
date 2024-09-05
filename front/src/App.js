@@ -1,32 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import PreRegistrationForm from './PreRegistrationForm';
 import UseCouponPage from './UseCouponPage';
 
 function App() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const totalImages = 6;
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % totalImages);
-    }, 3000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
   const MainContent = () => (
     <div className="content">
-      <h1 className="title">사전등록</h1>
+      <h1 className="title">악마 헌터 키우기 사전 예약</h1>
       <div className="main-content">
         <div className="left-content">
           <div className="image-slider-container">
-            <div 
-              className="image-slider" 
-              style={{ transform: `translateX(-${currentImageIndex * (100 / 3)}%)` }}
-            >
-              {[1, 2, 3, 4, 5, 6, 1, 2].map((num, index) => (
+            <div className="image-slider">
+              {[1, 2, 3, 4, 5, 6, 1, 2, 3].map((num, index) => (
                 <div key={index} className="image-wrapper">
                   <img 
                     src={`${process.env.PUBLIC_URL}/unnamed${num}.webp`} 

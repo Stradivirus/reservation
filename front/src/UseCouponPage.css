@@ -13,7 +13,7 @@ body, html {
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 그라데이션 배경 */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: 'Arial', sans-serif;
   padding: 20px;
   box-sizing: border-box;
@@ -44,44 +44,63 @@ body, html {
   background-color: #f0f0f0;
   border-radius: 10px;
   padding: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 /* 쿠폰 코드 라벨 스타일 */
 .coupon-code-label {
   font-size: 1rem;
-  color: #666;
+  color: #4a4a4a;
   margin-bottom: 0.5rem;
 }
 
 /* 쿠폰 코드 텍스트 스타일 */
 .coupon-code {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #4a90e2;
+  color: #000000; /* 검은색으로 설정 */
   letter-spacing: 2px;
   margin: 0;
 }
 
+/* 쿠폰 코드 입력 필드 스타일 */
+.coupon-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease;
+  color: #000000; /* 입력 텍스트 색상을 검은색으로 설정 */
+}
+
+.coupon-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
 /* 쿠폰 사용 버튼 스타일 */
 .use-coupon-button {
-  background-color: #4caf50;
+  background-color: #667eea;
   color: white;
   border: none;
   padding: 12px 24px;
   font-size: 1.1rem;
-  border-radius: 50px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 1px;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 /* 쿠폰 사용 버튼 호버 효과 */
 .use-coupon-button:hover {
-  background-color: #45a049;
-  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+  background-color: #5a6edb;
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
 }
 
 /* 비활성화된 쿠폰 사용 버튼 스타일 */
@@ -111,35 +130,24 @@ body, html {
   color: #721c24;
 }
 
-/* 쿠폰 없음 메시지 스타일 */
-.no-coupon-message {
-  color: #721c24;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
-  font-weight: bold;
-}
-
 /* 뒤로 가기 버튼 스타일 */
 .back-button {
   background-color: transparent;
-  color: #4a4a4a;
-  border: 2px solid #4a4a4a;
+  color: #667eea;
+  border: 2px solid #667eea;
   padding: 10px 20px;
   font-size: 1rem;
-  border-radius: 50px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   text-transform: uppercase;
   font-weight: bold;
 }
 
 /* 뒤로 가기 버튼 호버 효과 */
 .back-button:hover {
-  background-color: #4a4a4a;
+  background-color: #667eea;
   color: white;
 }
 
@@ -153,7 +161,12 @@ body, html {
     font-size: 1.8rem;
   }
   
-  .coupon-code {
-    font-size: 1.5rem;
+  .coupon-input {
+    font-size: 1rem;
+  }
+  
+  .use-coupon-button,
+  .back-button {
+    font-size: 1rem;
   }
 }
