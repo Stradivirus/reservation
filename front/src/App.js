@@ -26,8 +26,8 @@ function App() {
               className="image-slider" 
               style={{ transform: `translateX(-${currentImageIndex * (100 / 3)}%)` }}
             >
-              {[1, 2, 3, 4, 5, 6].map((num) => (
-                <div key={num} className="image-wrapper">
+              {[1, 2, 3, 4, 5, 6, 1, 2].map((num, index) => (
+                <div key={index} className="image-wrapper">
                   <img 
                     src={`${process.env.PUBLIC_URL}/unnamed${num}.webp`} 
                     alt={`게임 캐릭터 ${num}`} 

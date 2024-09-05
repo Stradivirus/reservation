@@ -73,27 +73,29 @@ body {
   width: 100%;
   overflow: hidden;
   margin-bottom: 20px;
+  height: 400px;  /* 컨테이너의 높이를 증가 */
 }
 
 /* 이미지 슬라이더 스타일 */
 .image-slider {
   display: flex;
-  width: 300%;  /* 6개의 이미지를 위해 300% */
   transition: transform 0.5s ease;
+  height: 100%;  /* 슬라이더의 높이를 100%로 설정 */
 }
 
 /* 이미지 래퍼 스타일 */
 .image-wrapper {
-  width: 16.666%;  /* 100% / 6 */
-  padding: 0 5px;  /* 이미지 사이의 간격 */
+  flex: 0 0 33.333%;
+  padding: 0 5px;
+  height: 100%;  /* 래퍼의 높이를 100%로 설정 */
 }
 
 /* 캐릭터 이미지 스타일 */
 .character-image {
   width: 100%;
-  height: auto;
+  height: 100%;  /* 높이를 100%로 변경 */
   border-radius: 8px;
-  object-fit: cover;  /* 이미지 비율 유지 */
+  object-fit: cover;  /* 이미지 비율을 유지하면서 컨테이너를 채움 */
 }
 
 /* 게임 소개 섹션 스타일 */
@@ -213,5 +215,9 @@ button:hover {
     width: 100%;
     margin-right: 0;
     margin-bottom: 20px;
+  }
+
+  .image-slider-container {
+    height: 300px;  /* 모바일 화면에서는 높이를 줄임 */
   }
 }
