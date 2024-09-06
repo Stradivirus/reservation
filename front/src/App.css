@@ -44,15 +44,65 @@ body {
 
 /* 제목 스타일 */
 .title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: var(--primary-text);
-  font-size: 2.5em;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #FFD700; /* 골드 색상으로 변경 */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 
+    2px 2px 4px rgba(0,0,0,0.8),
+    -2px -2px 4px rgba(0,0,0,0.8),
+    2px -2px 4px rgba(0,0,0,0.8),
+    -2px 2px 4px rgba(0,0,0,0.8); /* 어두운 그림자로 가독성 향상 */
+  position: relative;
+  display: block;
+  text-align: center; /* 중앙 정렬 유지 */
+  padding: 10px 20px;
+  margin: 0 auto;
+  max-width: 80%;
+  background-color: rgba(0, 0, 0, 0.5); /* 배경 투명도 조정 */
+  border: 2px solid #FF4500; /* 테두리 색상 변경 */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.title::before, .title::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 2px solid #ff3d3d;
+  transition: all 0.5s;
+  animation: clippath 3s infinite linear;
+}
+
+.title::after {
+  animation: clippath 3s infinite -1.5s linear;
+}
+
+@keyframes clippath {
+  0%, 100% { clip-path: inset(0 0 98% 0); }
+  25% { clip-path: inset(0 98% 0 0); }
+  50% { clip-path: inset(98% 0 0 0); }
+  75% { clip-path: inset(0 0 0 98%); }
 }
 
 /* 메인 컨텐츠 레이아웃 */
 .main-content {
+  margin-top: 30px; /* 상단 여백 증가 */
   display: flex;
   justify-content: space-between;
 }
