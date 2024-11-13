@@ -31,7 +31,7 @@ preregistrations = Table('preregistrations_preregistration', metadata, autoload_
 metadata.create_all(engine)
 
 # Cloud Function URL (쿠폰 생성 함수)
-COUPON_FUNCTION_URL = "https://asia-northeast3-reservation-434214.cloudfunctions.net/create_coupon"
+COUPON_FUNCTION_URL = "https://asia-northeast3-chat-436807.cloudfunctions.net/create-coupon"
 
 # 사전등록 데이터 모델
 class PreregistrationCreate(BaseModel):
