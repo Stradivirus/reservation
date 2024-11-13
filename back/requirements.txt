@@ -1,4 +1,0 @@
-sqlalchemy
-httpx
-fastapi
-uvicorn
