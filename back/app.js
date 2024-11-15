@@ -60,17 +60,24 @@ const Preregistration = sequelize.define('preregistrations_preregistration', {
 // Slack 알림 전송 함수
 async function sendSlackNotification(count) {
     try {
-        console.log('Trying to send Slack notification...'); // 로그 추가
-        console.log('Webhook URL:', SLACK_WEBHOOK_URL); // URL 확인
+        console.log('===== Slack Notification =====');
+        console.log('Process ENV:', process.env); // 전체 환경변수 확인
+        console.log('Webhook URL:', SLACK_WEBHOOK_URL);
+        console.log('Count:', count);
         
+        if (!SLACK_WEBHOOK_URL) {
+            throw new Error('Slack Webhook URL is not defined');
+        }
+
         await axios.post(SLACK_WEBHOOK_URL, {
             text: `🎉 축하합니다! 사전 등록자 수 ${count}명을 달성했습니다! 🎉`
         });
         
-        console.log('Slack notification sent successfully!'); // 성공 로그
+        console.log('Slack notification sent successfully!');
+        console.log('===========================');
     } catch (error) {
         console.error('Slack notification error:', error.response?.data || error.message);
-        console.error('Full error:', error); // 전체 에러 정보
+        console.error('Full error:', error);
     }
 }
 
