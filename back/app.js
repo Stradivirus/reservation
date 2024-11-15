@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware 설정
 app.use(cors({
-    origin: 'http://localhost:8080', // React 앱의 주소 (Docker Compose에서 8080 포트로 매핑됨)
+    origin: 'http://34.64.132.7:8080', // React 앱의 주소 (Docker Compose에서 8080 포트로 매핑됨)
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
     credentials: true, // 쿠키와 같은 자격 증명 허용
 }));
