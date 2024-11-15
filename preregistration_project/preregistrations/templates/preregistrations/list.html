@@ -102,6 +102,32 @@
         }
         .filter-container {
             margin-bottom: 20px;
+            text-align: right;
+        }
+        /* 페이지네이션과 페이지 크기 선택 버튼에 기존 filter-button 스타일 적용 */
+        .pagination {
+            margin-top: 20px;
+            float: right;
+        }
+        .page-link {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 10px;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .page-link:hover {
+            background-color: #4a90e2;
+            color: white;
+        }
+        .page-size-container {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -109,7 +135,12 @@
     <div class="wrapper">
         <div class="header">
             <h1>사전 등록 목록</h1>
-            <p>총 등록 인원: {{ preregistrations|length }}명 / 오늘 등록 인원: {{ today_registrations|length }}명</p>
+            <p>총 등록 인원: {{ preregistrations.paginator.count }}명 / 오늘 등록 인원: {{ today_registrations|length }}명</p>
+            <div class="filter-container">
+                <a href="?{{ request.GET|urlencode }}&page_size=30" class="filter-button">30개씩</a>
+                <a href="?{{ request.GET|urlencode }}&page_size=50" class="filter-button">50개씩</a>
+                <a href="?{{ request.GET|urlencode }}&page_size=100" class="filter-button">100개씩</a>
+            </div>
         </div>
         <div class="container">
             <div class="sidebar">
@@ -156,6 +187,26 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                
+                <div class="pagination">
+                    {% if preregistrations.has_previous %}
+                        <a href="?{{ request.GET|urlencode }}&page=1" class="filter-button">&laquo; 처음</a>
+                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.previous_page_number }}" class="filter-button">이전</a>
+                    {% endif %}
+
+                    {% for num in preregistrations.paginator.page_range %}
+                        {% if num == preregistrations.number %}
+                            <span class="filter-button">{{ num }}</span>
+                        {% elif num > preregistrations.number|add:'-3' and num < preregistrations.number|add:'3' %}
+                            <a href="?{{ request.GET|urlencode }}&page={{ num }}" class="filter-button">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if preregistrations.has_next %}
+                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.next_page_number }}" class="filter-button">다음</a>
+                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.paginator.num_pages }}" class="filter-button">마지막 &raquo;</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
