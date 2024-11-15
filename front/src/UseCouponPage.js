@@ -26,7 +26,7 @@ function UseCouponPage() {
     setIsLoading(true);
     try {
       // 쿠폰 사용을 위한 API 호출
-      const response = await fetch('http://localhost:8000/api/use-coupon', {
+      const response = await fetch('http://34.64.132.7:8082/api/use-coupon', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './PreRegistrationForm.css';
 
 // API 서버 URL 설정
-const API_URL = 'http://localhost:8000';
+const API_URL = 'http://34.64.132.7:8082';
 //const API_URL = 'http://34.64.196.23:8000';
 
 function PreRegistrationForm() {
