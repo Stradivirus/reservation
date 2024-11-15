@@ -1,0 +1,18 @@
+FROM node:14-alpine
+
+WORKDIR /app
+
+# package.json과 package-lock.json을 복사합니다.
+COPY package*.json ./
+
+# 의존성을 설치합니다.
+RUN npm install
+
+# 나머지 소스 코드를 복사합니다.
+COPY . .
+
+# Node.js 버전을 출력하여 설치 확인
+RUN node -v
+
+# 애플리케이션을 실행합니다.
+CMD ["node", "app.js"]
