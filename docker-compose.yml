@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}  # .env 파일에서 가져오도록 수정
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
     networks:
       - app-network
     ports:
