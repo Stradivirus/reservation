@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
-const axios = require('axios');
 const moment = require('moment-timezone');
+const crypto = require('crypto');
 
 const app = express();
 
@@ -41,37 +41,44 @@ const Preregistration = sequelize.define('preregistrations_preregistration', {
     defaultValue: false
   }
 }, {
-  tableName: 'preregistrations_preregistration', // 테이블 이름 명시적 지정
-  timestamps: true, // createdAt, updatedAt 자동 관리
-  createdAt: false, // 기본 createdAt 비활성화
-  updatedAt: false  // 기본 updatedAt 비활성화
+  tableName: 'preregistrations_preregistration',
+  timestamps: true,
+  createdAt: false,
+  updatedAt: false
 });
 
-// Cloud Function URL (쿠폰 생성 함수)
-const COUPON_FUNCTION_URL = "https://asia-northeast3-chat-436807.cloudfunctions.net/create-coupon";
+// 쿠폰 코드 생성 함수
+function generateCouponCode() {
+  // 사용할 문자셋 정의 (숫자와 대문자)
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let coupon = '';
+  
+  // crypto.randomBytes를 사용하여 안전한 난수 생성
+  const randomBytes = crypto.randomBytes(10);
+  
+  // 10자리 쿠폰 코드 생성
+  for (let i = 0; i < 8; i++) {
+    const randomIndex = randomBytes[i] % charset.length;
+    coupon += charset[randomIndex];
+  }
+  
+  return coupon;
+}
 
 // 쿠폰 코드 생성 및 검증 함수
 async function generateAndValidateCouponCode() {
-  const maxAttempts = 10;
+  const maxAttempts = 8;
   
   for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const response = await axios.get(COUPON_FUNCTION_URL);
-      
-      if (response.status === 200) {
-        const couponCode = response.data.coupon_code;
-        
-        // 데이터베이스에서 쿠폰 코드 존재 여부 확인
-        const exists = await Preregistration.findOne({
-          where: { coupon_code: couponCode }
-        });
-        
-        if (!exists) {
-          return couponCode;
-        }
-      }
-    } catch (error) {
-      continue;
+    const couponCode = generateCouponCode();
+    
+    // 데이터베이스에서 쿠폰 코드 존재 여부 확인
+    const exists = await Preregistration.findOne({
+      where: { coupon_code: couponCode }
+    });
+    
+    if (!exists) {
+      return couponCode;
     }
   }
   
@@ -116,7 +123,7 @@ app.post('/api/preregister', async (req, res) => {
       coupon_code: couponCode
     });
   } catch (error) {
-    console.error('Error in preregister:', error); // 에러 로깅 추가
+    console.error('Error in preregister:', error);
     if (error.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ detail: '이메일 또는 전화번호가 이미 등록되어 있습니다.' });
     }
@@ -147,7 +154,7 @@ app.post('/api/use-coupon', async (req, res) => {
     
     return res.status(200).json({ message: '쿠폰이 성공적으로 사용되었습니다.' });
   } catch (error) {
-    console.error('Error in use-coupon:', error); // 에러 로깅 추가
+    console.error('Error in use-coupon:', error);
     return res.status(400).json({ detail: error.message });
   }
 });
@@ -158,8 +165,6 @@ app.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
     console.log('데이터베이스 연결 성공');
-    // 기존 테이블 사용
-    // await sequelize.sync(); // 이 줄 주석 처리
     console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
   } catch (error) {
     console.error('데이터베이스 연결 실패:', error);

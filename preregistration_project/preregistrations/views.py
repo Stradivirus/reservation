@@ -40,6 +40,18 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        kst = pytz.timezone('Asia/Seoul')
+        
+        # 현재 날짜 (KST 기준)
+        now = timezone.now().astimezone(kst)
+        today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        today_end = today_start + timezone.timedelta(days=1)
+
+        # 오늘 등록한 인원 쿼리
+        today_registrations = Preregistration.objects.filter(
+            created_at__gte=today_start,
+            created_at__lt=today_end
+        )
         
         # 날짜별 사전등록 수 집계
         date_counts = Preregistration.objects.extra(
@@ -49,6 +61,7 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         context['date_counts'] = date_counts
         context['current_date'] = self.request.GET.get('date', 'all')
         context['current_usage'] = self.request.GET.get('usage', 'all')
+        context['today_registrations'] = today_registrations
         return context
 
 # 로그인 뷰
