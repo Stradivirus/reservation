@@ -10,7 +10,7 @@ const app = express();
 
 // Slack 웹훅 설정
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
-const MILESTONE_COUNT = 50;
+const MILESTONE_COUNT = 1;
 
 // Middleware 설정
 app.use(cors({
