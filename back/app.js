@@ -3,14 +3,20 @@ const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
 const moment = require('moment-timezone');
 const crypto = require('crypto');
+const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
 
+// Slack 웹훅 설정
+const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
+const MILESTONE_COUNT = 50;
+
 // Middleware 설정
 app.use(cors({
-    origin: 'http://34.64.132.7:8080', // React 앱의 주소 (Docker Compose에서 8080 포트로 매핑됨)
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
-    credentials: true, // 쿠키와 같은 자격 증명 허용
+    origin: 'http://34.64.132.7:8080',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
 }));
 app.use(express.json());
 
@@ -50,6 +56,17 @@ const Preregistration = sequelize.define('preregistrations_preregistration', {
     createdAt: false,
     updatedAt: false
 });
+
+// Slack 알림 전송 함수
+async function sendSlackNotification(count) {
+    try {
+        await axios.post(SLACK_WEBHOOK_URL, {
+            text: `🎉 축하합니다! 사전 등록자 수 ${count}명을 달성했습니다! 🎉`
+        });
+    } catch (error) {
+        console.error('Slack notification error:', error);
+    }
+}
 
 // 쿠폰 코드 생성 함수
 function generateCouponCode() {
@@ -116,6 +133,14 @@ app.post('/api/preregister', async (req, res) => {
             coupon_code: couponCode,
             is_coupon_used: false
         });
+
+        // 총 등록자 수 확인
+        const totalCount = await Preregistration.count();
+        
+        // 50명 단위 체크 및 Slack 알림 전송
+        if (totalCount % MILESTONE_COUNT === 0) {
+            await sendSlackNotification(totalCount);
+        }
         
         return res.status(200).json({
             message: '사전 등록이 완료되었습니다.',
@@ -162,13 +187,13 @@ app.post('/api/use-coupon', async (req, res) => {
 // 서버 시작
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, async () => {
-  try {
-      await sequelize.authenticate();
-      console.log('데이터베이스 연결 성공');
-      console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-  } catch (error) {
-      console.error('데이터베이스 연결 실패:', error);
-  }
+    try {
+        await sequelize.authenticate();
+        console.log('데이터베이스 연결 성공');
+        console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
+    } catch (error) {
+        console.error('데이터베이스 연결 실패:', error);
+    }
 });
 
 module.exports = app;
