@@ -16,7 +16,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
     networks:
       - app-network
     ports:
