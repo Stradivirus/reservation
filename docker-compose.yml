@@ -19,7 +19,7 @@ services:
     networks:
       - app-network
     ports:
-      - "8000:8000"
+      - "8082:8000"
     depends_on:
       - db
 
