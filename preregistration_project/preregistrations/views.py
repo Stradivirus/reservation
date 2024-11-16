@@ -16,6 +16,9 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy('login')
     paginate_by = 30
 
+    def get_total_registrations(self):
+        return Preregistration.objects.count()
+
     def get_queryset(self):
         queryset = super().get_queryset().order_by('-created_at')
         filter_date = self.request.GET.get('date')
@@ -57,12 +60,16 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
             select={'date': "DATE(created_at AT TIME ZONE 'Asia/Seoul')"}
         ).values('date').annotate(count=Count('id')).order_by('-date')
 
+        # 총 등록 인원수 추가
+        total_registrations = self.get_total_registrations()
+
         context.update({
             'date_counts': date_counts,
             'current_date': self.request.GET.get('date', 'all'),
             'current_usage': self.request.GET.get('usage', 'all'),
             'today_registrations': today_registrations,
-            'current_page_size': int(page_size)
+            'current_page_size': int(page_size),
+            'total_registrations': total_registrations  # 새로 추가된 context
         })
         return context
 

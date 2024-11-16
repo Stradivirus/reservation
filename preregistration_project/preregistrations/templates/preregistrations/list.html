@@ -1,4 +1,5 @@
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
 
 <div class="wrapper">
     <div class="header">
@@ -6,7 +7,7 @@
             <div class="title-area">
                 <h1>사전 등록 목록</h1>
                 <div class="registration-count">
-                    총 등록 인원: {{ preregistrations.paginator.count }}명 / 오늘 등록 인원: {{ today_registrations|length }}명
+                    총 등록 인원: {{ total_registrations }}명 / 오늘 등록 인원: {{ today_registrations|length }}명
                 </div>
             </div>
             <div class="page-size-filter">
