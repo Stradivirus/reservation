@@ -1,68 +1,109 @@
+/* 기본 스타일 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f7fa;
+}
+
 .wrapper {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
 }
 
+/* 헤더 스타일 */
 .header {
-    margin-bottom: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
 }
 
-.header h1 {
-    margin-bottom: 15px;
+.title-section h1 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
 }
 
 .registration-count {
+    color: #34495e;
+    font-size: 0.9em;
     margin-bottom: 15px;
 }
 
+/* 컨테이너 레이아웃 */
 .container {
     display: flex;
     gap: 20px;
 }
 
+/* 사이드바 스타일 */
 .sidebar {
-    width: 200px;
-    flex-shrink: 0;
+    width: 250px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.content {
-    flex-grow: 1;
+.sidebar h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.2em;
+    margin-bottom: 15px;
 }
 
-.filter-container {
-    margin-bottom: 20px;
+/* 메인 컨텐츠 영역 */
+.main-content {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.filter-button, .button {
+/* 버튼 스타일 */
+.filter-button, .sidebar-button, .page-button {
     display: inline-block;
     padding: 8px 12px;
     margin: 0 5px 5px 0;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 5px;
     text-decoration: none;
-    color: #333;
+    color: #1976d2;
+    transition: all 0.3s ease;
 }
 
-.filter-button:hover, .button:hover {
-    background-color: #e0e0e0;
+.filter-button:hover, .sidebar-button:hover, .page-button:hover {
+    background-color: #bbdefb;
+    color: #0d47a1;
 }
 
-.filter-button.active {
-    background-color: #007bff;
+.filter-button.active, .sidebar-button.active, .page-button.active {
+    background-color: #1976d2;
     color: white;
+    border-color: #1565c0;
 }
 
+/* 사이드바 버튼 특별 스타일 */
 .button-container {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.button {
+.sidebar-button {
     width: 100%;
-    text-align: center;
+    text-align: left;
+    margin: 0;
+}
+
+/* 테이블 스타일 */
+.table-container {
+    overflow-x: auto;
+    margin: 20px 0;
 }
 
 .registration-table {
@@ -73,30 +114,45 @@
 
 .registration-table th,
 .registration-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 12px;
+    border: 1px solid #e1e8ed;
     text-align: left;
 }
 
 .registration-table th {
-    background-color: #f5f5f5;
-    font-weight: bold;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
 }
 
 .registration-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f8f9fa;
 }
 
+.registration-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* 페이지네이션 스타일 */
 .pagination {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
     margin-top: 20px;
 }
 
-.pagination .filter-button {
-    margin: 0 2px;
+/* 필터 영역 스타일 */
+.usage-filter, .page-size-filter {
+    margin-bottom: 20px;
 }
 
-.pagination .filter-button.active {
-    background-color: #007bff;
-    color: white;
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
 }
