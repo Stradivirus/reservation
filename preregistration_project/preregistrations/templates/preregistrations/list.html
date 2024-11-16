@@ -1,101 +1,99 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사전 등록 목록</title>
-    <link rel="stylesheet" href="{% static 'preregistrations/css/list.css' %}">
-</head>
-<body>
-    <div class="wrapper">
-        <header class="header">
-            <div class="title-section">
-                <div class="title-area">
-                    <h1>사전 등록 목록</h1>
-                    <div class="registration-count">
-                        총 등록 인원: {{ preregistrations.paginator.count }}명 / 
-                        오늘 등록 인원: {{ today_registrations|length }}명
-                    </div>
-                </div>
-                <div class="page-size-filter">
-                    <a href="?{{ request.GET|urlencode }}&page_size=30" class="filter-button {% if current_page_size == 30 %}active{% endif %}">30개씩</a>
-                    <a href="?{{ request.GET|urlencode }}&page_size=50" class="filter-button {% if current_page_size == 50 %}active{% endif %}">50개씩</a>
-                    <a href="?{{ request.GET|urlencode }}&page_size=100" class="filter-button {% if current_page_size == 100 %}active{% endif %}">100개씩</a>
+
+<div class="wrapper">
+    <div class="header">
+        <div class="title-section">
+            <div class="title-area">
+                <h1>사전 등록 목록</h1>
+                <div class="registration-count">
+                    총 등록 인원: {{ preregistrations.paginator.count }}명 / 오늘 등록 인원: {{ today_registrations|length }}명
                 </div>
             </div>
-        </header>
-
-        <div class="container">
-            <aside class="sidebar">
-                <h2>날짜 필터</h2>
-                <div class="button-container">
-                    <a href="?date=all" class="sidebar-button {% if current_date == 'all' %}active{% endif %}">전체 날짜</a>
-                    {% for date_count in date_counts %}
-                        <a href="?date={{ date_count.date|date:'Y-m-d' }}" 
-                           class="sidebar-button {% if current_date == date_count.date|date:'Y-m-d' %}active{% endif %}">
-                            {{ date_count.date|date:'Y-m-d' }}
-                            <span class="count-badge">({{ date_count.count }}명)</span>
-                        </a>
-                    {% endfor %}
-                </div>
-            </aside>
-
-            <main class="main-content">
-                <div class="usage-filter">
-                    <a href="?date={{ current_date }}&usage=all" class="filter-button {% if current_usage == 'all' %}active{% endif %}">전체</a>
-                    <a href="?date={{ current_date }}&usage=used" class="filter-button {% if current_usage == 'used' %}active{% endif %}">쿠폰 사용</a>
-                    <a href="?date={{ current_date }}&usage=unused" class="filter-button {% if current_usage == 'unused' %}active{% endif %}">쿠폰 미사용</a>
-                </div>
-
-                <div class="table-container">
-                    <table class="registration-table">
-                        <thead>
-                            <tr>
-                                <th>이메일</th>
-                                <th>전화번호</th>
-                                <th>개인정보 동의</th>
-                                <th>등록 일시</th>
-                                <th>쿠폰 코드</th>
-                                <th>사용 여부</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for preregistration in preregistrations %}
-                            <tr>
-                                <td>{{ preregistration.email }}</td>
-                                <td>{{ preregistration.phone }}</td>
-                                <td>{{ preregistration.privacy_consent|yesno:"예,아니오" }}</td>
-                                <td>{{ preregistration.created_at|date:"H:i:s" }}</td>
-                                <td>{{ preregistration.coupon_code|default:"없음" }}</td>
-                                <td>{{ preregistration.is_coupon_used|yesno:"사용,미사용" }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="pagination">
-                    {% if preregistrations.has_previous %}
-                        <a href="?{{ request.GET|urlencode }}&page=1" class="page-button">« 처음</a>
-                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.previous_page_number }}" class="page-button">이전</a>
-                    {% endif %}
-                    
-                    {% for num in preregistrations.paginator.page_range %}
-                        {% if num == preregistrations.number %}
-                            <span class="page-button active">{{ num }}</span>
-                        {% elif num > preregistrations.number|add:'-3' and num < preregistrations.number|add:'3' %}
-                            <a href="?{{ request.GET|urlencode }}&page={{ num }}" class="page-button">{{ num }}</a>
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% if preregistrations.has_next %}
-                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.next_page_number }}" class="page-button">다음</a>
-                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.paginator.num_pages }}" class="page-button">마지막 »</a>
-                    {% endif %}
-                </div>
-            </main>
+            <div class="page-size-filter">
+                <a href="?{{ request.GET|urlencode }}&page_size=30" 
+                   class="filter-button {% if current_page_size == 30 %}active{% endif %}">30개씩</a>
+                <a href="?{{ request.GET|urlencode }}&page_size=50" 
+                   class="filter-button {% if current_page_size == 50 %}active{% endif %}">50개씩</a>
+                <a href="?{{ request.GET|urlencode }}&page_size=100" 
+                   class="filter-button {% if current_page_size == 100 %}active{% endif %}">100개씩</a>
+            </div>
         </div>
     </div>
-</body>
-</html>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>날짜 필터</h2>
+            <div class="button-container">
+                <a href="?date=all" 
+                   class="sidebar-button {% if current_date == 'all' %}active{% endif %}">전체 날짜</a>
+                {% for date_count in date_counts %}
+                    <a href="?date={{ date_count.date|date:'Y-m-d' }}" 
+                       class="sidebar-button {% if current_date == date_count.date|date:'Y-m-d' %}active{% endif %}">
+                        {{ date_count.date|date:'Y-m-d' }} 
+                        <span class="count-badge">({{ date_count.count }}명)</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="main-content" role="main">
+            <div class="usage-filter">
+                <a href="?date={{ current_date }}&usage=all" 
+                   class="filter-button {% if current_usage == 'all' %}active{% endif %}">전체</a>
+                <a href="?date={{ current_date }}&usage=used" 
+                   class="filter-button {% if current_usage == 'used' %}active{% endif %}">쿠폰 사용</a>
+                <a href="?date={{ current_date }}&usage=unused" 
+                   class="filter-button {% if current_usage == 'unused' %}active{% endif %}">쿠폰 미사용</a>
+            </div>
+
+            <div class="table-container">
+                <table class="registration-table">
+                    <thead>
+                        <tr>
+                            <th>이메일</th>
+                            <th>전화번호</th>
+                            <th>개인정보 동의</th>
+                            <th>등록 일시</th>
+                            <th>쿠폰 코드</th>
+                            <th>사용 여부</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for preregistration in preregistrations %}
+                        <tr>
+                            <td>{{ preregistration.email }}</td>
+                            <td>{{ preregistration.phone }}</td>
+                            <td>{{ preregistration.privacy_consent|yesno:"예,아니오" }}</td>
+                            <td>{{ preregistration.created_at|date:"H:i:s" }}</td>
+                            <td>{{ preregistration.coupon_code|default:"없음" }}</td>
+                            <td>{{ preregistration.is_coupon_used|yesno:"사용,미사용" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if preregistrations.paginator.num_pages > 1 %}
+            <div class="pagination">
+                {% if preregistrations.has_previous %}
+                    <a href="?{{ request.GET|urlencode }}&page=1" class="page-button">« 처음</a>
+                    <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.previous_page_number }}" class="page-button">이전</a>
+                {% endif %}
+
+                {% for num in preregistrations.paginator.page_range %}
+                    {% if num == preregistrations.number %}
+                        <span class="page-button active">{{ num }}</span>
+                    {% elif num > preregistrations.number|add:'-3' and num < preregistrations.number|add:'3' %}
+                        <a href="?{{ request.GET|urlencode }}&page={{ num }}" class="page-button">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if preregistrations.has_next %}
+                    <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.next_page_number }}" class="page-button">다음</a>
+                    <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.paginator.num_pages }}" class="page-button">마지막 »</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
