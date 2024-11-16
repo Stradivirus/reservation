@@ -15,21 +15,38 @@ body {
 /* 헤더 스타일 */
 .header {
     background-color: white;
-    padding: 20px;
+    padding: 15px 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
 }
 
-.title-section h1 {
-    margin: 0 0 10px 0;
+.title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-area {
+    flex: 1;
+}
+
+.title-area h1 {
+    margin: 0;
+    font-size: 1.5em;
     color: #2c3e50;
 }
 
 .registration-count {
     color: #34495e;
     font-size: 0.9em;
-    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.page-size-filter {
+    display: flex;
+    gap: 5px;
+    align-items: center;
 }
 
 /* 컨테이너 레이아웃 */
@@ -40,9 +57,9 @@ body {
 
 /* 사이드바 스타일 */
 .sidebar {
-    width: 250px;
+    width: 200px;
     background-color: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -66,7 +83,7 @@ body {
 /* 버튼 스타일 */
 .filter-button, .sidebar-button, .page-button {
     display: inline-block;
-    padding: 8px 12px;
+    padding: 6px 12px;
     margin: 0 5px 5px 0;
     background-color: #e3f2fd;
     border: 1px solid #bbdefb;
@@ -74,6 +91,7 @@ body {
     text-decoration: none;
     color: #1976d2;
     transition: all 0.3s ease;
+    font-size: 0.9em;
 }
 
 .filter-button:hover, .sidebar-button:hover, .page-button:hover {
@@ -98,12 +116,15 @@ body {
     width: 100%;
     text-align: left;
     margin: 0;
+    padding: 6px 10px;
 }
 
 /* 테이블 스타일 */
 .table-container {
     overflow-x: auto;
     margin: 20px 0;
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
 }
 
 .registration-table {
@@ -123,6 +144,9 @@ body {
     background-color: #f8f9fa;
     color: #2c3e50;
     font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .registration-table tr:nth-child(even) {
@@ -133,17 +157,37 @@ body {
     background-color: #f5f5f5;
 }
 
+/* 필터 영역 스타일 */
+.usage-filter {
+    margin-bottom: 20px;
+}
+
 /* 페이지네이션 스타일 */
 .pagination {
     display: flex;
     justify-content: center;
     gap: 5px;
-    margin-top: 20px;
+    margin: 20px 0;
+    padding: 10px 0;
 }
 
-/* 필터 영역 스타일 */
-.usage-filter, .page-size-filter {
-    margin-bottom: 20px;
+.page-button {
+    padding: 8px 12px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 5px;
+    color: #1976d2;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.page-button:hover {
+    background-color: #bbdefb;
+}
+
+.page-button.active {
+    background-color: #1976d2;
+    color: white;
 }
 
 /* 반응형 디자인 */
@@ -155,4 +199,42 @@ body {
     .sidebar {
         width: 100%;
     }
+
+    .title-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .page-size-filter {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* 테이블 헤더 고정 */
+.registration-table thead th {
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* 스크롤바 스타일링 */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }

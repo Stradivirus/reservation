@@ -11,15 +11,17 @@
     <div class="wrapper">
         <header class="header">
             <div class="title-section">
-                <h1>사전 등록 목록</h1>
-                <div class="registration-count">
-                    총 등록 인원: {{ preregistrations.paginator.count }}명 / 
-                    오늘 등록 인원: {{ today_registrations|length }}명
+                <div class="title-area">
+                    <h1>사전 등록 목록</h1>
+                    <div class="registration-count">
+                        총 등록 인원: {{ preregistrations.paginator.count }}명 / 
+                        오늘 등록 인원: {{ today_registrations|length }}명
+                    </div>
                 </div>
                 <div class="page-size-filter">
-                    <a href="?{{ request.GET|urlencode }}&page_size=30" class="filter-button">30개씩</a>
-                    <a href="?{{ request.GET|urlencode }}&page_size=50" class="filter-button">50개씩</a>
-                    <a href="?{{ request.GET|urlencode }}&page_size=100" class="filter-button">100개씩</a>
+                    <a href="?{{ request.GET|urlencode }}&page_size=30" class="filter-button {% if current_page_size == 30 %}active{% endif %}">30개씩</a>
+                    <a href="?{{ request.GET|urlencode }}&page_size=50" class="filter-button {% if current_page_size == 50 %}active{% endif %}">50개씩</a>
+                    <a href="?{{ request.GET|urlencode }}&page_size=100" class="filter-button {% if current_page_size == 100 %}active{% endif %}">100개씩</a>
                 </div>
             </div>
         </header>
