@@ -51,8 +51,8 @@ function App() {
           <div className="top-section">
             <img src={process.env.PUBLIC_URL + '/Demonhenter.png'} alt="새 캐릭터 이미지" className="new-character-image" />
             <div className="company-info">
-              <h2>회사 소개</h2>
-              <p>Handy communications</p>
+              <h2>축제 소개</h2>
+              <p>양주시 천일홍 축제</p>
             </div>
           </div>
           <PreRegistrationForm />

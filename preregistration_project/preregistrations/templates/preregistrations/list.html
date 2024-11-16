@@ -93,12 +93,24 @@
                             <td>{{ preregistration.phone }}</td>
                             <td>{{ preregistration.privacy_consent|yesno:"예,아니오" }}</td>
                             <td>{{ preregistration.created_at|date:"H:i:s" }}</td>
-                            <td>{{ preregistration.coupon_code|default:"없음" }}</td>
-                            <td>{{ preregistration.is_coupon_used|yesno:"사용,미사용" }}</td>
+                            <td class="{% if preregistration.is_coupon_used %}used-coupon{% endif %}">
+                                {{ preregistration.coupon_code|default:"없음" }}
+                            </td>
+                            <td class="{% if preregistration.is_coupon_used %}used-coupon{% endif %}">
+                                {{ preregistration.is_coupon_used|yesno:"사용,미사용" }}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+
+            <div style="display: none;">
+                Debug Info:
+                Total pages: {{ preregistrations.paginator.num_pages }}
+                Current page: {{ preregistrations.number }}
+                Has previous: {{ preregistrations.has_previous }}
+                Has next: {{ preregistrations.has_next }}
             </div>
         </div>
     </div>

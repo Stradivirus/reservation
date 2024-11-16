@@ -268,3 +268,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+.used-coupon {
+    text-decoration: line-through;
+    color: #999;  /* 회색으로 표시 */
+}
