@@ -114,6 +114,19 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* 사용 필터 */
+.usage-filter {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 5px;
+}
+
 /* 필터 버튼 */
 .filter-button {
     display: inline-block;
@@ -136,13 +149,6 @@ body {
     background-color: #1976d2;
     color: white;
     border-color: #1565c0;
-}
-
-/* 사용 필터 */
-.usage-filter {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 5px;
 }
 
 /* 테이블 스타일 */
@@ -181,15 +187,12 @@ body {
 /* 페이지네이션 */
 .pagination {
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 5px;
-    margin: 20px 0;
-    flex-wrap: wrap;
 }
 
 .page-button {
-    padding: 8px 12px;
+    padding: 6px 12px;
     background-color: #e3f2fd;
     border: 1px solid #bbdefb;
     border-radius: 5px;
@@ -198,6 +201,7 @@ body {
     transition: all 0.2s;
     min-width: 40px;
     text-align: center;
+    font-size: 0.9em;
 }
 
 .page-button:hover {
@@ -225,6 +229,21 @@ body {
     }
     
     .page-size-filter {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .usage-filter {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pagination {
         width: 100%;
         justify-content: center;
     }

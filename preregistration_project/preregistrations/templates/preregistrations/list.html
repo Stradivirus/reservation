@@ -45,12 +45,33 @@
 
         <div class="main-content" role="main">
             <div class="usage-filter">
-                <a href="?date={{ current_date }}&usage=all" 
-                   class="filter-button {% if current_usage == 'all' %}active{% endif %}">전체</a>
-                <a href="?date={{ current_date }}&usage=used" 
-                   class="filter-button {% if current_usage == 'used' %}active{% endif %}">쿠폰 사용</a>
-                <a href="?date={{ current_date }}&usage=unused" 
-                   class="filter-button {% if current_usage == 'unused' %}active{% endif %}">쿠폰 미사용</a>
+                <div class="filter-buttons">
+                    <a href="?date={{ current_date }}&usage=all" 
+                       class="filter-button {% if current_usage == 'all' %}active{% endif %}">전체</a>
+                    <a href="?date={{ current_date }}&usage=used" 
+                       class="filter-button {% if current_usage == 'used' %}active{% endif %}">쿠폰 사용</a>
+                    <a href="?date={{ current_date }}&usage=unused" 
+                       class="filter-button {% if current_usage == 'unused' %}active{% endif %}">쿠폰 미사용</a>
+                </div>
+                <div class="pagination">
+                    {% if preregistrations.has_previous %}
+                        <a href="?{{ request.GET|urlencode }}&page=1" class="page-button">« 처음</a>
+                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.previous_page_number }}" class="page-button">이전</a>
+                    {% endif %}
+                
+                    {% for num in preregistrations.paginator.page_range %}
+                        {% if num == preregistrations.number %}
+                            <span class="page-button active">{{ num }}</span>
+                        {% elif num > preregistrations.number|add:'-3' and num < preregistrations.number|add:'3' %}
+                            <a href="?{{ request.GET|urlencode }}&page={{ num }}" class="page-button">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                
+                    {% if preregistrations.has_next %}
+                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.next_page_number }}" class="page-button">다음</a>
+                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.paginator.num_pages }}" class="page-button">마지막 »</a>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="table-container">
@@ -78,26 +99,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
-
-            <div class="pagination">
-                {% if preregistrations.has_previous %}
-                    <a href="?{{ request.GET|urlencode }}&page=1" class="page-button">« 처음</a>
-                    <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.previous_page_number }}" class="page-button">이전</a>
-                {% endif %}
-            
-                {% for num in preregistrations.paginator.page_range %}
-                    {% if num == preregistrations.number %}
-                        <span class="page-button active">{{ num }}</span>
-                    {% elif num > preregistrations.number|add:'-3' and num < preregistrations.number|add:'3' %}
-                        <a href="?{{ request.GET|urlencode }}&page={{ num }}" class="page-button">{{ num }}</a>
-                    {% endif %}
-                {% endfor %}
-            
-                {% if preregistrations.has_next %}
-                    <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.next_page_number }}" class="page-button">다음</a>
-                    <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.paginator.num_pages }}" class="page-button">마지막 »</a>
-                {% endif %}
             </div>
         </div>
     </div>
