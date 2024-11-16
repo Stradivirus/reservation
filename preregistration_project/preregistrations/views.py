@@ -63,12 +63,11 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         # 총 등록 인원수 추가
         total_registrations = self.get_total_registrations()
 
-        # 디버그 정보 출력
-        print("Paginator info:")
-        print(f"Total pages: {context['page_obj'].paginator.num_pages}")
-        print(f"Current page: {context['page_obj'].number}")
-        print(f"Has previous: {context['page_obj'].has_previous()}")
-        print(f"Has next: {context['page_obj'].has_next()}")
+        # 페이지네이션 처리
+        queryset = self.get_queryset()
+        paginator = Paginator(queryset, self.paginate_by)
+        page = self.request.GET.get('page', 1)
+        page_obj = paginator.get_page(page)
 
         context.update({
             'date_counts': date_counts,
@@ -76,7 +75,10 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
             'current_usage': self.request.GET.get('usage', 'all'),
             'today_registrations': today_registrations,
             'current_page_size': int(page_size),
-            'total_registrations': total_registrations
+            'total_registrations': total_registrations,
+            'page_obj': page_obj,
+            'paginator': paginator,
+            'is_paginated': paginator.num_pages > 1
         })
         return context
 

@@ -54,22 +54,22 @@
                        class="filter-button {% if current_usage == 'unused' %}active{% endif %}">쿠폰 미사용</a>
                 </div>
                 <div class="pagination">
-                    {% if preregistrations.has_previous %}
+                    {% if page_obj.has_previous %}
                         <a href="?{{ request.GET|urlencode }}&page=1" class="page-button">« 처음</a>
-                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.previous_page_number }}" class="page-button">이전</a>
+                        <a href="?{{ request.GET|urlencode }}&page={{ page_obj.previous_page_number }}" class="page-button">이전</a>
                     {% endif %}
                 
-                    {% for num in preregistrations.paginator.page_range %}
-                        {% if num == preregistrations.number %}
+                    {% for num in paginator.page_range %}
+                        {% if num == page_obj.number %}
                             <span class="page-button active">{{ num }}</span>
-                        {% elif num > preregistrations.number|add:'-3' and num < preregistrations.number|add:'3' %}
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                             <a href="?{{ request.GET|urlencode }}&page={{ num }}" class="page-button">{{ num }}</a>
                         {% endif %}
                     {% endfor %}
                 
-                    {% if preregistrations.has_next %}
-                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.next_page_number }}" class="page-button">다음</a>
-                        <a href="?{{ request.GET|urlencode }}&page={{ preregistrations.paginator.num_pages }}" class="page-button">마지막 »</a>
+                    {% if page_obj.has_next %}
+                        <a href="?{{ request.GET|urlencode }}&page={{ page_obj.next_page_number }}" class="page-button">다음</a>
+                        <a href="?{{ request.GET|urlencode }}&page={{ paginator.num_pages }}" class="page-button">마지막 »</a>
                     {% endif %}
                 </div>
             </div>
@@ -87,7 +87,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for preregistration in preregistrations %}
+                        {% for preregistration in page_obj %}
                         <tr>
                             <td>{{ preregistration.email }}</td>
                             <td>{{ preregistration.phone }}</td>
@@ -105,12 +105,12 @@
                 </table>
             </div>
 
-            <div style="display: none;">
-                Debug Info:
-                Total pages: {{ preregistrations.paginator.num_pages }}
-                Current page: {{ preregistrations.number }}
-                Has previous: {{ preregistrations.has_previous }}
-                Has next: {{ preregistrations.has_next }}
+            <div style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
+                Debug Info:<br>
+                Total pages: {{ paginator.num_pages }}<br>
+                Current page: {{ page_obj.number }}<br>
+                Has previous: {{ page_obj.has_previous }}<br>
+                Has next: {{ page_obj.has_next }}
             </div>
         </div>
     </div>
