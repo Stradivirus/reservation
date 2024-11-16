@@ -34,7 +34,8 @@
                     {% for date_count in date_counts %}
                         <a href="?date={{ date_count.date|date:'Y-m-d' }}" 
                            class="sidebar-button {% if current_date == date_count.date|date:'Y-m-d' %}active{% endif %}">
-                            {{ date_count.date|date:'Y-m-d' }} ({{ date_count.count }}명)
+                            {{ date_count.date|date:'Y-m-d' }}
+                            <span class="count-badge">({{ date_count.count }}명)</span>
                         </a>
                     {% endfor %}
                 </div>
@@ -42,12 +43,9 @@
 
             <main class="main-content">
                 <div class="usage-filter">
-                    <a href="?date={{ current_date }}&usage=all" 
-                       class="filter-button {% if current_usage == 'all' %}active{% endif %}">전체</a>
-                    <a href="?date={{ current_date }}&usage=used" 
-                       class="filter-button {% if current_usage == 'used' %}active{% endif %}">쿠폰 사용</a>
-                    <a href="?date={{ current_date }}&usage=unused" 
-                       class="filter-button {% if current_usage == 'unused' %}active{% endif %}">쿠폰 미사용</a>
+                    <a href="?date={{ current_date }}&usage=all" class="filter-button {% if current_usage == 'all' %}active{% endif %}">전체</a>
+                    <a href="?date={{ current_date }}&usage=used" class="filter-button {% if current_usage == 'used' %}active{% endif %}">쿠폰 사용</a>
+                    <a href="?date={{ current_date }}&usage=unused" class="filter-button {% if current_usage == 'unused' %}active{% endif %}">쿠폰 미사용</a>
                 </div>
 
                 <div class="table-container">
