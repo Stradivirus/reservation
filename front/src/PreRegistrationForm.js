@@ -9,12 +9,40 @@ function PreRegistrationForm() {
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [couponCode, setCouponCode] = useState('');
   const [isRegistered, setIsRegistered] = useState(false);
+  const [emailError, setEmailError] = useState('');
   const navigate = useNavigate();
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/[^\d]/g, '');
     if (value.length <= 11) {
       setPhone(value);
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailError('');
+  };
+
+  const checkEmailDuplicate = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/check-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setEmailError('');
+      } else {
+        const errorData = await response.json();
+        setEmailError(errorData.detail || '이미 등록된 이메일 주소입니다.');
+      }
+    } catch (error) {
+      console.error('Error checking email:', error);
+      setEmailError('이메일 중복 확인 중 오류가 발생했습니다.');
     }
   };
 
@@ -27,6 +55,12 @@ function PreRegistrationForm() {
     }
     if (phone.length !== 11) {
       alert('전화번호를 11자리로 입력해주세요.');
+      return;
+    }
+
+    // 이메일 중복 체크
+    await checkEmailDuplicate();
+    if (emailError) {
       return;
     }
 
@@ -64,6 +98,7 @@ function PreRegistrationForm() {
     setPrivacyConsent(false);
     setCouponCode('');
     setIsRegistered(false);
+    setEmailError('');
   };
 
   const handleUseCoupon = () => {
@@ -102,10 +137,12 @@ function PreRegistrationForm() {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
+            onBlur={checkEmailDuplicate}
             placeholder="이메일 주소를 입력하세요"
             required
           />
+          {emailError && <p className="error-message">{emailError}</p>}
         </div>
 
         <div className="input-group">
