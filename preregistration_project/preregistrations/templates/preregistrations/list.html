@@ -17,12 +17,12 @@
                 </div>
             </div>
             <div class="page-size-filter">
-                {% with existing_params=request.GET.urlencode|cut:"page_size"|cut:"page" %}
-                <a href="?{% if existing_params %}{{ existing_params }}{% if existing_params|length > 0 %}&{% endif %}{% endif %}page_size=30" 
+                {% with date_param=request.GET.date usage_param=request.GET.usage %}
+                <a href="?{% if date_param %}date={{ date_param }}{% endif %}{% if usage_param %}&usage={{ usage_param }}{% endif %}&page_size=30" 
                    class="filter-button {% if current_page_size == 30 %}active{% endif %}">30개씩</a>
-                <a href="?{% if existing_params %}{{ existing_params }}{% if existing_params|length > 0 %}&{% endif %}{% endif %}page_size=50" 
+                <a href="?{% if date_param %}date={{ date_param }}{% endif %}{% if usage_param %}&usage={{ usage_param }}{% endif %}&page_size=50" 
                    class="filter-button {% if current_page_size == 50 %}active{% endif %}">50개씩</a>
-                <a href="?{% if existing_params %}{{ existing_params }}{% if existing_params|length > 0 %}&{% endif %}{% endif %}page_size=100" 
+                <a href="?{% if date_param %}date={{ date_param }}{% endif %}{% if usage_param %}&usage={{ usage_param }}{% endif %}&page_size=100" 
                    class="filter-button {% if current_page_size == 100 %}active{% endif %}">100개씩</a>
                 {% endwith %}
             </div>
