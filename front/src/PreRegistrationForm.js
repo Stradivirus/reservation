@@ -10,39 +10,55 @@ function PreRegistrationForm() {
   const [couponCode, setCouponCode] = useState('');
   const [isRegistered, setIsRegistered] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const navigate = useNavigate();
-
-  const handlePhoneChange = (e) => {
-    const value = e.target.value.replace(/[^\d]/g, '');
-    if (value.length <= 11) {
-      setPhone(value);
-    }
-  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setEmailError('');
   };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/[^\d]/g, '');
+    if (value.length <= 11) {
+      setPhone(value);
+      setPhoneError('');
+    }
+  };
+
   const checkEmailDuplicate = async () => {
+    if (!email) return;
     try {
       const response = await fetch(`${API_URL}/api/check-email`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-
-      if (response.ok) {
-        setEmailError('');
-      } else {
+      if (!response.ok) {
         const errorData = await response.json();
         setEmailError(errorData.detail || '이미 등록된 이메일 주소입니다.');
       }
     } catch (error) {
       console.error('Error checking email:', error);
       setEmailError('이메일 중복 확인 중 오류가 발생했습니다.');
+    }
+  };
+
+  const checkPhoneDuplicate = async () => {
+    if (phone.length !== 11) return;
+    try {
+      const response = await fetch(`${API_URL}/api/check-phone`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        setPhoneError(errorData.detail || '이미 등록된 전화번호입니다.');
+      }
+    } catch (error) {
+      console.error('Error checking phone:', error);
+      setPhoneError('전화번호 중복 확인 중 오류가 발생했습니다.');
     }
   };
 
@@ -58,23 +74,17 @@ function PreRegistrationForm() {
       return;
     }
 
-    // 이메일 중복 체크
     await checkEmailDuplicate();
-    if (emailError) {
+    await checkPhoneDuplicate();
+    if (emailError || phoneError) {
       return;
     }
 
     try {
       const response = await fetch(`${API_URL}/api/preregister`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          phone,
-          privacy_consent: privacyConsent
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, phone, privacy_consent: privacyConsent }),
       });
 
       if (response.ok) {
@@ -99,6 +109,7 @@ function PreRegistrationForm() {
     setCouponCode('');
     setIsRegistered(false);
     setEmailError('');
+    setPhoneError('');
   };
 
   const handleUseCoupon = () => {
@@ -150,10 +161,12 @@ function PreRegistrationForm() {
             type="tel"
             value={phone}
             onChange={handlePhoneChange}
+            onBlur={checkPhoneDuplicate}
             placeholder="전화번호를 입력하세요 (숫자 11자리)"
             pattern="[0-9]{11}"
             required
           />
+          {phoneError && <p className="error-message">{phoneError}</p>}
         </div>
 
         <div className="privacy-section">

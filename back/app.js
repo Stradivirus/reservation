@@ -115,6 +115,36 @@ async function generateAndValidateCouponCode() {
     throw new Error('유니크한 쿠폰 코드 생성 실패');
 }
 
+// 이메일 중복 체크 API 엔드포인트
+app.post('/api/check-email', async (req, res) => {
+    const { email } = req.body;
+    try {
+        const emailExists = await Preregistration.findOne({ where: { email } });
+        if (emailExists) {
+            return res.status(400).json({ detail: '이미 등록된 이메일 주소입니다.' });
+        }
+        return res.status(200).json({ message: '사용 가능한 이메일 주소입니다.' });
+    } catch (error) {
+        console.error('Error in check-email:', error);
+        return res.status(500).json({ detail: '서버 오류가 발생했습니다.' });
+    }
+});
+
+// 전화번호 중복 체크 API 엔드포인트
+app.post('/api/check-phone', async (req, res) => {
+    const { phone } = req.body;
+    try {
+        const phoneExists = await Preregistration.findOne({ where: { phone } });
+        if (phoneExists) {
+            return res.status(400).json({ detail: '이미 등록된 전화번호입니다.' });
+        }
+        return res.status(200).json({ message: '사용 가능한 전화번호입니다.' });
+    } catch (error) {
+        console.error('Error in check-phone:', error);
+        return res.status(500).json({ detail: '서버 오류가 발생했습니다.' });
+    }
+});
+
 // 사전등록 API 엔드포인트
 app.post('/api/preregister', async (req, res) => {
     const { email, phone, privacy_consent } = req.body;
