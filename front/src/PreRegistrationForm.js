@@ -125,10 +125,10 @@ function PreRegistrationForm() {
       <div className="registration-success">
         <div className="success-inner">
           <h2>사전 등록이 완료되었습니다!</h2>
-          <p>귀하의 쿠폰 코드: <strong>{couponCode}</strong></p>
+          <p>귀하의 추첨권 코드: <strong>{couponCode}</strong></p>
           <p>이 코드를 안전한 곳에 보관해 주세요.</p>
           <div className="success-buttons">
-            <button onClick={handleUseCoupon} className="primary-button">쿠폰 사용하기</button>
+            <button onClick={handleUseCoupon} className="primary-button">추첨권 사용하기</button>
             <button onClick={resetForm} className="secondary-button">새로 등록하기</button>
           </div>
         </div>
@@ -139,7 +139,7 @@ function PreRegistrationForm() {
   return (
     <div className="pre-registration-container">
       <div className="form-header">
-        <h2>사전 등록</h2>
+        <h2>관람객 사전 등록</h2>
         <p>축제 소식을 가장 먼저 받아보세요!</p>
       </div>
 
@@ -196,8 +196,8 @@ function PreRegistrationForm() {
       </form>
       
       <div className="coupon-section">
-        <p>이미 쿠폰이 있으신가요?</p>
-        <button onClick={handleEnterCoupon} className="secondary-button">쿠폰 입력하기</button>
+        <p>이미 추첨권이 있으신가요?</p>
+        <button onClick={handleEnterCoupon} className="secondary-button">추첨권 입력하기</button>
       </div>
     </div>
   );

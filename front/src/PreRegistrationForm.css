@@ -6,6 +6,7 @@
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 5px solid #A8D5BA;
 }
 
 .form-header {
@@ -23,7 +24,7 @@
 
 .form-header p {
   color: #666;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 .pre-registration-form {
@@ -85,6 +86,7 @@
   background-color: #fff;
   padding: 1rem;
   border-radius: 8px;
+  font-weight: bold;
 }
 
 .privacy-policy h4 {
@@ -111,10 +113,11 @@
   border-radius: 10px;
   background-color: #FF8E9E;
   color: white;
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: 'Jua', sans-serif;
 }
 
 .submit-button:hover,
@@ -130,10 +133,11 @@
   border-radius: 10px;
   background-color: white;
   color: #FF8E9E;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: 'Jua', sans-serif;
 }
 
 .secondary-button:hover {
@@ -150,6 +154,7 @@
 .coupon-section p {
   color: #666;
   margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 .registration-success {

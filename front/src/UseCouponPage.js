@@ -19,7 +19,7 @@ function UseCouponPage() {
   const handleUseCoupon = async () => {
     const codeToUse = couponCode || inputCouponCode;
     if (!codeToUse) {
-      setMessage('쿠폰 코드를 입력해주세요.');
+      setMessage('추첨권 코드를 입력해주세요.');
       return;
     }
 
@@ -40,7 +40,7 @@ function UseCouponPage() {
       if (response.ok) {
         setMessage(data.message);
       } else {
-        setMessage(data.detail || '쿠폰 사용 중 오류가 발생했습니다.');
+        setMessage(data.detail || '추첨권 사용 중 오류가 발생했습니다.');
       }
     } catch (error) {
       setMessage('서버 연결 중 오류가 발생했습니다.');
@@ -52,11 +52,11 @@ function UseCouponPage() {
   return (
     <div className="use-coupon-container">
       <div className="use-coupon-card">
-        <h2 className="use-coupon-title">쿠폰 사용하기</h2>
+        <h2 className="use-coupon-title">추첨권 사용하기</h2>
         {couponCode ? (
           // URL에 제공된 쿠폰 코드 표시
           <div className="coupon-code-container">
-            <p className="coupon-code-label">쿠폰 코드:</p>
+            <p className="coupon-code-label">추첨권 코드:</p>
             <p className="coupon-code">{couponCode}</p>
           </div>
         ) : (
@@ -66,7 +66,7 @@ function UseCouponPage() {
               type="text"
               value={inputCouponCode}
               onChange={(e) => setInputCouponCode(e.target.value)}
-              placeholder="쿠폰 코드를 입력하세요"
+              placeholder="추첨권 코드를 입력하세요"
               className="coupon-input"
             />
           </div>
@@ -77,7 +77,7 @@ function UseCouponPage() {
           onClick={handleUseCoupon} 
           disabled={isLoading}
         >
-          {isLoading ? '처리 중...' : '쿠폰 사용하기'}
+          {isLoading ? '처리 중...' : '추첨권 사용하기'}
         </button>
         {/* 성공 또는 오류 메시지 표시 */}
         {message && <p className={`message ${message.includes('성공') ? 'success' : 'error'}`}>{message}</p>}

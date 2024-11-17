@@ -12,13 +12,7 @@ function App() {
       <nav className="top-nav">
         <div className="nav-container">
           <span>2024 하늘공원 축제</span>
-          <div className="nav-links">
-            <a href="#about">행사안내</a>
-            <a href="#location">찾아오시는길</a>
-            <a href="#schedule">공연 세부일정</a>
-            <a href="#community">커뮤니티</a>
-            <a href="#notice">관람객 사전등록</a>
-          </div>
+          
         </div>
       </nav>
 
@@ -37,9 +31,8 @@ function App() {
 
         <div className="right-section">
           <div className="event-info">
-            <h2>축제 장소</h2>
-            <div className="date">2024. 00. 00. (월)</div>
-            <div className="time">09:00 - 18:00</div>
+            
+            
           </div>
 
           <div className="registration-container">
@@ -50,11 +43,8 @@ function App() {
 
       <nav className="bottom-nav">
         <div className="nav-icons">
-          <div className="nav-icon">관람객 사전 등록</div>
-          <div className="nav-icon">미술 및 체험</div>
-          <div className="nav-icon">찾아 가는 힐 티켓</div>
-          <div className="nav-icon">양재 플라워 페스타</div>
-          <div className="nav-icon">포스트 메시지</div>
+          <div className="nav-icon">축제 기간 2024. 09. 01. ~ 10. 31</div>
+         
         </div>
       </nav>
     </div>

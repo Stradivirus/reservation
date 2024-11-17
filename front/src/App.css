@@ -197,13 +197,6 @@ body {
   padding: 0 2rem;
 }
 
-.nav-icon {
-  text-align: center;
-  color: #666;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
 /* Responsive Design */
 @media (max-width: 1200px) {
   .main-content {
