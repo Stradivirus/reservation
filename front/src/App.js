@@ -43,7 +43,7 @@ function App() {
 
       <nav className="bottom-nav">
         <div className="nav-icons">
-          <div className="nav-icon">축제 기간 2024. 09. 01. ~ 10. 31</div>
+          <div className="nav-icon">축제 기간&nbsp;&nbsp; 2024. 09. 01 ~ 10. 31</div>
          
         </div>
       </nav>

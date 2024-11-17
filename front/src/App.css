@@ -191,10 +191,13 @@ body {
 
 .nav-icons {
   display: flex;
+  font-size: 2rem;
   justify-content: space-around;
   max-width: 2000px;
   margin: 0 auto;
   padding: 0 2rem;
+  font-family: 'Jua', sans-serif;
+  color: #46861c;
 }
 
 /* Responsive Design */
