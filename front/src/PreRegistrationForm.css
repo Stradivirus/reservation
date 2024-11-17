@@ -1,180 +1,216 @@
-/* 전체 컨테이너 스타일 */
-.registration-container {
-  width: 100%;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* 회사 정보 스타일 */
-.company-info {
-  text-align: center;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
-.company-info h2 {
-  color: var(--button-bg);
-  margin-bottom: 10px;
-}
-
-.company-info p {
-  color: var(--secondary-text);
-}
-
-/* 사전 등록 폼 컨테이너 스타일 */
 .pre-registration-container {
   width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* 사전 등록 폼 레이아웃 스타일 */
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-header h2 {
+  color: #e55f70;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-header p {
+  color: #666;
+  font-size: 1rem;
+}
+
 .pre-registration-form {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 1.5rem;
 }
 
-/* 입력 필드와 버튼의 공통 스타일 */
-.pre-registration-form input[type="email"],
-.pre-registration-form input[type="tel"],
-.pre-registration-form button {
+.input-group {
+  position: relative;
+}
+
+.input-group input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 1rem;
+  border: 2px solid #FFD1DC;
+  border-radius: 10px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  color: #333;
+  transition: all 0.3s ease;
+  background-color: #FFF5F5;
 }
 
-/* 사전 등록 버튼 스타일 */
-.pre-registration-form button {
-  background-color: #61dafb;
-  color: #282c34;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.input-group input:focus {
+  outline: none;
+  border-color: #FF8E9E;
+  background-color: #fff;
 }
 
-.pre-registration-form button:hover {
-  background-color: #21a1c9;
+.input-group input::placeholder {
+  color: #999;
 }
 
-/* 개인정보 동의 체크박스 컨테이너 스타일 */
+.privacy-section {
+  background-color: #FFF5F5;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
 .privacy-agreement {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
-  font-size: 1.1rem;
-  width: 100%;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.privacy-agreement input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #FF8E9E;
 }
 
 .privacy-agreement label {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: #666;
   font-size: 0.9rem;
 }
 
-/* 개인정보 동의 체크박스 스타일 */
-.privacy-agreement input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-@media (max-width: 400px) {
-  .privacy-agreement label {
-    font-size: 0.7rem;
-  }
-}
-
-/* 개인정보 처리방침 섹션 스타일 */
 .privacy-policy {
-  background-color: #000000;
-  color: #ffffff;
-  padding: 10px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
 }
 
 .privacy-policy h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
-
-.privacy-policy p {
-  margin-bottom: 5px;
-  line-height: 1.4;
-}
-
-/* 쿠폰 입력 섹션 스타일 */
-.coupon-section {
-  margin-top: 20px;
-  text-align: center;
-  padding: 15px;
-  background-color: #000000;
-  border-radius: 4px;
-  width: 100%;
-}
-
-.enter-coupon-button {
-  background-color: #282c34;
-  color: #ffffff;
-  border: none;
-  padding: 10px 15px;
+  color: #FF8E9E;
+  margin-bottom: 1rem;
   font-size: 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+}
+
+.policy-content {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.policy-content p {
+  margin-bottom: 0.5rem;
+}
+
+.submit-button,
+.primary-button {
   width: 100%;
-  margin-top: 10px; /* 기존 값에 5-10px 정도 추가 */
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #FF8E9E;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.enter-coupon-button:hover {
-  background-color: #4a4f5a;
+.submit-button:hover,
+.primary-button:hover {
+  background-color: #ff7088;
+  transform: translateY(-2px);
 }
 
-/* 등록 성공 메시지 스타일 */
+.secondary-button {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #FF8E9E;
+  border-radius: 10px;
+  background-color: white;
+  color: #FF8E9E;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+  background-color: #FFF5F5;
+}
+
+.coupon-section {
+  margin-top: 2rem;
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid #FFD1DC;
+}
+
+.coupon-section p {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
 .registration-success {
   text-align: center;
-  width: 100%;
-  padding: 20px;
-  background-color: #282c34;
-  border-radius: 4px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.success-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .registration-success h2 {
-  color: #21a1c9;
+  color: #FF8E9E;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
 }
 
 .registration-success p {
-  margin-bottom: 15px;
+  color: #666;
+  margin-bottom: 0.5rem;
 }
 
 .registration-success strong {
-  font-size: 1.2em;
-  color: #00af43;
+  color: #FF8E9E;
+  font-size: 1.2rem;
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #FFF5F5;
+  border-radius: 8px;
 }
 
-.registration-success button {
-  background-color: #61dafb;
-  color: #282c34;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin: 5px;
-  width: calc(100% - 10px);
+.success-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-.registration-success button:hover {
-  background-color: #21a1c9;
+@media (max-width: 480px) {
+  .pre-registration-container {
+    padding: 1.5rem;
+  }
+
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .input-group input {
+    padding: 0.8rem;
+  }
+
+  .privacy-policy {
+    padding: 0.8rem;
+  }
+
+  .policy-content {
+    font-size: 0.8rem;
+  }
 }
