@@ -15,9 +15,10 @@
 
 .form-header h2 {
   color: #e55f70;
-  font-size: 1.8rem;
+  font-size: 2.3rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
+  font-family: 'Jua', sans-serif;
 }
 
 .form-header p {

@@ -37,6 +37,15 @@ body {
   align-items: center;
   max-width: 2000px;
   margin: 0 auto;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.2rem; /* 기본 글씨 크기를 1.2배로 증가 */
+  color:#a24a7c;
+  ;
+}
+
+.nav-container span {
+  font-size: 5rem; /* "2024 하늘공원 축제" 텍스트를 더 크게 */
+  font-weight: bold; /* 굵게 만들어 더 강조 */
 }
 
 .nav-links {
@@ -47,7 +56,7 @@ body {
 .nav-links a {
   color: #666;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1.1rem; /* 링크 텍스트 크기를 약간 더 키움 */
 }
 
 /* Main Content Layout */
@@ -87,7 +96,7 @@ body {
 
 .title-line {
   display: block;
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   line-height: 1.2;
   font-weight: 300;
   margin-bottom: 0.5rem;
@@ -96,6 +105,7 @@ body {
   transition: font-size 0.3s ease; /* 글자 크기 변화를 부드럽게 */
   -webkit-font-smoothing: antialiased; /* 글자 렌더링 부드럽게 */
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Gowun Dodum', sans-serif; /* Gowun Dodum 폰트 적용 */
 }
 
 /* Image Slider */

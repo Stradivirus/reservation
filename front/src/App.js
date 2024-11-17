@@ -11,7 +11,7 @@ function App() {
     <div className="festival-container">
       <nav className="top-nav">
         <div className="nav-container">
-          <span>2024 축제명</span>
+          <span>2024 하늘공원 축제</span>
           <div className="nav-links">
             <a href="#about">행사안내</a>
             <a href="#location">찾아오시는길</a>
@@ -28,7 +28,7 @@ function App() {
             <h1 className="main-title">
               <span className="title-line">모든 잎이 꽃이 되는 가을</span>
               <br />
-              <span className="title-line">오색 찬란한 가을의 물결 속으로 당신을 초대합니다</span>
+              <span className="title-line">오색 찬란한 가을의 물결 속으로 <br></br>당신을 초대합니다</span>
             </h1>
           </div>
           
