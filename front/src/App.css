@@ -1,4 +1,3 @@
-/* App.css */
 /* Base Styles */
 * {
   margin: 0;
@@ -22,41 +21,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
-}
-
-/* Top Navigation */
-.top-nav {
-  padding: 1rem 2rem;
-  background-color: transparent;
-}
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 2000px;
-  margin: 0 auto;
-  font-family: 'Jua', sans-serif;
-  font-size: 1.2rem; /* 기본 글씨 크기를 1.2배로 증가 */
-  color:#a24a7c;
-  ;
-}
-
-.nav-container span {
-  font-size: 5rem; /* "2024 하늘공원 축제" 텍스트를 더 크게 */
-  font-weight: bold; /* 굵게 만들어 더 강조 */
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-links a {
-  color: #666;
-  text-decoration: none;
-  font-size: 1.1rem; /* 링크 텍스트 크기를 약간 더 키움 */
 }
 
 /* Main Content Layout */
@@ -64,64 +28,76 @@ body {
   flex: 1;
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: flex-start;
   padding: 0 4rem;
   max-width: 2000px;
   margin: 0 auto;
   width: 100%;
-  height: calc(100vh - 140px);
+  position: relative;
 }
 
 /* Left Section */
 .left-section {
-  flex: 1;
+  width: calc(100% - 500px);
   padding-right: 4rem;
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 .title-section {
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
+.festival-name {
+  font-size: 6rem;
+  color: #dc6f85;
+  font-weight: bold;
+  font-family: 'Jua', sans-serif;
+  margin-bottom: 1.5rem;
+}
+
 .main-title {
-  font-size: 5rem;
+  font-size: 3rem;
   color: #FF8E9E;
   font-weight: 300;
   line-height: 1.2;
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 .title-line {
   display: block;
-  font-size: 2.5rem;
+  font-size: 3rem;
   line-height: 1.2;
   font-weight: 300;
   margin-bottom: 0.5rem;
   color: #FF8E9E;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* 부드러운 그림자 효과 */
-  transition: font-size 0.3s ease; /* 글자 크기 변화를 부드럽게 */
-  -webkit-font-smoothing: antialiased; /* 글자 렌더링 부드럽게 */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  transition: font-size 0.3s ease;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Gowun Dodum', sans-serif; /* Gowun Dodum 폰트 적용 */
+  font-family: 'Gowun Dodum', sans-serif;
+  padding-bottom: 1rem;
 }
 
 /* Image Slider */
 .image-slider-wrapper {
   width: 100%;
-  height: 500px;
+  height: 600px;
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
-  margin: 2rem 0;
+  border-radius: 50px;
+  border: 15px solid #FFF;
   background-color: #FFF;
+  box-shadow: 
+    0 0 0 1px #FFD1DC,
+    0 0 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 4rem;
 }
 
 .image-slider {
   width: 100%;
-  height: 100%;
+  padding-top: 56.25%; /* 16:9 비율 */
   position: relative;
 }
 
@@ -141,52 +117,21 @@ body {
   z-index: 1;
 }
 
-.loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #666;
-  font-size: 1.2rem;
-}
-
 /* Right Section */
 .right-section {
   width: 500px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 4rem;
-}
-
-/* Event Info */
-.event-info {
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.event-info h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-}
-
-.event-info .date,
-.event-info .time {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
-}
-
-/* Registration Container */
-.registration-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  position: sticky;
+  top: 2rem;
+  padding-top: 2rem;
 }
 
 /* Bottom Navigation */
 .bottom-nav {
+  width: 100%;
   padding: 1rem 0;
   background-color: white;
   margin-top: auto;
+  border-top: 1px solid #FFD1DC;
 }
 
 .nav-icons {
@@ -197,7 +142,7 @@ body {
   margin: 0 auto;
   padding: 0 2rem;
   font-family: 'Jua', sans-serif;
-  color: #46861c;
+  color: #3e6524;
 }
 
 /* Responsive Design */
@@ -206,8 +151,16 @@ body {
     padding: 0 2rem;
   }
 
+  .left-section {
+    width: calc(100% - 400px);
+  }
+
   .main-title {
-    font-size: 4rem;
+    font-size: 2.5rem;
+  }
+
+  .festival-name {
+    font-size: 3.5rem;
   }
 
   .right-section {
@@ -217,17 +170,12 @@ body {
   .left-section {
     padding-right: 2rem;
   }
-
-  .image-slider-wrapper {
-    height: 400px;
-  }
 }
 
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
     padding: 1rem;
-    height: auto;
   }
 
   .left-section,
@@ -236,35 +184,28 @@ body {
     padding: 1rem 0;
   }
 
-  .nav-links {
-    display: none;
+  .right-section {
+    position: static;
+  }
+
+  .festival-name {
+    font-size: 2.5rem;
   }
 
   .main-title {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 
-  .image-slider-wrapper {
-    height: 300px;
+  .title-line {
+    font-size: 1.8rem;
   }
 
   .bottom-nav {
-    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    z-index: 1000;
   }
-}
-
-.image-slider-wrapper {
-  width: 100%;
-  height: 500px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  margin: 2rem 0;
-  /* 화려한 액자 효과 */
-  border: 15px solid #FFF;
-  background-color: #FFF;
-  box-shadow: 
-    0 0 0 1px #FFD1DC,
-    0 0 15px rgba(0, 0, 0, 0.1);
-  position: relative;
 }

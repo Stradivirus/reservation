@@ -1,0 +1,18 @@
+.header {
+    padding: 1.5rem;  /* 상하 여백 */
+    background-color: white;  /* 흰색 배경 */
+}
+
+.header-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 2000px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+    }
+}

@@ -139,7 +139,7 @@ function PreRegistrationForm() {
   return (
     <div className="pre-registration-container">
       <div className="form-header">
-        <h2>관람객 사전 등록</h2>
+        
         <p>축제 소식을 가장 먼저 받아보세요!</p>
       </div>
 

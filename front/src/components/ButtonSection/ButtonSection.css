@@ -1,0 +1,118 @@
+// ButtonSection.css
+.button-section {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.content-wrapper {
+  padding: 2rem;
+  border: 5px solid #A8D5BA;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-button {
+  padding: 1rem;
+  font-size: 1.8rem;
+  font-family: 'Jua', sans-serif;
+  border: none;
+  border-radius: 20px;
+  background-color: #FFF5F5;
+  color: #FF8E9E;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 4px solid #FFD1DC;
+}
+
+.section-button:hover {
+  background-color: #FFD1DC;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.section-button.active {
+  background-color: #FF8E9E;
+  color: white;
+  border-color: #FF8E9E;
+}
+
+.section-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  animation: slideDown 0.3s ease forwards;
+  padding: 2rem;
+  background-color: #FFF5F5;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.info-content, .events-content {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  line-height: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+.registration-content {
+  background-color: #FFF5F5;
+}
+
+@keyframes slideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 800px;
+    opacity: 1;
+  }
+}
+
+.section-content h3 {
+  color: #FF8E9E;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: 'Jua', sans-serif;
+}
+
+.section-content p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.section-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.section-content li {
+  color: #666;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #FFD1DC;
+}
+
+.section-content li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  .section-button {
+    font-size: 1.5rem;
+  }
+}
