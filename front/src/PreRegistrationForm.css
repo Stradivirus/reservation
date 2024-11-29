@@ -137,8 +137,26 @@
 
 .error-message {
   color: #ff4757;
-  font-size: 0.75rem;
-  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  background-color: #ffe8e8;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ffcdd2;
+  display: flex;
+  align-items: center;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 8px;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
 .registration-success {

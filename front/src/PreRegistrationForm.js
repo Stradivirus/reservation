@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PreRegistrationForm.css';
+import SuccessAlert from './components/SuccessAlert';
 
 function PreRegistrationForm() {
   const API_URL = 'http://34.64.132.7:8082';
@@ -11,6 +12,9 @@ function PreRegistrationForm() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertCreatedAt, setAlertCreatedAt] = useState('');
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -91,7 +95,9 @@ function PreRegistrationForm() {
         const data = await response.json();
         setCouponCode(data.coupon_code);
         setIsRegistered(true);
-        alert(`${data.message} 등록 시간: ${data.created_at}`);
+        setAlertMessage(data.message);
+        setAlertCreatedAt(data.created_at);
+        setShowAlert(true);
       } else {
         const errorData = await response.json();
         alert(`오류: ${errorData.detail}`);
@@ -110,6 +116,9 @@ function PreRegistrationForm() {
     setIsRegistered(false);
     setEmailError('');
     setPhoneError('');
+    setShowAlert(false);
+    setAlertMessage('');
+    setAlertCreatedAt('');
   };
 
   const handleUseCoupon = () => {
@@ -138,8 +147,15 @@ function PreRegistrationForm() {
 
   return (
     <div className="pre-registration-container">
+      {showAlert && (
+        <SuccessAlert 
+          message={alertMessage}
+          createdAt={alertCreatedAt}
+          onClose={() => setShowAlert(false)}
+        />
+      )}
+
       <div className="form-header">
-        
         <p>축제 소식을 가장 먼저 받아보세요!</p>
       </div>
 
