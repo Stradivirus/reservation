@@ -1,5 +1,5 @@
 services:
-  nginx:
+  frontend-balancer:
     build:
       context: ./nginx
       dockerfile: Dockerfile
