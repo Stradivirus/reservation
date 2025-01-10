@@ -1,10 +1,35 @@
 services:
-  frontend:
+  nginx:
     build:
-      context: ./front
+      context: ./nginx
       dockerfile: Dockerfile
     ports:
       - "8080:80"
+    depends_on:
+      - frontend1
+      - frontend2
+      - frontend3
+    networks:
+      - app-network
+
+  frontend1:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  frontend2:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  frontend3:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
     networks:
       - app-network
 
