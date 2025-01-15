@@ -73,62 +73,6 @@ services:
       - app-network
       - monitoring-network
 
-  reservation-prometheus:
-    container_name: reservation-prometheus
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-    networks:
-      - monitoring-network
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  reservation-grafana:
-    container_name: reservation-grafana
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-    volumes:
-      - grafana_data:/var/lib/grafana
-    networks:
-      - monitoring-network
-    depends_on:
-      reservation-prometheus:
-        condition: service_healthy
-    restart: unless-stopped
-
-  reservation-node-exporter:
-    image: prom/node-exporter:latest
-    container_name: reservation-node-exporter
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.rootfs=/rootfs'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-    expose:
-      - 9100
-    networks:
-      - monitoring-network
-    restart: unless-stopped
-
   reservation-postgres-exporter:
     container_name: reservation-postgres-exporter
     image: prometheuscommunity/postgres-exporter
@@ -172,10 +116,8 @@ services:
 
 volumes:
   db-data:
-  prometheus_data:
-  grafana_data:
 
 networks:
   app-network:
   monitoring-network:
-    driver: bridge
+    external: true    # 기존 모니터링 네트워크 사용
