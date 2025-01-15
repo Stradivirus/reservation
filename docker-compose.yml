@@ -120,4 +120,4 @@ volumes:
 networks:
   app-network:
   monitoring-network:
-    external: true    # 기존 모니터링 네트워크 사용
+    external: true
