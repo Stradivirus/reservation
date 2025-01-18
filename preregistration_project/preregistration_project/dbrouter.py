@@ -1,8 +1,11 @@
 class ReadReplicaRouter:
     def db_for_read(self, model, **hints):
         """
-        Reads go to the replica DB.
+        Sends reads to replica DB except for auth and admin models
         """
+        # auth, admin, sessions 관련 모델은 default DB 사용
+        if model._meta.app_label in ('auth', 'admin', 'sessions', 'contenttypes'):
+            return 'default'
         return 'replica'
 
     def db_for_write(self, model, **hints):
