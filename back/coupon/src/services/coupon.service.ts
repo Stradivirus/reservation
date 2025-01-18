@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Sequelize } from 'sequelize';
 import * as crypto from 'crypto';
+import { CouponResponseDto, PreregistrationType } from '../dtos/coupon.dto';
 
 @Injectable()
 export class CouponService {
@@ -33,10 +34,12 @@ export class CouponService {
     for (let i = 0; i < maxAttempts; i++) {
       const couponCode = this.generateCouponCode();
       
-      // 쿠폰 중복 체크
-      const [results] = await this.sequelize.query(
+      const [results] = await this.sequelize.query<PreregistrationType>(
         'SELECT * FROM preregistrations_preregistration WHERE coupon_code = ?',
-        { replacements: [couponCode] }
+        { 
+          replacements: [couponCode],
+          type: 'SELECT'
+        }
       );
       
       if (!results[0]) {
@@ -49,10 +52,12 @@ export class CouponService {
 
   async useCoupon(couponCode: string): Promise<CouponResponseDto> {
     try {
-      // 쿠폰 존재 및 사용 여부 확인
-      const [[preregistration]] = await this.sequelize.query(
+      const [[preregistration]] = await this.sequelize.query<PreregistrationType>(
         'SELECT * FROM preregistrations_preregistration WHERE coupon_code = ?',
-        { replacements: [couponCode] }
+        { 
+          replacements: [couponCode],
+          type: 'SELECT'
+        }
       );
 
       if (!preregistration) {
@@ -63,7 +68,6 @@ export class CouponService {
         throw new Error('이미 사용된 쿠폰입니다.');
       }
 
-      // 쿠폰 사용 처리
       await this.sequelize.query(
         'UPDATE preregistrations_preregistration SET is_coupon_used = true WHERE coupon_code = ?',
         { replacements: [couponCode] }
