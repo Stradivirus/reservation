@@ -48,6 +48,19 @@ services:
     depends_on:
       - db
 
+  notification:
+    build:
+      context: ./back/notification
+      dockerfile: Dockerfile
+    environment:
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+    networks:
+      - app-network
+    ports:
+      - "8084:8084"
+    depends_on:
+      - backend
+      
   admin:
     build:
       context: ./preregistration_project
