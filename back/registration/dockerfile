@@ -8,5 +8,5 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-EXPOSE 8082
+EXPOSE 8086
 CMD ["npm", "run", "start:prod"]

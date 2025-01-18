@@ -43,7 +43,7 @@ services:
     networks:
       - app-network
     ports:
-      - "8082:8082"
+      - "8086:8086"
     depends_on:
       - db
 
