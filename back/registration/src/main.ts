@@ -12,7 +12,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = process.env.PORT || 8082;
+  const port = process.env.PORT || 8086;
   await app.listen(port);
   logger.log(`Registration service is running on port ${port}`);
 }
