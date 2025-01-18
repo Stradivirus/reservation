@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Sequelize } from 'sequelize';
+import { Sequelize, QueryTypes } from 'sequelize';  // QueryTypes 추가
 import * as crypto from 'crypto';
 import { CouponResponseDto, PreregistrationType } from '../dtos/coupon.dto';
 
@@ -34,15 +34,15 @@ export class CouponService {
     for (let i = 0; i < maxAttempts; i++) {
       const couponCode = this.generateCouponCode();
       
-      const [results] = await this.sequelize.query<PreregistrationType>(
-        'SELECT * FROM preregistrations_preregistration WHERE coupon_code = ?',
+      const results = await this.sequelize.query<PreregistrationType>(
+        'SELECT * FROM preregistrations_preregistration WHERE coupon_code = $1',
         { 
           replacements: [couponCode],
-          type: 'SELECT'
+          type: QueryTypes.SELECT
         }
       );
       
-      if (!results[0]) {
+      if (results.length === 0) {
         return couponCode;
       }
     }
@@ -52,25 +52,29 @@ export class CouponService {
 
   async useCoupon(couponCode: string): Promise<CouponResponseDto> {
     try {
-      const [[preregistration]] = await this.sequelize.query<PreregistrationType>(
-        'SELECT * FROM preregistrations_preregistration WHERE coupon_code = ?',
+      const preregistrations = await this.sequelize.query<PreregistrationType>(
+        'SELECT * FROM preregistrations_preregistration WHERE coupon_code = $1',
         { 
           replacements: [couponCode],
-          type: 'SELECT'
+          type: QueryTypes.SELECT
         }
       );
 
-      if (!preregistration) {
+      if (preregistrations.length === 0) {
         throw new Error('유효하지 않은 쿠폰 코드입니다.');
       }
 
+      const preregistration = preregistrations[0];
       if (preregistration.is_coupon_used) {
         throw new Error('이미 사용된 쿠폰입니다.');
       }
 
       await this.sequelize.query(
-        'UPDATE preregistrations_preregistration SET is_coupon_used = true WHERE coupon_code = ?',
-        { replacements: [couponCode] }
+        'UPDATE preregistrations_preregistration SET is_coupon_used = true WHERE coupon_code = $1',
+        { 
+          replacements: [couponCode],
+          type: QueryTypes.UPDATE
+        }
       );
 
       return { message: '쿠폰이 성공적으로 사용되었습니다.' };
