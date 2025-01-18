@@ -55,7 +55,7 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB', 'preregistration_db'),  # 기본값 설정
         'USER': os.getenv('POSTGRES_USER', 'myuser'),            # 기본값 설정
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'mypassword'),# 기본값 설정
-        'HOST': 'db',                                           # 서비스 이름
+        'HOST': 'db-slave',                                           # 서비스 이름
         'PORT': '5432',                                        # PostgreSQL 기본 포트
     }
 }
