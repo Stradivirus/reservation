@@ -11,7 +11,7 @@ function MainPage() {
       <div className="main-content">
         <div className="left-section">
           <div className="title-section">
-            <h1 className="festival-name">2024 하늘공원 축제</h1>
+            <h1 className="festival-name">2025 하늘공원 축제</h1>
             <ImageSlider />
             <h2 className="main-title">
               <span className="title-line">모든 잎이 꽃이 되는 가을</span>
@@ -27,7 +27,7 @@ function MainPage() {
 
       <nav className="bottom-nav">
         <div className="nav-icons">
-          <div className="nav-icon">축제 기간&nbsp;&nbsp; 2024. 09. 01 ~ 10. 31</div>
+          <div className="nav-icon">축제 기간&nbsp;&nbsp; 2025. 09. 01 ~ 10. 31</div>
         </div>
       </nav>
     </div>
