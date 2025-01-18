@@ -93,25 +93,22 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_MAX_WAL_SENDERS: 10
-      POSTGRES_WAL_KEEP_SEGMENTS: 64
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
       - app-network
       - monitoring-network
 
-  db-replica:
+  db-standby:
     image: postgres:13
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_REPLICA: "true"
-      PRIMARY_HOST: db
-      PRIMARY_PORT: 5432
+      POSTGRES_MASTER_HOST: db
+      POSTGRES_MASTER_PORT: 5432
     volumes:
-      - db-replica-data:/var/lib/postgresql/data
+      - db-standby-data:/var/lib/postgresql/data
     networks:
       - app-network
       - monitoring-network
@@ -161,7 +158,7 @@ services:
 
 volumes:
   db-data:
-  db-replica-data:
+  db-standby-data:
 
 networks:
   app-network:
