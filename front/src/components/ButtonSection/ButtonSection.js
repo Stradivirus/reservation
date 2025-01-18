@@ -1,6 +1,6 @@
 // ButtonSection.js
 import React, { useState } from 'react';
-import PreRegistrationForm from '../../PreRegistrationForm';
+import PreRegistrationForm from '../../pages/Main/PreRegistrationForm';
 import './ButtonSection.css';
 
 const ButtonSection = () => {
