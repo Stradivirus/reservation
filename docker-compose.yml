@@ -1,166 +1,180 @@
 services:
-  frontend-balancer:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"
-    depends_on:
-      - frontend1
-      - frontend2
-      - frontend3
-    networks:
-      - app-network
-      - monitoring-network
+ frontend-balancer:
+   build:
+     context: ./nginx
+     dockerfile: Dockerfile
+   ports:
+     - "8080:80"
+   depends_on:
+     frontend1:
+       condition: service_started
+     frontend2:
+       condition: service_started
+     frontend3:
+       condition: service_started
+   networks:
+     - app-network
+     - monitoring-network
 
-  frontend1:
-    build:
-      context: ./front
-      dockerfile: Dockerfile
-    networks:
-      - app-network
+ frontend1:
+   build:
+     context: ./front
+     dockerfile: Dockerfile
+   networks:
+     - app-network
 
-  frontend2:
-    build:
-      context: ./front
-      dockerfile: Dockerfile
-    networks:
-      - app-network
+ frontend2:
+   build:
+     context: ./front
+     dockerfile: Dockerfile
+   networks:
+     - app-network
 
-  frontend3:
-    build:
-      context: ./front
-      dockerfile: Dockerfile
-    networks:
-      - app-network
+ frontend3:
+   build:
+     context: ./front
+     dockerfile: Dockerfile
+   networks:
+     - app-network
 
-  backend:
-    build:
-      context: ./back/registration
-      dockerfile: Dockerfile
-    environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-    networks:
-      - app-network
-    ports:
-      - "8086:8086"
-    depends_on:
-      - db
+ backend:
+   build:
+     context: ./back/registration
+     dockerfile: Dockerfile
+   environment:
+     DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+   networks:
+     - app-network
+   ports:
+     - "8086:8086"
+   depends_on:
+     db:
+       condition: service_started
 
-  notification:
-    build:
-      context: ./back/notification
-      dockerfile: Dockerfile
-    environment:
-      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
-    networks:
-      - app-network
-    ports:
-      - "8084:8084"
-    depends_on:
-      - backend
+ notification:
+   build:
+     context: ./back/notification
+     dockerfile: Dockerfile
+   environment:
+     SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+   networks:
+     - app-network
+   ports:
+     - "8084:8084"
+   depends_on:
+     backend:
+       condition: service_started
 
-  coupon:
-    build:
-      context: ./back/coupon
-      dockerfile: Dockerfile
-    environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-    networks:
-      - app-network
-    ports:
-      - "8085:8085"
-    depends_on:
-      - db
-      - backend
+ coupon:
+   build:
+     context: ./back/coupon
+     dockerfile: Dockerfile
+   environment:
+     DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+   networks:
+     - app-network
+   ports:
+     - "8085:8085"
+   depends_on:
+     db:
+       condition: service_started
+     backend:
+       condition: service_started
 
-  admin:
-    build:
-      context: ./preregistration_project
-      dockerfile: Dockerfile
-    environment:
-      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
-      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
-      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
-    ports:
-      - "8081:80"
-    networks:
-      - app-network
+ admin:
+   build:
+     context: ./preregistration_project
+     dockerfile: Dockerfile
+   environment:
+     DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+     DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
+     DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
+   ports:
+     - "8081:80"
+   networks:
+     - app-network
+   depends_on:
+     db-slave:
+       condition: service_started
 
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    networks:
-      - app-network
-      - monitoring-network
+ db:
+   image: postgres:13
+   environment:
+     POSTGRES_USER: ${POSTGRES_USER}
+     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+     POSTGRES_DB: ${POSTGRES_DB}
+   volumes:
+     - db-master-data:/var/lib/postgresql/data
+   networks:
+     - app-network
+     - monitoring-network
 
-  db-slave:
-  image: postgres:13
-  environment:
-    POSTGRES_USER: ${POSTGRES_USER}
-    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    POSTGRES_DB: ${POSTGRES_DB}
-  command: >
-    postgres
-    -c "hot_standby=on"
-    -c "hot_standby_feedback=on"
-  volumes:
-    - db-slave-data:/var/lib/postgresql/data
-  depends_on:
-    - db
-  networks:
-    - app-network
-  
-  reservation-postgres-exporter:
-    container_name: reservation-postgres-exporter
-    image: prometheuscommunity/postgres-exporter
-    environment:
-      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable"
-    ports:
-      - "9187:9187"
-    networks:
-      - app-network
-      - monitoring-network
-    depends_on:
-      - db
+ db-slave:
+   image: postgres:13
+   environment:
+     POSTGRES_USER: ${POSTGRES_USER}
+     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+     POSTGRES_DB: ${POSTGRES_DB}
+   command: >
+     postgres
+     -c "hot_standby=on"
+     -c "hot_standby_feedback=on"
+   volumes:
+     - db-slave-data:/var/lib/postgresql/data
+   depends_on:
+     db:
+       condition: service_started
+   networks:
+     - app-network
+ 
+ reservation-postgres-exporter:
+   container_name: reservation-postgres-exporter
+   image: prometheuscommunity/postgres-exporter
+   environment:
+     DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable"
+   ports:
+     - "9187:9187"
+   networks:
+     - app-network
+     - monitoring-network
+   depends_on:
+     db:
+       condition: service_started
 
-  reservation-nginx-exporter:
-    container_name: reservation-nginx-exporter
-    image: nginx/nginx-prometheus-exporter
-    command:
-      - -nginx.scrape-uri=http://frontend-balancer/metrics
-    ports:
-      - "9113:9113"
-    networks:
-      - app-network
-      - monitoring-network
-    depends_on:
-      - frontend-balancer
+ reservation-nginx-exporter:
+   container_name: reservation-nginx-exporter
+   image: nginx/nginx-prometheus-exporter
+   command:
+     - -nginx.scrape-uri=http://frontend-balancer/metrics
+   ports:
+     - "9113:9113"
+   networks:
+     - app-network
+     - monitoring-network
+   depends_on:
+     frontend-balancer:
+       condition: service_started
 
-  reservation-cadvisor:
-    container_name: reservation-cadvisor
-    image: gcr.io/cadvisor/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-    ports:
-      - "8090:8080"
-    networks:
-      - app-network
-      - monitoring-network
+ reservation-cadvisor:
+   container_name: reservation-cadvisor
+   image: gcr.io/cadvisor/cadvisor
+   volumes:
+     - /:/rootfs:ro
+     - /var/run:/var/run:ro
+     - /sys:/sys:ro
+     - /var/lib/docker/:/var/lib/docker:ro
+     - /dev/disk/:/dev/disk:ro
+   ports:
+     - "8090:8080"
+   networks:
+     - app-network
+     - monitoring-network
 
 volumes:
-  db-data:
+ db-master-data:
+ db-slave-data:
 
 networks:
-  app-network:
-  monitoring-network:
-    external: true
+ app-network:
+ monitoring-network:
+   external: true
