@@ -83,68 +83,72 @@ app.post('/api/check-phone', async (req, res) => {
 });
 
 // 사전등록 API 엔드포인트
+// 사전등록 API 엔드포인트
 app.post('/api/preregister', async (req, res) => {
-   const { email, phone, privacy_consent } = req.body;
-   
-   try {
-       // 이메일 중복 체크
-       const emailExists = await Preregistration.findOne({ where: { email } });
-       if (emailExists) {
-           return res.status(400).json({ detail: '이미 등록된 이메일 주소입니다.' });
-       }
-       
-       // 전화번호 중복 체크
-       const phoneExists = await Preregistration.findOne({ where: { phone } });
-       if (phoneExists) {
-           return res.status(400).json({ detail: '이미 등록된 전화번호입니다.' });
-       }
-       
-       // 쿠폰 서비스에서 쿠폰 코드 생성 요청
-       try {
-           const couponResponse = await axios.post('http://coupon:8085/coupon/generate');
-           const couponCode = couponResponse.data.coupon_code;
-
-           const now = moment().tz('Asia/Seoul');
-           
-           // 새로운 사전등록 데이터 생성
-           const newPreregistration = await Preregistration.create({
-               email,
-               phone,
-               privacy_consent,
-               created_at: now,
-               coupon_code: couponCode,
-               is_coupon_used: false
-           });
-
-           // 총 등록자 수 확인
-           const totalCount = await Preregistration.count();
-           
-           // Notification 서비스로 알림 전송
-           try {
-               await axios.post('http://notification:8084/notifications/milestone', {
-                   count: totalCount
-               });
-           } catch (error) {
-               console.error('Notification service error:', error);
-           }
-           
-           return res.status(200).json({
-               message: '사전 등록이 완료되었습니다.',
-               created_at: now.format('YYYY-MM-DD HH:mm:ss'),
-               coupon_code: couponCode
-           });
-       } catch (error) {
-           console.error('Coupon service error:', error);
-           return res.status(500).json({ detail: '쿠폰 생성 중 오류가 발생했습니다.' });
-       }
-   } catch (error) {
-       console.error('Error in preregister:', error);
-       if (error.name === 'SequelizeUniqueConstraintError') {
-           return res.status(400).json({ detail: '이메일 또는 전화번호가 이미 등록되어 있습니다.' });
-       }
-       return res.status(400).json({ detail: error.message });
-   }
-});
+    const { email, phone, privacy_consent } = req.body;
+    
+    try {
+        // 이메일 중복 체크
+        const emailExists = await Preregistration.findOne({ where: { email } });
+        if (emailExists) {
+            return res.status(400).json({ detail: '이미 등록된 이메일 주소입니다.' });
+        }
+        
+        // 전화번호 중복 체크
+        const phoneExists = await Preregistration.findOne({ where: { phone } });
+        if (phoneExists) {
+            return res.status(400).json({ detail: '이미 등록된 전화번호입니다.' });
+        }
+        
+        // 쿠폰 서비스에서 쿠폰 코드 생성 요청
+        console.log('쿠폰 서비스 호출 시도');
+        const couponResponse = await axios.post('http://coupon:8085/coupon/generate');
+        console.log('쿠폰 서비스 응답:', couponResponse.data);
+        const couponCode = couponResponse.data.coupon_code;
+ 
+        const now = moment().tz('Asia/Seoul');
+        
+        // 새로운 사전등록 데이터 생성
+        const newPreregistration = await Preregistration.create({
+            email,
+            phone,
+            privacy_consent,
+            created_at: now,
+            coupon_code: couponCode,
+            is_coupon_used: false
+        });
+ 
+        // 총 등록자 수 확인
+        const totalCount = await Preregistration.count();
+        
+        // Notification 서비스로 알림 전송
+        try {
+            await axios.post('http://notification:8084/notifications/milestone', {
+                count: totalCount
+            });
+        } catch (error) {
+            console.error('Notification service error:', error);
+            // 알림 실패는 전체 프로세스에 영향을 주지 않음
+        }
+        
+        return res.status(200).json({
+            message: '사전 등록이 완료되었습니다.',
+            created_at: now.format('YYYY-MM-DD HH:mm:ss'),
+            coupon_code: couponCode
+        });
+        
+    } catch (error) {
+        console.error('Error in preregister:', error);
+        if (error.response?.data) {
+            // 쿠폰 서비스 에러
+            return res.status(500).json({ detail: '쿠폰 생성 중 오류가 발생했습니다.' });
+        }
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(400).json({ detail: '이메일 또는 전화번호가 이미 등록되어 있습니다.' });
+        }
+        return res.status(500).json({ detail: error.message });
+    }
+ });
 
 // 서버 시작
 const PORT = process.env.PORT || 8000;
