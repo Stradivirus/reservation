@@ -26,7 +26,7 @@ function UseCouponPage() {
     setIsLoading(true);
     try {
       // 쿠폰 사용을 위한 API 호출
-      const response = await fetch(`${process.env.REACT_APP_COUPON_API_URL}/api/use-coupon`, {
+      const response = await fetch(`${process.env.REACT_APP_COUPON_API_URL}/coupon/use`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
