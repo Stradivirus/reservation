@@ -60,7 +60,21 @@ services:
       - "8084:8084"
     depends_on:
       - backend
-      
+
+  coupon:
+    build:
+      context: ./back/coupon
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    networks:
+      - app-network
+    ports:
+      - "8085:8085"
+    depends_on:
+      - db
+      - backend
+          
   admin:
     build:
       context: ./preregistration_project
