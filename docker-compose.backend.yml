@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: ./back/registration
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    networks:
+      - app-network
+    ports:
+      - "8086:8086"
+
+  notification:
+    build:
+      context: ./back/notification
+      dockerfile: Dockerfile
+    environment:
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  coupon:
+    build:
+      context: ./back/coupon
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    networks:
+      - app-network
+    ports:
+      - "8085:8085"
+    depends_on:
+      - backend
+
+networks:
+  app-network:
+  monitoring-network:
+    external: true
