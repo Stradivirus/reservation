@@ -20,7 +20,7 @@ function ImageSlider() {
       setCurrentImageIndex((prevIndex) => 
         prevIndex === images.length - 1 ? 0 : prevIndex + 1 // 마지막 이미지에서 첫 이미지로 돌아감
       );
-    }, 5000); // 5초마다 이미지 변경
+    }, 4000); // 5초마다 이미지 변경
 
     return () => clearInterval(timer); // 컴포넌트 언마운트 시 타이머 정리
   }, []);
