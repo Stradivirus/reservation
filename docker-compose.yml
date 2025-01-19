@@ -55,8 +55,6 @@ services:
       SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
     networks:
       - app-network
-    ports:
-      - "8084:8084"
     depends_on:
       - backend
 
