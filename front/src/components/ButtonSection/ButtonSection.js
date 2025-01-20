@@ -41,7 +41,7 @@ const ButtonSection = () => {
         {activeContent === 'info' && (
           <div className="section-content info-content">
             <h3>축제 소개</h3>
-            <p>&nbsp;&nbsp;올해로 여섯 번째를 맞이하는 <br></br>하늘공원 축제는 <br></br>'가을'과 '꽃'이라는 테마 아래, <br></br>바쁜 일상 속 자연에서 여유를 찾고자 <br></br>만들어진 축제입니다.<br></br>&nbsp;&nbsp;깊어가는 가을, 사랑하는 사람과 함께 <br></br>노을빛 물든 자연에 흠뻑 취해보세요. </p>
+            <p>&nbsp;&nbsp;올해로 다섯 번째를 맞이하는 <br></br>하늘공원 축제는 <br></br>'가을'과 '꽃'이라는 테마 아래, <br></br>바쁜 일상 속 자연에서 여유를 찾고자 <br></br>만들어진 축제입니다.<br></br>&nbsp;&nbsp;깊어가는 가을, 사랑하는 사람과 함께 <br></br>노을빛 물든 자연에 흠뻑 취해보세요. </p>
           </div>
         )}
         
