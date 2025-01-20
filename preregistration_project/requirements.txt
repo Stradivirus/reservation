@@ -1,14 +1,11 @@
-# Django 관련
+# Django 관련 필수 패키지
 Django
-psycopg2-binary
-pytz
+psycopg2-binary  # PostgreSQL 연결용
+pytz             # 타임존 처리용
+
+# 서버 실행
 uvicorn
-# FastAPI 관련
-fastapi
 gunicorn
-sqlalchemy
-pydantic
-httpx
-# 공통 또는 추가 유틸리티
-python-multipart
+
+# 설정 관리
 python-dotenv
