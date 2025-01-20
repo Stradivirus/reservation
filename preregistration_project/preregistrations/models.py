@@ -12,6 +12,8 @@ class Preregistration(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        db_table = 'preregistrations_preregistration'  # 명시적으로 테이블명 지정
+        managed = False  # Django가 이 테이블을 관리하지 않도록 설정
 
     def __str__(self):
         return self.email
