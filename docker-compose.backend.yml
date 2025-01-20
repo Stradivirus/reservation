@@ -36,5 +36,3 @@ services:
 
 networks:
   app-network:
-  monitoring-network:
-    external: true

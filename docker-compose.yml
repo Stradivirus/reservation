@@ -22,40 +22,9 @@ services:
       - db-data:/var/lib/postgresql/data
     networks:
       - app-network
-      - monitoring-network
-
-  reservation-postgres-exporter:
-    container_name: reservation-postgres-exporter
-    image: prometheuscommunity/postgres-exporter
-    environment:
-      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable"
-    ports:
-      - "9187:9187"
-    networks:
-      - app-network
-      - monitoring-network
-    depends_on:
-      - db
-
-  reservation-cadvisor:
-    container_name: reservation-cadvisor
-    image: gcr.io/cadvisor/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-    ports:
-      - "8090:8080"
-    networks:
-      - app-network
-      - monitoring-network
 
 volumes:
   db-data:
 
 networks:
   app-network:
-  monitoring-network:
-    external: true

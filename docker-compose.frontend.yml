@@ -11,7 +11,6 @@ services:
       - frontend3
     networks:
       - app-network
-      - monitoring-network
 
   frontend1:
     build:
@@ -34,20 +33,5 @@ services:
     networks:
       - app-network
 
-  reservation-nginx-exporter:
-    container_name: reservation-nginx-exporter
-    image: nginx/nginx-prometheus-exporter
-    command:
-      - -nginx.scrape-uri=http://frontend-balancer/metrics
-    ports:
-      - "9113:9113"
-    networks:
-      - app-network
-      - monitoring-network
-    depends_on:
-      - frontend-balancer
-
 networks:
   app-network:
-  monitoring-network:
-    external: true
