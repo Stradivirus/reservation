@@ -55,15 +55,7 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB', 'preregistration_db'),
         'USER': os.getenv('POSTGRES_USER', 'myuser'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'mypassword'),
-        'HOST': 'db-master',
-        'PORT': '5432',
-    },
-    'replica': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'preregistration_db'),
-        'USER': os.getenv('POSTGRES_USER', 'myuser'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'mypassword'),
-        'HOST': 'db-replica',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
