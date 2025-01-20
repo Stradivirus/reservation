@@ -29,6 +29,13 @@ services:
     networks:
       - app-network
       - monitoring-network
+    command: >
+      postgres 
+      -c wal_level=replica 
+      -c max_wal_senders=2
+      -c max_replication_slots=2
+      -c hot_standby=on
+      -c max_connections=200
 
   db-replica:
     image: postgres:13
@@ -36,6 +43,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      PRIMARY_HOST: db-master
+      PRIMARY_PORT: 5432
     volumes:
       - ./db/standby:/etc/postgresql/conf.d
       - db-replica-data:/var/lib/postgresql/data
@@ -44,6 +53,13 @@ services:
       - monitoring-network
     depends_on:
       - db-master
+    command: >
+      postgres
+      -c hot_standby=on
+      -c hot_standby_feedback=on
+      -c max_standby_archive_delay=30s
+      -c max_standby_streaming_delay=30s
+      -c max_connections=200
 
   reservation-postgres-exporter:
     container_name: reservation-postgres-exporter
