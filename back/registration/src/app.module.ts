@@ -12,7 +12,7 @@ import { Registration } from './models/registration.model';
     HttpModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'db',
+      host: 'db-master',
       port: 5432,
       username: 'myuser',
       password: 'mypassword',

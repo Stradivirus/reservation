@@ -10,7 +10,7 @@ export class CouponService {
 
   constructor() {
     this.sequelize = new Sequelize('preregistration_db', 'myuser', 'mypassword', {
-      host: 'db',
+      host: 'db-master',
       dialect: 'postgres'
     });
   }
