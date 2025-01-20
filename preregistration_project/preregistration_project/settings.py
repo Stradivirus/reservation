@@ -60,8 +60,6 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['preregistration_project.routers.PrimaryReplicaRouter']
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
