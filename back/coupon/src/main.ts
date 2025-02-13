@@ -12,7 +12,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = process.env.PORT || 8085;
+  const port = process.env.PORT || 8009;
   await app.listen(port);
   logger.log(`Coupon service is running on port ${port}`);
 }
