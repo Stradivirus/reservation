@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build
 
 # 8085 포트 노출
-EXPOSE 8085
+EXPOSE 8009
 
 # 프로덕션 모드로 실행
 CMD ["npm", "run", "start:prod"]

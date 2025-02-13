@@ -37,7 +37,7 @@ export class RegistrationService {
     try {
       // 쿠폰 생성 요청
       const couponResponse = await this.httpService.axiosRef.post(
-        'http://coupon:8085/coupon/generate'
+        'http://coupon:8009/coupon/generate'
       );
       const couponCode = couponResponse.data.coupon_code;
 
