@@ -27,7 +27,7 @@ function MainPage() {
 
       <nav className="bottom-nav">
         <div className="nav-icons">
-          <div className="nav-icon">축제 기간&nbsp;&nbsp; 2025. 09. 01 ~ 10. 31</div>
+          <div className="nav-icon">축제 기간&nbsp;&nbsp; 2025. 09. 01 ~ 10. 30</div>
         </div>
       </nav>
     </div>

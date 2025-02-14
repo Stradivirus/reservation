@@ -5,7 +5,7 @@ import axios from 'axios';
 export class NotificationService {
   private readonly logger = new Logger(NotificationService.name);
   private readonly slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
-  private readonly milestoneCount = 10;
+  private readonly milestoneCount = 5;
 
   async sendMilestoneNotification(count: number) {
     try {
