@@ -11,6 +11,8 @@ services:
       - "8008:80"
     networks:
       - app-network
+    depends_on:
+      - db
 
   db:
     image: postgres:latest
@@ -25,6 +27,7 @@ services:
 
 volumes:
   db-data:
+
 
 networks:
   app-network:
