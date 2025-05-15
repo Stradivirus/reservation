@@ -16,7 +16,7 @@ export class CouponController {
      const couponCode = await this.couponService.generateAndValidateCoupon();
      this.logger.log(`생성된 쿠폰 코드: ${couponCode}`);
      return { 
-       message: '쿠폰이 생성되었습니다.',
+       message: '쿠폰이 발급되었습니다.',
        coupon_code: couponCode 
      };
    } catch (error) {
