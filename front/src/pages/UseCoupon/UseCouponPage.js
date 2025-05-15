@@ -19,7 +19,7 @@ function UseCouponPage() {
   const handleUseCoupon = async () => {
     const codeToUse = couponCode || inputCouponCode;
     if (!codeToUse) {
-      setMessage('추첨권 코드를 입력해주세요.');
+      setMessage('코드를 입력해주세요.');
       return;
     }
 
