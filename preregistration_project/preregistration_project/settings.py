@@ -1,6 +1,8 @@
 from pathlib import Path
 from django.urls import reverse_lazy
 import os
+from urllib.parse import urlparse
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'your-secret-key-here'
@@ -49,14 +51,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'preregistration_project.wsgi.application'
 
+# Supabase DB 환경변수에서 정보 추출
+supabase_url = os.getenv('DB_URL', '')
+parsed_url = urlparse(supabase_url.replace('jdbc:', '')) if supabase_url else None
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'preregistration_db'),
-        'USER': os.getenv('POSTGRES_USER', 'myuser'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'mypassword'),
-        'HOST': 'db',
-        'PORT': '5432',
+        'NAME': parsed_url.path[1:] if parsed_url else os.getenv('POSTGRES_DB', 'preregistration_db'),
+        'USER': os.getenv('DB_USERNAME', os.getenv('POSTGRES_USER', 'myuser')),
+        'PASSWORD': os.getenv('DB_PASSWORD', os.getenv('POSTGRES_PASSWORD', 'mypassword')),
+        'HOST': parsed_url.hostname if parsed_url else 'db',
+        'PORT': parsed_url.port if parsed_url else '5432',
     }
 }
 

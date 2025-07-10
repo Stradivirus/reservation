@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { checkEmailDuplicate, checkPhoneDuplicate, preregister } from '../../api';
+import { PreRegistrationDto } from '../../dto/PreRegistrationDto';
 import './PreRegistrationForm.css';
 
 function PreRegistrationForm() {
-  const API_URL = process.env.REACT_APP_REGISTRATION_API_URL;
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [privacyConsent, setPrivacyConsent] = useState(false);
@@ -26,38 +27,28 @@ function PreRegistrationForm() {
     }
   };
 
-  const checkEmailDuplicate = async () => {
+  const checkEmailDuplicateHandler = async () => {
     if (!email) return;
     try {
-      const response = await fetch(`${API_URL}/api/check-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const response = await checkEmailDuplicate(email);
       if (!response.ok) {
         const errorData = await response.json();
         setEmailError(errorData.detail || '이미 등록된 이메일 주소입니다.');
       }
     } catch (error) {
-      console.error('Error checking email:', error);
       setEmailError('이메일 중복 확인 중 오류가 발생했습니다.');
     }
   };
 
-  const checkPhoneDuplicate = async () => {
+  const checkPhoneDuplicateHandler = async () => {
     if (phone.length !== 11) return;
     try {
-      const response = await fetch(`${API_URL}/api/check-phone`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone }),
-      });
+      const response = await checkPhoneDuplicate(phone);
       if (!response.ok) {
         const errorData = await response.json();
         setPhoneError(errorData.detail || '이미 등록된 전화번호입니다.');
       }
     } catch (error) {
-      console.error('Error checking phone:', error);
       setPhoneError('전화번호 중복 확인 중 오류가 발생했습니다.');
     }
   };
@@ -74,19 +65,15 @@ function PreRegistrationForm() {
       return;
     }
 
-    await checkEmailDuplicate();
-    await checkPhoneDuplicate();
+    await checkEmailDuplicateHandler();
+    await checkPhoneDuplicateHandler();
     if (emailError || phoneError) {
       return;
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/preregister`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, phone, privacy_consent: privacyConsent }),
-      });
-
+      const dto = new PreRegistrationDto(email, phone, privacyConsent);
+      const response = await preregister(dto);
       if (response.ok) {
         const data = await response.json();
         setCouponCode(data.coupon_code);
@@ -147,7 +134,7 @@ function PreRegistrationForm() {
             type="email"
             value={email}
             onChange={handleEmailChange}
-            onBlur={checkEmailDuplicate}
+            onBlur={checkEmailDuplicateHandler}
             placeholder="이메일 주소를 입력하세요"
             required
           />
@@ -159,7 +146,7 @@ function PreRegistrationForm() {
             type="tel"
             value={phone}
             onChange={handlePhoneChange}
-            onBlur={checkPhoneDuplicate}
+            onBlur={checkPhoneDuplicateHandler}
             placeholder="전화번호를 입력하세요 (숫자 11자리)"
             pattern="[0-9]{11}"
             required

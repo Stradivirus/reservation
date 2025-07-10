@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { postCoupon } from '../../api';
 import './UseCouponPage.css';
 
 function UseCouponPage() {
@@ -13,11 +14,21 @@ function UseCouponPage() {
   const [inputCouponCode, setInputCouponCode] = useState(''); // 수동 쿠폰 코드 입력용
 
   // URL 매개변수에서 쿠폰 코드 추출
-  const couponCode = new URLSearchParams(location.search).get('code');
+  let couponCode = new URLSearchParams(location.search).get('code');
+  if (couponCode === 'undefined' || couponCode === null) {
+    couponCode = '';
+  }
+
+  // inputCouponCode를 URL code로 초기화 (최초 렌더링 시 한 번만)
+  React.useEffect(() => {
+    if (couponCode) {
+      setInputCouponCode(couponCode);
+    }
+  }, [couponCode]);
 
   // 쿠폰 사용 처리 함수
   const handleUseCoupon = async () => {
-    const codeToUse = couponCode || inputCouponCode;
+    const codeToUse = inputCouponCode;
     if (!codeToUse) {
       setMessage('코드를 입력해주세요.');
       return;
@@ -25,15 +36,8 @@ function UseCouponPage() {
 
     setIsLoading(true);
     try {
-      // 쿠폰 사용을 위한 API 호출
-      const response = await fetch(`${process.env.REACT_APP_COUPON_API_URL}/coupon/use`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ coupon_code: codeToUse }),
-      });
-
+      // api.js의 postCoupon 함수 사용
+      const response = await postCoupon(codeToUse);
       const data = await response.json();
 
       // API 응답 처리
@@ -60,7 +64,9 @@ function UseCouponPage() {
             <p className="coupon-code">{couponCode}</p>
           </div>
         ) : (
-          // 수동 쿠폰 코드 입력 필드
+          /*
+            수동 쿠폰 코드 입력 필드: 항상 입력창을 보여주고, URL code가 있으면 자동 입력
+          */
           <div className="coupon-input-container">
             <input
               type="text"
