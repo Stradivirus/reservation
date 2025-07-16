@@ -4,8 +4,6 @@ import com.example.backend.entity.Registration;
 import com.example.backend.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class RegistrationService {
     private final RegistrationRepository registrationRepository;
