@@ -1,5 +1,4 @@
 {% load static %}
-{% load tz %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -101,7 +100,7 @@
                             <td>{{ preregistration.email }}</td>
                             <td>{{ preregistration.phone }}</td>
                             <td>{{ preregistration.privacy_consent|yesno:"예,아니오" }}</td>
-                            <td>{{ preregistration.created_at|timezone:"Asia/Seoul"|date:"H:i:s" }}</td>
+                            <td>{{ preregistration.created_at|date:"H:i:s" }}</td>
                             <td class="{% if preregistration.is_coupon_used %}used-coupon{% endif %}">
                                 {{ preregistration.coupon_code|default:"없음" }}
                             </td>
