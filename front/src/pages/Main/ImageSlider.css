@@ -3,17 +3,15 @@
 .image-slider-wrapper {
   width: 100%;
   position: relative;
-  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  background: white;
 }
 
 .image-slider {
   width: 100%;
-  height: 400px;
+  height: 70vh;
   position: relative;
   overflow: hidden;
+  background: transparent;
 }
 
 .slider-image {
@@ -71,13 +69,13 @@
 /* 태블릿 이상 */
 @media (min-width: 768px) {
   .image-slider {
-    height: 500px;
+    padding-bottom: 60%; /* 태블릿에서는 더 와이드하게 */
   }
 }
 
 /* 데스크톱 */
 @media (min-width: 1024px) {
   .image-slider {
-    height: 600px;
+    padding-bottom: 50%; /* 데스크톱에서는 더욱 와이드하게 */
   }
 }

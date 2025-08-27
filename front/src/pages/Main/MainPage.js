@@ -10,7 +10,7 @@ function MainPage() {
       <Header />
       <main className="main-content">
         <section className="hero-section">
-          <p className="festival-subtitle">모든 잎이 꽃이 되는 가을, 오색 찬란한 물결 속으로 <br></br>
+          <p className="festival-subtitle">모든 잎이 꽃이 되는 가을<br></br>오색 찬란한 물결 속으로 <br></br>
             당신을 초대합니다</p>
           <div className="festival-period">2025. 09. 01 ~ 10. 30</div>
         </section>
