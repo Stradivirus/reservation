@@ -42,7 +42,7 @@ function UseCouponPage() {
 
       // API 응답 처리
       if (response.ok) {
-        setMessage(data.message + ' 메인 페이지로 이동합니다.');
+        setMessage(data.message + '\n메인 페이지로 이동합니다.');
         // 성공 시 2초 후 메인 페이지로 이동
         setTimeout(() => {
           navigate('/');
