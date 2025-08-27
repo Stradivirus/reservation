@@ -27,9 +27,15 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         kst = pytz.timezone('Asia/Seoul')
 
         if filter_date and filter_date != 'all':
-            start_date = timezone.datetime.strptime(filter_date, "%Y-%m-%d").replace(tzinfo=kst)
-            end_date = start_date + timezone.timedelta(days=1)
-            queryset = queryset.filter(created_at__gte=start_date, created_at__lt=end_date)
+            kst = pytz.timezone('Asia/Seoul')
+            # KST 기준 날짜 범위 생성
+            start_date_kst = timezone.datetime.strptime(filter_date, "%Y-%m-%d")
+            start_date_kst = kst.localize(start_date_kst)
+            end_date_kst = start_date_kst + timezone.timedelta(days=1)
+            # UTC로 변환
+            start_date_utc = start_date_kst.astimezone(pytz.UTC)
+            end_date_utc = end_date_kst.astimezone(pytz.UTC)
+            queryset = queryset.filter(created_at__gte=start_date_utc, created_at__lt=end_date_utc)
 
         if filter_usage:
             if filter_usage == 'used':
