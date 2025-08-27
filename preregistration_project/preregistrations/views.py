@@ -63,7 +63,7 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         )
         
         date_counts = Preregistration.objects.extra(
-            select={'date': "DATE(created_at AT TIME ZONE 'Asia/Seoul')"}
+            select={'date': "DATE((created_at AT TIME ZONE 'UTC') AT TIME ZONE 'Asia/Seoul')"}
         ).values('date').annotate(count=Count('id')).order_by('-date')
 
         # 총 등록 인원수 추가
