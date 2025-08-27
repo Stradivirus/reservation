@@ -42,13 +42,13 @@ function UseCouponPage() {
 
       // API 응답 처리
       if (response.ok) {
-        setMessage(data.message + ' (1초 후 메인 페이지로 이동합니다...)');
-        // 성공 시 3초 후 메인 페이지로 이동
+        setMessage(data.message + ' 메인 페이지로 이동합니다.');
+        // 성공 시 2초 후 메인 페이지로 이동
         setTimeout(() => {
           navigate('/');
-        }, 1000);
+        }, 2000);
       } else {
-        setMessage(data.detail || '추첨권 사용 중 오류가 발생했습니다.');
+        setMessage(data.message || data.detail || '추첨권 사용 중 오류가 발생했습니다.');
       }
     } catch (error) {
       setMessage('서버 연결 중 오류가 발생했습니다.');
