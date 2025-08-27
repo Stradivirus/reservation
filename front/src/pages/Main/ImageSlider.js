@@ -33,27 +33,25 @@ function ImageSlider() {
   };
 
   return (
-    <div className="image-slider-wrapper">
-      <div className="image-slider">
-        {images.map((image, index) => (
-          <img
+    <div className="floating-image-slider">
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          alt={`슬라이드 ${index + 1}`}
+          className={`floating-image ${index === currentImageIndex ? 'active' : ''}`}
+          onLoad={handleImageLoad}
+        />
+      ))}
+      
+      <div className="floating-indicators">
+        {images.map((_, index) => (
+          <button
             key={index}
-            src={image}
-            alt={`슬라이드 ${index + 1}`}
-            className={`slider-image ${index === currentImageIndex ? 'active' : ''}`}
-            onLoad={handleImageLoad}
+            className={`indicator ${index === currentImageIndex ? 'active' : ''}`}
+            onClick={() => goToSlide(index)}
           />
         ))}
-        
-        <div className="slider-indicators">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              className={`indicator ${index === currentImageIndex ? 'active' : ''}`}
-              onClick={() => goToSlide(index)}
-            />
-          ))}
-        </div>
       </div>
       {!imagesLoaded && <div className="loading">Loading...</div>}
     </div>

@@ -1,20 +1,14 @@
-/* ImageSlider.css - 모바일 최적화 이미지 슬라이더 */
+/* ImageSlider.css - 컨테이너 없이 이미지만 떠있게 */
 
-.image-slider-wrapper {
-  width: 100%;
+.floating-image-slider {
+  width: calc(100% - 2rem);
+  max-width: 448px;
+  margin: 0 auto;
   position: relative;
-  overflow: hidden;
+  aspect-ratio: 3/4;
 }
 
-.image-slider {
-  width: 100%;
-  height: 70vh;
-  position: relative;
-  overflow: hidden;
-  background: transparent;
-}
-
-.slider-image {
+.floating-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -24,9 +18,11 @@
   object-position: center;
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.slider-image.active {
+.floating-image.active {
   opacity: 1;
   z-index: 1;
 }
@@ -42,40 +38,58 @@
 }
 
 /* 슬라이더 인디케이터 */
-.slider-indicators {
+.floating-indicators {
   position: absolute;
-  bottom: 1rem;
+  bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.5rem;
+  gap: 0.8rem;
   z-index: 2;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
 }
 
 .indicator {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .indicator.active {
   background: white;
-  transform: scale(1.2);
+  transform: scale(1.1);
+  border: 2px solid #FF8E9E;
 }
 
 /* 태블릿 이상 */
 @media (min-width: 768px) {
-  .image-slider {
-    padding-bottom: 60%; /* 태블릿에서는 더 와이드하게 */
+  .floating-image-slider {
+    width: calc(100% - 3rem);
+    max-width: 570px;
+    aspect-ratio: 4/5;
+  }
+  
+  .floating-image {
+    border-radius: 25px;
   }
 }
 
 /* 데스크톱 */
 @media (min-width: 1024px) {
-  .image-slider {
-    padding-bottom: 50%; /* 데스크톱에서는 더욱 와이드하게 */
+  .floating-image-slider {
+    width: calc(100% - 4rem);
+    max-width: 670px;
+    aspect-ratio: 3/4;
+  }
+  
+  .floating-image {
+    border-radius: 30px;
   }
 }
