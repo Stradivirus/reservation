@@ -1,32 +1,46 @@
+/* PreRegistrationForm.css - 모바일 최적화 */
+
 .pre-registration-container {
   width: 100%;
-  padding: 0.5rem;
-  background-color: transparent;
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 0.5rem;
 }
 
 .form-header {
   text-align: center;
-  margin-bottom: 0.7rem;  /* 1rem에서 0.7rem으로 축소 */
+  margin-bottom: 1rem;
 }
 
 .form-header h2 {
   color: #e55f70;
-  font-size: 2rem;
-  font-weight: 1000;
-  margin-bottom: 0.2rem;  /* 0.3rem에서 0.2rem으로 축소 */
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
   font-family: 'Jua', sans-serif;
 }
 
 .form-header p {
   color: #666;
   font-size: 1rem;
-  font-weight: 600;  /* normal에서 600으로 변경하여 더 진하게 */
+  font-weight: 500;
 }
 
 .pre-registration-form {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.input-row .input-group {
+  flex: 1;
 }
 
 .input-group {
@@ -35,97 +49,119 @@
 
 .input-group input {
   width: 100%;
-  padding: 0.6rem;
+  padding: 1rem;
   border: 2px solid #FFD1DC;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1rem;
   color: #333;
   transition: all 0.3s ease;
-  background-color: white;
+  background-color: #fafafa;
 }
 
 .input-group input:focus {
   outline: none;
   border-color: #FF8E9E;
+  background-color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 142, 158, 0.2);
 }
 
 .privacy-section {
-  background-color: white;
-  padding: 0.8rem;
-  border-radius: 8px;
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
   border: 1px solid #FFD1DC;
+  margin: 1rem 0;
 }
 
 .privacy-agreement {
   display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-bottom: 0.5rem;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .privacy-agreement input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: #FF8E9E;
 }
 
 .privacy-agreement label {
   font-size: 1rem;
+  line-height: 1.4;
+  color: #333;
+  font-weight: 500;
 }
 
 .privacy-policy {
-  background-color: white;
-  padding: 0.6rem;
-  border-radius: 6px;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
 }
 
 .privacy-policy h4 {
   color: #FF8E9E;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .policy-content {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #666;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .policy-content p {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .submit-button {
   width: 100%;
-  padding: 0.6rem;
+  padding: 1rem;
   border: none;
-  border-radius: 8px;
-  background-color: #FF8E9E;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FF8E9E 0%, #ff7088 100%);
   color: white;
-  font-size: 1.3rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Jua', sans-serif;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
+  box-shadow: 0 4px 15px rgba(255, 142, 158, 0.3);
 }
 
 .submit-button:hover {
-  background-color: #ff7088;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 142, 158, 0.4);
+}
+
+.submit-button:active {
+  transform: translateY(0);
 }
 
 .coupon-section {
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
-  padding-top: 1rem;
-  border-top: 1px solid #FFD1DC;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.coupon-section p {
+  color: #666;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
 }
 
 .secondary-button {
   width: 100%;
-  padding: 0.6rem;
+  padding: 1rem;
   border: 2px solid #FF8E9E;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: white;
   color: #FF8E9E;
   font-size: 1.1rem;
@@ -135,12 +171,19 @@
   font-family: 'Jua', sans-serif;
 }
 
+.secondary-button:hover {
+  background-color: #FF8E9E;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 142, 158, 0.2);
+}
+
 .error-message {
   color: #ff4757;
   font-size: 0.9rem;
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
   background-color: #ffe8e8;
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 8px;
   border: 1px solid #ffcdd2;
   display: flex;
@@ -151,6 +194,7 @@
 .error-message::before {
   content: "⚠️";
   margin-right: 8px;
+  font-size: 1.1rem;
 }
 
 @keyframes shake {
@@ -166,10 +210,11 @@
 }
 
 .success-inner {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffeef0 100%);
+  padding: 2.5rem;
+  border-radius: 20px;
   border: 2px solid #FFD1DC;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
 .success-inner h2 {
@@ -183,11 +228,13 @@
   color: #666;
   margin-bottom: 1rem;
   font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 .success-inner strong {
   color: #FF8E9E;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
 .success-buttons {
@@ -199,18 +246,57 @@
 
 .primary-button {
   width: 100%;
-  padding: 0.8rem;
+  padding: 1rem;
   border: none;
-  border-radius: 8px;
-  background-color: #FF8E9E;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FF8E9E 0%, #ff7088 100%);
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Jua', sans-serif;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255, 142, 158, 0.3);
 }
 
 .primary-button:hover {
-  background-color: #ff7088;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 142, 158, 0.4);
+}
+
+/* 태블릿 이상 */
+@media (min-width: 768px) {
+  .pre-registration-container {
+    padding: 2.5rem;
+  }
+  
+  .form-header h2 {
+    font-size: 2rem;
+  }
+  
+  .input-group input {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  .success-buttons {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  
+  .success-buttons button {
+    flex: 1;
+  }
+}
+
+/* 모바일에서도 한 줄 유지를 위한 추가 스타일 */
+@media (max-width: 767px) {
+  .input-row {
+    flex-direction: row;
+  }
+  
+  .input-row .input-group input {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
 }

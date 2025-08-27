@@ -129,29 +129,31 @@ function PreRegistrationForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="pre-registration-form">
-        <div className="input-group">
-          <input
-            type="email"
-            value={email}
-            onChange={handleEmailChange}
-            onBlur={checkEmailDuplicateHandler}
-            placeholder="이메일 주소를 입력하세요"
-            required
-          />
-          {emailError && <p className="error-message">{emailError}</p>}
-        </div>
+        <div className="input-row">
+          <div className="input-group">
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              onBlur={checkEmailDuplicateHandler}
+              placeholder="이메일 주소를 입력하세요"
+              required
+            />
+            {emailError && <p className="error-message">{emailError}</p>}
+          </div>
 
-        <div className="input-group">
-          <input
-            type="tel"
-            value={phone}
-            onChange={handlePhoneChange}
-            onBlur={checkPhoneDuplicateHandler}
-            placeholder="전화번호를 입력하세요 (숫자 11자리)"
-            pattern="[0-9]{11}"
-            required
-          />
-          {phoneError && <p className="error-message">{phoneError}</p>}
+          <div className="input-group">
+            <input
+              type="tel"
+              value={phone}
+              onChange={handlePhoneChange}
+              onBlur={checkPhoneDuplicateHandler}
+              placeholder="전화번호 (숫자 11자리)"
+              pattern="[0-9]{11}"
+              required
+            />
+            {phoneError && <p className="error-message">{phoneError}</p>}
+          </div>
         </div>
 
         <div className="privacy-section">

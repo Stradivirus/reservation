@@ -1,3 +1,5 @@
+/* App.css - 모바일 우선 글로벌 스타일 */
+
 /* Base Styles */
 * {
   margin: 0;
@@ -6,47 +8,105 @@
 }
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #FFF5F5;
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffeef0 100%);
+  color: #333;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
-/* Festival Container */
-.festival-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* 기본 버튼 스타일 초기화 */
+button {
+  font-family: inherit;
+  cursor: pointer;
 }
 
-/* Main Content Layout */
-.main-content {
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0 4rem;
-  max-width: 2000px;
-  margin: 0 auto;
-  width: 100%;
-  position: relative;
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-/* Left Section */
-.left-section {
-  width: calc(100% - 500px);
-  padding-right: 4rem;
-  display: flex;
-  flex-direction: column;
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-.title-section {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+::-webkit-scrollbar-thumb {
+  background: #FFD1DC;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF8E9E;
+}
+
+/* 포커스 스타일 */
+*:focus {
+  outline: 2px solid #FF8E9E;
+  outline-offset: 2px;
+}
+
+/* 애니메이션 클래스 */
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 유틸리티 클래스 */
+.text-center {
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 미디어 쿼리 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .festival-name {

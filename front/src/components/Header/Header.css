@@ -1,18 +1,122 @@
+/* Header.css - 모바일 우선 네비게이션 */
+
 .header {
-    padding: 1.5rem;  /* 상하 여백 */
-    background-color: white;  /* 흰색 배경 */
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #FFD1DC;
 }
 
 .header-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    max-width: 2000px;
-    margin: 0 auto;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
 
-@media (max-width: 768px) {
-    .header {
-        padding: 1rem;
-    }
+.header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e55f70;
+  font-family: 'Jua', sans-serif;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #FF8E9E;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.header-nav {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 2px solid #FFD1DC;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.header-nav.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.header-nav button {
+  background: none;
+  border: none;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  color: #666;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-align: left;
+  font-weight: 500;
+}
+
+.header-nav button:hover {
+  background: #FFD1DC;
+  color: #FF8E9E;
+}
+
+/* 태블릿 이상 */
+@media (min-width: 768px) {
+  .header-container {
+    max-width: 600px;
+    padding: 1rem 2rem;
+  }
+  
+  .menu-toggle {
+    display: none;
+  }
+  
+  .header-nav {
+    position: static;
+    background: none;
+    border: none;
+    padding: 0;
+    flex-direction: row;
+    gap: 2rem;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .header-nav button {
+    padding: 0.5rem 0;
+    background: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+  }
+  
+  .header-nav button:hover {
+    background: none;
+    border-bottom-color: #FF8E9E;
+  }
+}
+
+/* 데스크톱 */
+@media (min-width: 1024px) {
+  .header-container {
+    max-width: 700px;
+  }
 }

@@ -1,0 +1,81 @@
+/* MainPage.css - 모바일 우선 심플 레이아웃 */
+
+.main-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffeef0 100%);
+}
+
+.main-content {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  padding: 0.8rem 0;
+}
+
+.festival-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+
+.festival-period {
+  font-size: 0.95rem;
+  color: #FF8E9E;
+  font-weight: 600;
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(255, 142, 158, 0.2);
+  border: 2px solid #FFD1DC;
+}
+
+/* Image Section */
+.image-section {
+  margin: 1rem 0;
+}
+
+/* Registration Section */
+.registration-section {
+  margin-top: 1rem;
+}
+
+/* 태블릿 이상 */
+@media (min-width: 768px) {
+  .main-content {
+    max-width: 600px;
+    padding: 0 1.5rem 1.5rem;
+  }
+  
+  .hero-section {
+    padding: 1rem 0;
+  }
+  
+  .festival-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .festival-period {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* 데스크톱 */
+@media (min-width: 1024px) {
+  .main-content {
+    max-width: 700px;
+    padding: 0 2rem 2rem;
+  }
+  
+  .festival-subtitle {
+    font-size: 1.3rem;
+  }
+}
