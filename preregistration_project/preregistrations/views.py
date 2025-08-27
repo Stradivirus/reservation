@@ -24,18 +24,10 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         filter_date = self.request.GET.get('date')
         filter_usage = self.request.GET.get('usage')
         
-        kst = pytz.timezone('Asia/Seoul')
+    # ...existing code...
 
         if filter_date and filter_date != 'all':
-            kst = pytz.timezone('Asia/Seoul')
-            # KST 기준 날짜 범위 생성
-            start_date_kst = timezone.datetime.strptime(filter_date, "%Y-%m-%d")
-            start_date_kst = kst.localize(start_date_kst)
-            end_date_kst = start_date_kst + timezone.timedelta(days=1)
-            # UTC로 변환
-            start_date_utc = start_date_kst.astimezone(pytz.UTC)
-            end_date_utc = end_date_kst.astimezone(pytz.UTC)
-            queryset = queryset.filter(created_at__gte=start_date_utc, created_at__lt=end_date_utc)
+            queryset = queryset.filter(created_at__date=filter_date)
 
         if filter_usage:
             if filter_usage == 'used':
@@ -51,9 +43,7 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
         self.paginate_by = int(page_size)
         
         context = super().get_context_data(**kwargs)
-        kst = pytz.timezone('Asia/Seoul')
-        
-        now = timezone.now().astimezone(kst)
+        now = timezone.now()
         today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         today_end = today_start + timezone.timedelta(days=1)
 
@@ -61,9 +51,9 @@ class PreregistrationListView(LoginRequiredMixin, ListView):
             created_at__gte=today_start,
             created_at__lt=today_end
         )
-        
+
         date_counts = Preregistration.objects.extra(
-            select={'date': "DATE((created_at AT TIME ZONE 'UTC') AT TIME ZONE 'Asia/Seoul')"}
+            select={'date': "DATE(created_at)"}
         ).values('date').annotate(count=Count('id')).order_by('-date')
 
         # 총 등록 인원수 추가
