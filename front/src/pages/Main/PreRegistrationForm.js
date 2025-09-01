@@ -169,7 +169,7 @@ function PreRegistrationForm() {
           </div>
           
           <div className="privacy-policy">
-            <h4>개인정보 처리방침</h4>
+            <h4>개인정보 처리 방침</h4>
             <div className="policy-content">
               <p>1. 수집하는 개인정보 항목: 이메일 주소, 전화번호</p>
               <p>2. 수집 및 이용목적: 축제 사전예약 및 관련 정보 안내</p>
