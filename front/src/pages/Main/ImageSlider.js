@@ -4,10 +4,11 @@ import './ImageSlider.css';
 
 // 이미지 배열 정의
 const images = [
-  `${process.env.PUBLIC_URL}/images/1731806820349.jpg`,
-  `${process.env.PUBLIC_URL}/images/1731806825200.jpg`,
+  `${process.env.PUBLIC_URL}/images/1759659528457.jpg`,
   `${process.env.PUBLIC_URL}/images/1731807191481.jpg`,
-  `${process.env.PUBLIC_URL}/images/1731807231234.jpg`
+  `${process.env.PUBLIC_URL}/images/1731806820349.jpg`,
+  `${process.env.PUBLIC_URL}/images/1731807231234.jpg`,
+  // `${process.env.PUBLIC_URL}/images/1731806825200.jpg`,
 ];
 
 function ImageSlider() {
