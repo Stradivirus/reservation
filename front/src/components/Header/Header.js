@@ -4,13 +4,13 @@ import './Header.css';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMenuOpen(false);
-  };
+  // const scrollToSection = (sectionId) => {
+  //   const element = document.getElementById(sectionId);
+  //   if (element) {
+  //     element.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  //   setIsMenuOpen(false);
+  // };
 
   return (
     <header className="header">
@@ -24,11 +24,11 @@ const Header = () => {
           ☰
         </button>
         
-        <nav className={`header-nav ${isMenuOpen ? 'open' : ''}`}>
+        {/* <nav className={`header-nav ${isMenuOpen ? 'open' : ''}`}>
           <button onClick={() => scrollToSection('about')}>소개</button>
           <button onClick={() => scrollToSection('events')}>행사</button>
           <button onClick={() => scrollToSection('location')}>오시는 길</button>
-        </nav>
+        </nav> */}
       </div>
     </header>
   );
