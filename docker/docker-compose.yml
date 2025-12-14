@@ -3,8 +3,9 @@ version: '3.8'
 services:
   admin:
     build:
-      context: ../preregistration_project  # [수정] ../ 붙여서 상위 폴더 참조
-      dockerfile: admin.Dockerfile # Dockerfile 위치에 맞춰 수정
+      context: ../preregistration_project
+      # [수정] context(소스 폴더) 기준, 상위로 나가서 docker 폴더 안의 파일을 찾아야 함
+      dockerfile: ../docker/admin.dockerfile 
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -17,8 +18,9 @@ services:
 
   backend:
     build:
-      context: ../Backend  # [수정] ../ 붙임
-      dockerfile: backend.Dockerfile
+      context: ../Backend
+      # [수정] context(../Backend) 기준, 상위로 나가서 docker 폴더 참조
+      dockerfile: ../docker/backend.Dockerfile
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -29,17 +31,17 @@ services:
 
   frontend:
     build:
-      context: ../front  # [수정] ../ 붙임
-      dockerfile: frontend.Dockerfile
+      context: ../front
+      # [수정] context(../front) 기준, 상위로 나가서 docker 폴더 참조
+      dockerfile: ../docker/frontend.Dockerfile
     networks:
       - app-network
     restart: unless-stopped
 
   frontend-balancer:
     build:
-      context: ./nginx  # [수정] ../ 붙여서 소스(nginx.conf) 위치 참조
-      # 주의: 사용자가 nginx Dockerfile을 docker/nginx/nginx.Dockerfile에 뒀다면 아래처럼,
-      # 그냥 docker/nginx.Dockerfile라면 ../docker/nginx.Dockerfile로 적으세요.
+      context: ./nginx
+      # nginx는 context(./nginx) 내부에 Dockerfile이 있으므로 그대로 둠
       dockerfile: nginx.Dockerfile 
     ports:
       - "8000:80"
