@@ -5,6 +5,10 @@ import PreRegistrationForm from './PreRegistrationForm';
 import './MainPage.css';
 
 function MainPage() {
+  const handleAdminClick = () => {
+    window.location.href = 'http://140.83.49.106:8001';
+  };
+
   return (
     <div className="main-page">
       <Header />
@@ -21,6 +25,23 @@ function MainPage() {
         
         <section className="registration-section">
           <PreRegistrationForm />
+        </section>
+
+        <section className="admin-section" style={{ textAlign: 'center', margin: '40px 0' }}>
+          <button 
+            onClick={handleAdminClick}
+            style={{
+              padding: '12px 24px',
+              fontSize: '16px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            관리자 페이지로 가기
+          </button>
         </section>
       </main>
     </div>
