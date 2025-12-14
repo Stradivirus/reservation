@@ -4,7 +4,8 @@ services:
   admin:
     build:
       context: ./preregistration_project
-      dockerfile: Dockerfile
+      # 소스 폴더(preregistration_project) 기준 상위(..)의 docker 폴더 참조
+      dockerfile: ../docker/admin.Dockerfile
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -18,7 +19,8 @@ services:
   backend:
     build:
       context: ./Backend
-      dockerfile: Dockerfile
+      # 소스 폴더(Backend) 기준 상위(..)의 docker 폴더 참조
+      dockerfile: ../docker/backend.Dockerfile
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -30,7 +32,8 @@ services:
   frontend:
     build:
       context: ./front
-      dockerfile: Dockerfile
+      # 소스 폴더(front) 기준 상위(..)의 docker 폴더 참조
+      dockerfile: ../docker/frontend.Dockerfile
     networks:
       - app-network
     restart: unless-stopped
@@ -38,7 +41,8 @@ services:
   frontend-balancer:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      # 소스 폴더(nginx) 기준 상위(..)의 docker 폴더 참조
+      dockerfile: ../docker/nginx.Dockerfile
     ports:
       - "8000:80"
     depends_on:
