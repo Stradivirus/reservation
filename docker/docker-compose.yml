@@ -4,7 +4,7 @@ services:
   admin:
     build:
       context: ../preregistration_project  # [수정] ../ 붙여서 상위 폴더 참조
-      dockerfile: ../docker/admin.Dockerfile # Dockerfile 위치에 맞춰 수정
+      dockerfile: admin.Dockerfile # Dockerfile 위치에 맞춰 수정
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -18,7 +18,7 @@ services:
   backend:
     build:
       context: ../Backend  # [수정] ../ 붙임
-      dockerfile: ../docker/backend.Dockerfile
+      dockerfile: backend.Dockerfile
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -30,7 +30,7 @@ services:
   frontend:
     build:
       context: ../front  # [수정] ../ 붙임
-      dockerfile: ../docker/frontend.Dockerfile
+      dockerfile: frontend.Dockerfile
     networks:
       - app-network
     restart: unless-stopped
@@ -40,7 +40,7 @@ services:
       context: ./nginx  # [수정] ../ 붙여서 소스(nginx.conf) 위치 참조
       # 주의: 사용자가 nginx Dockerfile을 docker/nginx/nginx.Dockerfile에 뒀다면 아래처럼,
       # 그냥 docker/nginx.Dockerfile라면 ../docker/nginx.Dockerfile로 적으세요.
-      dockerfile: ../docker/nginx/nginx.Dockerfile 
+      dockerfile: nginx.Dockerfile 
     ports:
       - "8000:80"
     depends_on:
