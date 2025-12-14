@@ -18,7 +18,7 @@ services:
 
   backend:
     build:
-      context: ./Backend
+      context: ../Backend
       # 소스 폴더(Backend) 기준 상위(..)의 docker 폴더 참조
       dockerfile: ../docker/backend.Dockerfile
     environment:
@@ -31,7 +31,7 @@ services:
 
   frontend:
     build:
-      context: ./front
+      context: ../front
       # 소스 폴더(front) 기준 상위(..)의 docker 폴더 참조
       dockerfile: ../docker/frontend.Dockerfile
     networks:
@@ -42,7 +42,7 @@ services:
     build:
       context: ./nginx
       # 소스 폴더(nginx) 기준 상위(..)의 docker 폴더 참조
-      dockerfile: ../docker/nginx.Dockerfile
+      dockerfile: ./nginx/nginx.Dockerfile
     ports:
       - "8000:80"
     depends_on:
