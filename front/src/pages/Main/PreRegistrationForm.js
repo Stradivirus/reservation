@@ -27,13 +27,15 @@ function PreRegistrationForm() {
     }
   };
 
+  // 사용자 편의를 위한 UI 피드백용 검사 (입력창 벗어날 때)
   const checkEmailDuplicateHandler = async () => {
     if (!email) return;
     try {
       const response = await checkEmailDuplicate(email);
       if (!response.ok) {
         const errorData = await response.json();
-        setEmailError(errorData.detail || '이미 등록된 이메일 주소입니다.');
+        // 백엔드에서 Map.of("detail", ...) 로 보낸다고 가정
+        setEmailError(errorData.detail || errorData.message || '이미 등록된 이메일 주소입니다.');
       }
     } catch (error) {
       setEmailError('이메일 중복 확인 중 오류가 발생했습니다.');
@@ -46,7 +48,7 @@ function PreRegistrationForm() {
       const response = await checkPhoneDuplicate(phone);
       if (!response.ok) {
         const errorData = await response.json();
-        setPhoneError(errorData.detail || '이미 등록된 전화번호입니다.');
+        setPhoneError(errorData.detail || errorData.message || '이미 등록된 전화번호입니다.');
       }
     } catch (error) {
       setPhoneError('전화번호 중복 확인 중 오류가 발생했습니다.');
@@ -65,22 +67,25 @@ function PreRegistrationForm() {
       return;
     }
 
-    await checkEmailDuplicateHandler();
-    await checkPhoneDuplicateHandler();
+    // [최적화] 제출 시 중복 검사 API를 다시 호출하지 않음.
+    // 백엔드 DB에서 중복 발생 시 에러를 던져주므로 그것을 처리함.
     if (emailError || phoneError) {
+      alert('입력 정보를 다시 확인해주세요.');
       return;
     }
 
     try {
       const dto = new PreRegistrationDto(email, phone, privacyConsent);
       const response = await preregister(dto);
+      
       if (response.ok) {
         const data = await response.json();
         setCouponCode(data.coupon_code);
         setIsRegistered(true);
       } else {
         const errorData = await response.json();
-        alert(`오류: ${errorData.detail}`);
+        // 백엔드에서 보내준 에러 메시지 표시
+        alert(`오류: ${errorData.detail || errorData.message || '등록 실패'}`);
       }
     } catch (error) {
       console.error('Error details:', error);
