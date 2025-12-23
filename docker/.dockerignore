@@ -33,7 +33,6 @@ ENV/
 db.sqlite3
 
 # Static/Media (빌드 시 생성되므로)
-staticfiles/
 media/
 
 # Logs
