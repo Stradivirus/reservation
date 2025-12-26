@@ -30,9 +30,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     
-    // [변경됨] PostgreSQL -> MySQL Connector로 변경
-    runtimeOnly 'com.mysql:mysql-connector-j'
- 
+    // [복구됨] PostgreSQL Driver
+    runtimeOnly 'org.postgresql:postgresql'
+    
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
