@@ -61,4 +61,12 @@ export async function getAdminRegistrations(page, size, dateFilter, usageFilter)
     page: page - 1, // 프론트는 1페이지부터, 스프링(Pageable)은 0페이지부터 시작하므로 -1
     size: size,
     date: dateFilter || 'all',   // 값이 없으면 'all' (백엔드 기본값)
-    usage: usageFilter || 'all'
+    usage: usageFilter || 'all'  // 값이 없으면 'all'
+  });
+
+  const response = await fetch(`${ADMIN_API_URL}/registrations?${params.toString()}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  return response;
+}
