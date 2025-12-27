@@ -1,12 +1,12 @@
 package com.example.backend.entity;
 
-import jakarta.persistence.*; // Spring Boot 3.x 기준 (2.x라면 javax.persistence)
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "preregistrations_preregistration") // Django 테이블명과 일치시킴
+@Table(name = "reservation")
 @Getter
 @Setter
 public class Registration {
