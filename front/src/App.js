@@ -11,7 +11,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/coupon" element={<UseCouponPage />} />
+        <Route path="/use-coupon" element={<UseCouponPage />} />
         
         {/* [추가] 관리자 라우트 */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
