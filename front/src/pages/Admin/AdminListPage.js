@@ -6,6 +6,7 @@ const AdminListPage = () => {
     // 상태 관리
     const [data, setData] = useState([]);
     const [stats, setStats] = useState({ today: 0, total: 0 });
+    const [dateCounts, setDateCounts] = useState([]); // [추가] 날짜별 카운트
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     
@@ -29,11 +30,11 @@ const AdminListPage = () => {
         try {
             const result = await getAdminRegistrations(page, pageSize, dateFilter, usageFilter);
             
-            // 백엔드 응답 구조: { content, totalPages, stats, ... }
             setData(result.content || []);
             setTotalPages(result.totalPages || 0);
             setTotalElements(result.totalElements || 0);
             setStats(result.stats || { today: 0, total: 0 });
+            setDateCounts(result.dateCounts || []); // [추가] 날짜별 카운트 설정
             
         } catch (err) {
             console.error("데이터 로딩 실패:", err);
@@ -51,9 +52,9 @@ const AdminListPage = () => {
     };
 
     // 날짜 필터 변경
-    const handleDateFilterChange = (e) => {
-        setDateFilter(e.target.value);
-        setPage(1); // 필터 변경 시 첫 페이지로
+    const handleDateFilterChange = (date) => {
+        setDateFilter(date);
+        setPage(1);
     };
 
     // 사용여부 필터 변경
@@ -66,6 +67,22 @@ const AdminListPage = () => {
     const handlePageSizeChange = (size) => {
         setPageSize(size);
         setPage(1);
+    };
+
+    // [추가] UTC → KST 변환 함수
+    const formatKSTDate = (utcDateString) => {
+        const utcDate = new Date(utcDateString);
+        // 한국 시간대로 변환 (UTC+9)
+        return utcDate.toLocaleString('ko-KR', {
+            timeZone: 'Asia/Seoul',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
     };
 
     // 로딩 중
@@ -84,32 +101,32 @@ const AdminListPage = () => {
     }
 
     return (
-        <div className="admin-container">
+        <div className="admin-wrapper">
+            {/* 헤더 */}
             <header className="admin-header">
                 <div className="title-section">
-                    <h1>사전예약 관리자</h1>
-                    <div className="stats-bar">
-                        <span>오늘: <strong>{stats.today}</strong>명</span>
-                        <span>전체: <strong>{stats.total}</strong>명</span>
+                    <h1>사전 등록 목록</h1>
+                    <div className="registration-count">
+                        총 등록 인원: <strong>{stats.total}</strong>명 / 오늘 등록 인원: <strong>{stats.today}</strong>명
                     </div>
                 </div>
                 
                 {/* 페이지 크기 선택 */}
-                <div className="page-size-selector">
+                <div className="page-size-filter">
                     <button 
-                        className={`size-btn ${pageSize === 30 ? 'active' : ''}`}
+                        className={`filter-button ${pageSize === 30 ? 'active' : ''}`}
                         onClick={() => handlePageSizeChange(30)}
                     >
                         30개씩
                     </button>
                     <button 
-                        className={`size-btn ${pageSize === 50 ? 'active' : ''}`}
+                        className={`filter-button ${pageSize === 50 ? 'active' : ''}`}
                         onClick={() => handlePageSizeChange(50)}
                     >
                         50개씩
                     </button>
                     <button 
-                        className={`size-btn ${pageSize === 100 ? 'active' : ''}`}
+                        className={`filter-button ${pageSize === 100 ? 'active' : ''}`}
                         onClick={() => handlePageSizeChange(100)}
                     >
                         100개씩
@@ -117,125 +134,113 @@ const AdminListPage = () => {
                 </div>
             </header>
 
-            {/* 필터 섹션 */}
-            <div className="filter-section">
-                <div className="filter-group">
-                    <label>날짜 필터:</label>
-                    <input 
-                        type="date" 
-                        value={dateFilter === 'all' ? '' : dateFilter} 
-                        onChange={handleDateFilterChange}
-                    />
-                    <button 
-                        onClick={() => { setDateFilter('all'); setPage(1); }}
-                        className="reset-btn"
-                    >
-                        전체
-                    </button>
+            <div className="admin-container">
+                {/* 왼쪽 사이드바 - 날짜 필터 */}
+                <div className="sidebar">
+                    <h2>날짜 필터</h2>
+                    <div className="button-container">
+                        <button 
+                            className={`sidebar-button ${dateFilter === 'all' ? 'active' : ''}`}
+                            onClick={() => handleDateFilterChange('all')}
+                        >
+                            전체 날짜
+                        </button>
+                        {dateCounts.map((dateCount) => (
+                            <button
+                                key={dateCount.date}
+                                className={`sidebar-button ${dateFilter === dateCount.date ? 'active' : ''}`}
+                                onClick={() => handleDateFilterChange(dateCount.date)}
+                            >
+                                {dateCount.date}
+                                <span className="count-badge">({dateCount.count}명)</span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="filter-group">
-                    <label>사용 여부:</label>
-                    <button 
-                        className={`filter-btn ${usageFilter === 'all' ? 'active' : ''}`}
-                        onClick={() => handleUsageFilterChange('all')}
-                    >
-                        전체
-                    </button>
-                    <button 
-                        className={`filter-btn ${usageFilter === 'used' ? 'active' : ''}`}
-                        onClick={() => handleUsageFilterChange('used')}
-                    >
-                        사용함
-                    </button>
-                    <button 
-                        className={`filter-btn ${usageFilter === 'unused' ? 'active' : ''}`}
-                        onClick={() => handleUsageFilterChange('unused')}
-                    >
-                        미사용
-                    </button>
-                </div>
+                {/* 메인 컨텐츠 */}
+                <div className="main-content">
+                    {/* 사용여부 필터 */}
+                    <div className="usage-filter">
+                        <div className="filter-buttons">
+                            <button 
+                                className={`filter-button ${usageFilter === 'all' ? 'active' : ''}`}
+                                onClick={() => handleUsageFilterChange('all')}
+                            >
+                                전체
+                            </button>
+                            <button 
+                                className={`filter-button ${usageFilter === 'used' ? 'active' : ''}`}
+                                onClick={() => handleUsageFilterChange('used')}
+                            >
+                                쿠폰 사용
+                            </button>
+                            <button 
+                                className={`filter-button ${usageFilter === 'unused' ? 'active' : ''}`}
+                                onClick={() => handleUsageFilterChange('unused')}
+                            >
+                                쿠폰 미사용
+                            </button>
+                        </div>
 
-                <button onClick={fetchData} className="refresh-btn">🔄 새로고침</button>
-            </div>
+                        {/* 페이지네이션 */}
+                        <div className="pagination">
+                            {page > 1 && (
+                                <>
+                                    <button onClick={() => handlePageChange(1)} className="page-button">« 처음</button>
+                                    <button onClick={() => handlePageChange(page - 1)} className="page-button">이전</button>
+                                </>
+                            )}
+                            
+                            <span className="page-button active">{page}</span>
+                            
+                            {page < totalPages && (
+                                <>
+                                    <button onClick={() => handlePageChange(page + 1)} className="page-button">다음</button>
+                                    <button onClick={() => handlePageChange(totalPages)} className="page-button">마지막 »</button>
+                                </>
+                            )}
+                        </div>
+                    </div>
 
-            {/* 테이블 */}
-            <div className="table-container">
-                <div className="result-info">
-                    총 {totalElements}개 중 {((page - 1) * pageSize) + 1}-{Math.min(page * pageSize, totalElements)}개 표시
-                </div>
-                
-                <table className="admin-table">
-                    <thead>
-                        <tr>
-                            <th>이메일</th>
-                            <th>전화번호</th>
-                            <th>등록일시</th>
-                            <th>쿠폰코드</th>
-                            <th>사용여부</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.length === 0 ? (
-                            <tr>
-                                <td colSpan="5" className="no-data">데이터가 없습니다.</td>
-                            </tr>
-                        ) : (
-                            data.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.email}</td>
-                                    <td>{item.phone}</td>
-                                    <td>{new Date(item.createdAt).toLocaleString('ko-KR')}</td>
-                                    <td className={item.isCouponUsed ? 'used-coupon' : ''}>
-                                        {item.couponCode || '-'}
-                                    </td>
-                                    <td>
-                                        <span className={`status-badge ${item.isCouponUsed ? 'used' : 'unused'}`}>
-                                            {item.isCouponUsed ? '사용완료' : '미사용'}
-                                        </span>
-                                    </td>
+                    {/* 테이블 */}
+                    <div className="table-container">
+                        <table className="registration-table">
+                            <thead>
+                                <tr>
+                                    <th>이메일</th>
+                                    <th>전화번호</th>
+                                    <th>개인정보 동의</th>
+                                    <th>등록 일시</th>
+                                    <th>쿠폰 코드</th>
+                                    <th>사용 여부</th>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* 페이지네이션 */}
-            <div className="pagination">
-                <button 
-                    disabled={page === 1} 
-                    onClick={() => handlePageChange(1)}
-                    className="page-btn"
-                >
-                    « 처음
-                </button>
-                <button 
-                    disabled={page === 1} 
-                    onClick={() => handlePageChange(page - 1)}
-                    className="page-btn"
-                >
-                    ‹ 이전
-                </button>
-                
-                <span className="page-info">
-                    {page} / {totalPages}
-                </span>
-                
-                <button 
-                    disabled={page === totalPages} 
-                    onClick={() => handlePageChange(page + 1)}
-                    className="page-btn"
-                >
-                    다음 ›
-                </button>
-                <button 
-                    disabled={page === totalPages} 
-                    onClick={() => handlePageChange(totalPages)}
-                    className="page-btn"
-                >
-                    마지막 »
-                </button>
+                            </thead>
+                            <tbody>
+                                {data.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="6" className="no-data">데이터가 없습니다.</td>
+                                    </tr>
+                                ) : (
+                                    data.map((item) => (
+                                        <tr key={item.id}>
+                                            <td>{item.email}</td>
+                                            <td>{item.phone}</td>
+                                            <td>{item.privacyConsent ? '예' : '아니오'}</td>
+                                            <td>{formatKSTDate(item.createdAt)}</td>
+                                            <td className={item.isCouponUsed ? 'used-coupon' : ''}>
+                                                {item.couponCode || '없음'}
+                                            </td>
+                                            <td className={item.isCouponUsed ? 'used-coupon' : ''}>
+                                                {item.isCouponUsed ? '사용' : '미사용'}
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     );

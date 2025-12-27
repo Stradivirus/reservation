@@ -15,7 +15,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RegistrationService {
@@ -48,13 +51,11 @@ public class RegistrationService {
         return new PreRegistrationResponseDto("사전등록이 완료되었습니다.", couponCode);
     }
 
-    // [추가] 관리자용 목록 조회 (검색 필터 포함)
     @Transactional(readOnly = true)
     public Page<Registration> getAdminRegistrations(String dateFilter, String usageFilter, Pageable pageable) {
         Specification<Registration> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // 1. 날짜 필터 (YYYY-MM-DD)
             if (dateFilter != null && !dateFilter.equals("all") && !dateFilter.isEmpty()) {
                 LocalDate date = LocalDate.parse(dateFilter);
                 LocalDateTime startOfDay = date.atStartOfDay();
@@ -62,7 +63,6 @@ public class RegistrationService {
                 predicates.add(cb.between(root.get("createdAt"), startOfDay, endOfDay));
             }
 
-            // 2. 사용 여부 필터 ('used', 'unused')
             if (usageFilter != null && !usageFilter.equals("all") && !usageFilter.isEmpty()) {
                 boolean isUsed = "used".equals(usageFilter);
                 predicates.add(cb.equal(root.get("isCouponUsed"), isUsed));
@@ -74,7 +74,6 @@ public class RegistrationService {
         return registrationRepository.findAll(spec, pageable);
     }
 
-    // [추가] 오늘 가입자 수
     @Transactional(readOnly = true)
     public long getTodayRegistrationCount() {
         LocalDateTime start = LocalDate.now().atStartOfDay();
@@ -82,9 +81,32 @@ public class RegistrationService {
         return registrationRepository.countByCreatedAtBetween(start, end);
     }
     
-    // [추가] 전체 가입자 수
     @Transactional(readOnly = true)
     public long getTotalRegistrationCount() {
         return registrationRepository.count();
+    }
+    
+    // [추가] 날짜별 등록 건수 조회
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getRegistrationCountsByDate() {
+        List<Registration> allRegistrations = registrationRepository.findAll();
+        
+        // 날짜별로 그룹화
+        Map<LocalDate, Long> dateCountMap = allRegistrations.stream()
+            .collect(Collectors.groupingBy(
+                reg -> reg.getCreatedAt().toLocalDate(),
+                Collectors.counting()
+            ));
+        
+        // 결과를 List<Map>으로 변환 (날짜 내림차순 정렬)
+        return dateCountMap.entrySet().stream()
+            .sorted(Map.Entry.<LocalDate, Long>comparingByKey().reversed())
+            .map(entry -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("date", entry.getKey().toString());
+                map.put("count", entry.getValue());
+                return map;
+            })
+            .collect(Collectors.toList());
     }
 }

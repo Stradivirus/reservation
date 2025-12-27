@@ -1,242 +1,255 @@
-/* 기존 스타일 유지 + 추가 */
-.admin-container { 
-    padding: 20px; 
-    max-width: 1400px; 
-    margin: 0 auto; 
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* 전체 래퍼 */
+.admin-wrapper {
+    min-height: 100vh;
+    background: #f5f5f5;
 }
 
 /* 헤더 */
-.admin-header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    margin-bottom: 20px; 
-    border-bottom: 2px solid #333; 
-    padding-bottom: 15px; 
+.admin-header {
+    background: white;
+    padding: 20px 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .title-section {
     display: flex;
-    align-items: center;
-    gap: 30px;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .title-section h1 {
     margin: 0;
     font-size: 1.8em;
+    color: #333;
 }
 
-.stats-bar { 
-    display: flex;
-    gap: 20px;
+.registration-count {
+    font-size: 1.1em;
+    color: #666;
 }
 
-.stats-bar span { 
-    font-size: 1.1em; 
-    color: #555;
-}
-
-.stats-bar strong {
+.registration-count strong {
     color: #007bff;
     font-size: 1.2em;
 }
 
-/* 페이지 크기 선택 */
-.page-size-selector {
+.page-size-filter {
     display: flex;
     gap: 8px;
 }
 
-.size-btn {
-    padding: 8px 16px;
-    border: 1px solid #ddd;
+.page-size-filter .filter-button {
+    padding: 8px 20px;
+    border: 2px solid #ddd;
     background: white;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 14px;
     transition: all 0.2s;
 }
 
-.size-btn:hover {
+.page-size-filter .filter-button:hover {
     background: #f0f0f0;
 }
 
-.size-btn.active {
+.page-size-filter .filter-button.active {
     background: #007bff;
     color: white;
     border-color: #007bff;
 }
 
-/* 필터 섹션 */
-.filter-section { 
-    display: flex; 
-    gap: 20px; 
-    margin-bottom: 20px; 
-    background: #f8f9fa; 
-    padding: 15px; 
-    border-radius: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.filter-group {
+/* 메인 컨테이너 (사이드바 + 컨텐츠) */
+.admin-container {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
 }
 
-.filter-group label {
-    font-weight: 500;
+/* 사이드바 */
+.sidebar {
+    width: 250px;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.3em;
     color: #333;
 }
 
-.filter-section input[type="date"] { 
-    padding: 8px 12px; 
-    border: 1px solid #ddd; 
-    border-radius: 4px;
-    font-size: 14px;
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.filter-btn, .reset-btn {
-    padding: 8px 16px;
+.sidebar-button {
+    padding: 12px 16px;
     border: 1px solid #ddd;
     background: white;
     cursor: pointer;
     border-radius: 4px;
+    text-align: left;
     transition: all 0.2s;
     font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.filter-btn:hover, .reset-btn:hover {
+.sidebar-button:hover {
+    background: #f8f9fa;
+}
+
+.sidebar-button.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.count-badge {
+    font-size: 0.9em;
+    color: #666;
+    font-weight: 500;
+}
+
+.sidebar-button.active .count-badge {
+    color: rgba(255,255,255,0.9);
+}
+
+/* 메인 컨텐츠 */
+.main-content {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 사용여부 필터 */
+.usage-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-buttons .filter-button {
+    padding: 8px 20px;
+    border: 2px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.filter-buttons .filter-button:hover {
     background: #f0f0f0;
 }
 
-.filter-btn.active {
+.filter-buttons .filter-button.active {
     background: #28a745;
     color: white;
     border-color: #28a745;
 }
 
-.refresh-btn {
-    padding: 8px 16px;
-    background: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 4px;
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.page-button {
+    padding: 6px 14px;
+    border: 1px solid #ddd;
+    background: white;
     cursor: pointer;
-    margin-left: auto;
-    transition: background 0.2s;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: all 0.2s;
 }
 
-.refresh-btn:hover {
-    background: #5a6268;
+.page-button:hover:not(.active) {
+    background: #f0f0f0;
 }
 
-/* 결과 정보 */
-.result-info {
-    margin-bottom: 10px;
-    color: #666;
-    font-size: 14px;
+.page-button.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: 600;
 }
 
 /* 테이블 */
-.table-container { 
+.table-container {
     overflow-x: auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.admin-table { 
-    width: 100%; 
-    border-collapse: collapse; 
+.registration-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.admin-table th, .admin-table td { 
-    padding: 12px; 
-    border: 1px solid #ddd; 
-    text-align: center; 
+.registration-table th,
+.registration-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
 }
 
-.admin-table th { 
-    background-color: #f8f9fa; 
+.registration-table thead {
+    background: #f8f9fa;
+}
+
+.registration-table th {
     font-weight: 600;
     color: #333;
 }
 
-.admin-table tbody tr:hover {
-    background-color: #f8f9fa;
+.registration-table tbody tr:hover {
+    background: #f8f9fa;
 }
 
 .no-data {
-    text-align: center;
     padding: 40px !important;
+    text-align: center;
     color: #999;
     font-size: 16px;
 }
 
-/* 쿠폰 사용 여부 스타일 */
 .used-coupon {
     color: #dc3545;
     font-weight: 500;
 }
 
-.status-badge { 
-    padding: 4px 12px; 
-    border-radius: 12px; 
-    font-size: 0.85em; 
-    font-weight: 600;
-    color: white; 
-}
-
-.status-badge.used { 
-    background-color: #dc3545; 
-}
-
-.status-badge.unused { 
-    background-color: #28a745; 
-}
-
-/* 페이지네이션 */
-.pagination { 
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    gap: 8px; 
-    margin-top: 30px; 
-}
-
-.page-btn { 
-    padding: 8px 16px; 
-    cursor: pointer; 
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: all 0.2s;
-    font-size: 14px;
-}
-
-.page-btn:hover:not(:disabled) {
-    background: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-.page-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.page-info {
-    padding: 8px 16px;
-    font-weight: 600;
-    color: #333;
-}
-
 /* 로딩 & 에러 상태 */
-.loading-state, .error-state {
-    text-align: center;
-    padding: 60px 20px;
+.loading-state,
+.error-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
     font-size: 18px;
     color: #666;
 }
@@ -256,43 +269,43 @@
     background: #0056b3;
 }
 
-/* 로그인 페이지 스타일 */
-.admin-login-container { 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    height: 100vh; 
-    background-color: #f0f2f5; 
+/* 로그인 페이지 */
+.admin-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
 }
 
-.login-box { 
-    background: white; 
-    padding: 40px; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-    width: 320px; 
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 320px;
 }
 
-.login-box h2 { 
-    text-align: center; 
+.login-box h2 {
+    text-align: center;
     margin-bottom: 24px;
     color: #333;
 }
 
-.form-group { 
-    margin-bottom: 16px; 
+.form-group {
+    margin-bottom: 16px;
 }
 
-.form-group label { 
-    display: block; 
+.form-group label {
+    display: block;
     margin-bottom: 6px;
     color: #555;
     font-weight: 500;
 }
 
-.form-group input { 
-    width: 100%; 
-    padding: 10px; 
+.form-group input {
+    width: 100%;
+    padding: 10px;
     box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -304,13 +317,13 @@
     border-color: #007bff;
 }
 
-.login-btn { 
-    width: 100%; 
-    padding: 12px; 
-    background-color: #007bff; 
-    color: white; 
-    border: none; 
-    border-radius: 4px; 
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 500;
@@ -321,9 +334,9 @@
     background-color: #0056b3;
 }
 
-.error-msg { 
-    color: #dc3545; 
-    font-size: 0.9em; 
+.error-msg {
+    color: #dc3545;
+    font-size: 0.9em;
     text-align: center;
     margin-bottom: 16px;
     padding: 8px;
