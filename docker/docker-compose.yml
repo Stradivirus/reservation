@@ -1,58 +1,40 @@
 version: '3.8'
 
 services:
-  admin:
-    build:
-      context: ../preregistration_project
-      # [수정] context(소스 폴더) 기준, 상위로 나가서 docker 폴더 안의 파일을 찾아야 함
-      dockerfile: ../docker/admin.dockerfile 
-    environment:
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "8001:80"
-    networks:
-      - app-network
-    restart: unless-stopped
-
   backend:
     build:
       context: ../Backend
-      # [수정] context(../Backend) 기준, 상위로 나가서 docker 폴더 참조
       dockerfile: ../docker/backend.Dockerfile
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     networks:
-      - app-network
+      - reservation-network
     restart: unless-stopped
 
   frontend:
     build:
       context: ../front
-      # [수정] context(../front) 기준, 상위로 나가서 docker 폴더 참조
       dockerfile: ../docker/frontend.Dockerfile
     networks:
-      - app-network
+      - reservation-network
     restart: unless-stopped
 
   frontend-balancer:
     build:
       context: ./nginx
-      # nginx는 context(./nginx) 내부에 Dockerfile이 있으므로 그대로 둠
       dockerfile: nginx.Dockerfile 
     ports:
       - "8000:80"
     depends_on:
       - frontend
     networks:
-      - app-network
+      - reservation-network
     restart: unless-stopped
 
 volumes:
   db-data:
 
 networks:
-  app-network:
+  reservation-network:
