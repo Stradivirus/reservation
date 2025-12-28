@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getAdminRegistrations } from '../../api';
 import './Admin.css';
 
@@ -6,7 +6,7 @@ const AdminListPage = () => {
     // 상태 관리
     const [data, setData] = useState([]);
     const [stats, setStats] = useState({ today: 0, total: 0 });
-    const [dateCounts, setDateCounts] = useState([]); // [추가] 날짜별 카운트
+    const [dateCounts, setDateCounts] = useState([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     
@@ -34,7 +34,7 @@ const AdminListPage = () => {
             setTotalPages(result.totalPages || 0);
             setTotalElements(result.totalElements || 0);
             setStats(result.stats || { today: 0, total: 0 });
-            setDateCounts(result.dateCounts || []); // [추가] 날짜별 카운트 설정
+            setDateCounts(result.dateCounts || []); 
             
         } catch (err) {
             console.error("데이터 로딩 실패:", err);

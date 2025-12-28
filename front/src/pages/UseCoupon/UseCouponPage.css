@@ -5,7 +5,6 @@ body, html {
   height: 100%;
   width: 100%;
 }
-
 /* 쿠폰 사용 페이지 컨테이너 스타일 */
 .use-coupon-container {
   display: flex;
