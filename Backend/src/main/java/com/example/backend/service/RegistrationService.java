@@ -15,8 +15,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RegistrationService {
@@ -84,9 +86,18 @@ public class RegistrationService {
         return registrationRepository.count();
     }
     
-    // [수정] 메모리 과부하 문제 해결: Repository의 최적화된 쿼리 호출
+    // [수정 포인트] DB에서 가져온 배열(Object[])을 Map으로 변환하여 반환
     @Transactional(readOnly = true)
     public List<Map<String, Object>> getRegistrationCountsByDate() {
-        return registrationRepository.countRegistrationsByDate();
+        List<Object[]> results = registrationRepository.countRegistrationsByDate();
+        
+        return results.stream().map(record -> {
+            Map<String, Object> map = new HashMap<>();
+            // record[0]: date (SQL Date -> String)
+            // record[1]: count (Long)
+            map.put("date", record[0].toString());
+            map.put("count", record[1]);
+            return map;
+        }).collect(Collectors.toList());
     }
 }
