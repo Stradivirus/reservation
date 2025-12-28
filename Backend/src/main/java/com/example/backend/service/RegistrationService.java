@@ -15,10 +15,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class RegistrationService {
@@ -86,27 +84,9 @@ public class RegistrationService {
         return registrationRepository.count();
     }
     
-    // [추가] 날짜별 등록 건수 조회
+    // [수정] 메모리 과부하 문제 해결: Repository의 최적화된 쿼리 호출
     @Transactional(readOnly = true)
     public List<Map<String, Object>> getRegistrationCountsByDate() {
-        List<Registration> allRegistrations = registrationRepository.findAll();
-        
-        // 날짜별로 그룹화
-        Map<LocalDate, Long> dateCountMap = allRegistrations.stream()
-            .collect(Collectors.groupingBy(
-                reg -> reg.getCreatedAt().toLocalDate(),
-                Collectors.counting()
-            ));
-        
-        // 결과를 List<Map>으로 변환 (날짜 내림차순 정렬)
-        return dateCountMap.entrySet().stream()
-            .sorted(Map.Entry.<LocalDate, Long>comparingByKey().reversed())
-            .map(entry -> {
-                Map<String, Object> map = new HashMap<>();
-                map.put("date", entry.getKey().toString());
-                map.put("count", entry.getValue());
-                return map;
-            })
-            .collect(Collectors.toList());
+        return registrationRepository.countRegistrationsByDate();
     }
 }
