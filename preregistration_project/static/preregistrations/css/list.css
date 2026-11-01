@@ -1,0 +1,275 @@
+/* 기본 스타일 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f7fa;
+}
+
+.wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 헤더 스타일 */
+.header {
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-area {
+    flex: 1;
+}
+
+.title-area h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #2c3e50;
+}
+
+.registration-count {
+    color: #34495e;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.page-size-filter {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+/* 컨테이너 레이아웃 */
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 200px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* 사이드바 버튼 */
+.sidebar-button {
+    width: auto;
+    max-width: 180px;
+    text-align: left;
+    margin: 0;
+    padding: 6px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 5px;
+    color: #1976d2;
+    transition: all 0.2s;
+    font-size: 0.9em;
+}
+
+.count-badge {
+    margin-left: 5px;
+    font-size: 0.85em;
+}
+
+/* 메인 컨텐츠 영역 */
+.main-content {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 사용 필터 */
+.usage-filter {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+/* 필터 버튼 */
+.filter-button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #1976d2;
+    transition: all 0.2s;
+    font-size: 0.9em;
+}
+
+.filter-button:hover, .sidebar-button:hover {
+    background-color: #bbdefb;
+    color: #0d47a1;
+}
+
+.filter-button.active, .sidebar-button.active {
+    background-color: #1976d2;
+    color: white;
+    border-color: #1565c0;
+}
+
+/* 테이블 스타일 */
+.table-container {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.registration-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.registration-table th,
+.registration-table td {
+    padding: 12px;
+    border: 1px solid #e1e8ed;
+    text-align: left;
+}
+
+.registration-table th {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.registration-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.registration-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.page-button {
+    padding: 6px 12px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 5px;
+    color: #1976d2;
+    text-decoration: none;
+    transition: all 0.2s;
+    min-width: 40px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.page-button:hover {
+    background-color: #bbdefb;
+}
+
+.page-button.active {
+    background-color: #1976d2;
+    color: white;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .title-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .page-size-filter {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .usage-filter {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pagination {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.used-coupon {
+    text-decoration: line-through;
+    color: #999;  /* 회색으로 표시 */
+}

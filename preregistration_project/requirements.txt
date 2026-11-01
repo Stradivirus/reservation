@@ -1,0 +1,11 @@
+# Django 관련 필수 패키지
+Django
+psycopg2-binary  # PostgreSQL 연결용
+pytz             # 타임존 처리용
+
+# 서버 실행
+uvicorn
+gunicorn
+
+# 설정 관리
+python-dotenv
