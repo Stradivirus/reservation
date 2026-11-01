@@ -29,10 +29,20 @@ public class CouponController {
     @PostMapping("/use")
     public ResponseEntity<CouponResponseDto> useCoupon(@RequestBody UseCouponDto dto) {
         try {
-            String result = couponService.useCoupon(dto.getCouponCode());
-            return ResponseEntity.ok(new CouponResponseDto(result, dto.getCouponCode()));
+            CouponResponseDto result = couponService.useCoupon(dto.getCouponCode());
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(new CouponResponseDto(e.getMessage(), dto.getCouponCode()));
+        }
+    }
+
+    @GetMapping("/status/{couponCode}")
+    public ResponseEntity<CouponResponseDto> getCouponStatus(@PathVariable String couponCode) {
+        try {
+            CouponResponseDto status = couponService.getCouponStatus(couponCode);
+            return ResponseEntity.ok(status);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CouponResponseDto(e.getMessage(), couponCode));
         }
     }
 }

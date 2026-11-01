@@ -1,4 +1,5 @@
-FROM eclipse-temurin:21-jdk
+# Stage 1: Build Stage (Java 24)
+FROM eclipse-temurin:24-jdk-alpine AS builder
 
 WORKDIR /app
 
@@ -8,14 +9,19 @@ COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
 
-# 의존성 캐시 (선택)
+RUN chmod +x ./gradlew
 RUN ./gradlew dependencies --no-daemon || true
 
-# 소스 복사
+# 소스 복사 및 빌드 실행
 COPY src src
+RUN ./gradlew bootJar --no-daemon -x test
 
-# 빌드 실행 (jar 생성)
-RUN ./gradlew build --no-daemon -x test
+# Stage 2: Lightweight Runtime Stage (Java 24 JRE Alpine)
+FROM eclipse-temurin:24-jre-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/build/libs/Backend-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "build/libs/Backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]

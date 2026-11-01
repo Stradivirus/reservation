@@ -32,9 +32,20 @@ public class Registration {
     @Column(name = "is_coupon_used")
     private Boolean isCouponUsed;
 
+    @Column(name = "prize_rank")
+    private Integer prizeRank;
+
+    @Column(name = "prize_name", length = 100)
+    private String prizeName;
+
+    @Column(name = "used_at")
+    private LocalDateTime usedAt;
+
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
         if (this.isCouponUsed == null) {
             this.isCouponUsed = false;
         }

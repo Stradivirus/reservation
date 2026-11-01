@@ -4,11 +4,14 @@ import com.example.backend.dto.EmailCheckDto;
 import com.example.backend.dto.PhoneCheckDto;
 import com.example.backend.dto.PreRegistrationDto;
 import com.example.backend.dto.PreRegistrationResponseDto;
+import com.example.backend.dto.TicketLookupDto;
 import com.example.backend.service.RegistrationService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.InetAddress;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -39,10 +42,28 @@ public class RegistrationController {
 
     @PostMapping("/preregister")
     public ResponseEntity<?> preregister(@Valid @RequestBody PreRegistrationDto dto) {
-        // [수정] try-catch 제거: GlobalExceptionHandler가 처리함
         PreRegistrationResponseDto response = registrationService.registerWithCoupon(dto);
         return ResponseEntity.ok(response);
     }
-    
-    // [제거] @ExceptionHandler 메서드는 GlobalExceptionHandler로 이동하여 삭제됨
+
+    @PostMapping("/lookup")
+    public ResponseEntity<?> lookupTicket(@Valid @RequestBody TicketLookupDto dto) {
+        PreRegistrationResponseDto response = registrationService.lookupTicket(dto.getQuery());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/node-info")
+    public ResponseEntity<?> getNodeInfo() {
+        String hostname = "backend-node";
+        try {
+            hostname = InetAddress.getLocalHost().getHostName();
+        } catch (Exception ignored) {
+        }
+        return ResponseEntity.ok(Map.of(
+                "status", "UP",
+                "backendNode", hostname,
+                "javaVersion", System.getProperty("java.version"),
+                "timestamp", LocalDateTime.now().toString()
+        ));
+    }
 }

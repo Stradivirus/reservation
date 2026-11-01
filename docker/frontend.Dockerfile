@@ -1,18 +1,21 @@
-FROM node:14-alpine
+# Stage 1: Build Stage (Node 20 Alpine + Vite)
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# 패키지 파일 복사 및 설치
 COPY package*.json ./
 RUN npm install
 
-# 소스 복사 및 빌드
 COPY . .
 RUN npm run build
 
-# 정적 파일 서빙을 위한 serve 설치
-RUN npm install -g serve
+# Stage 2: Lightweight Static Serving Stage
+FROM node:20-alpine
 
-# 3000 포트에서 정적 파일 서빙
+WORKDIR /app
+
+RUN npm install -g serve
+COPY --from=builder /app/dist ./dist
+
 EXPOSE 3000
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["serve", "-s", "dist", "-l", "3000"]

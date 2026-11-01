@@ -21,10 +21,17 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
 
     long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
+    long countByIsCouponUsedTrue();
+
     // [수정] Map 대신 Object[] 배열로 반환 (컴파일 안전성 확보)
     @Query(value = "SELECT DATE(created_at) as date, COUNT(*) as count " +
                    "FROM reservation " +
                    "GROUP BY DATE(created_at) " +
                    "ORDER BY date DESC", nativeQuery = true)
     List<Object[]> countRegistrationsByDate();
+
+    @Query("SELECT r.prizeRank, COUNT(r) FROM Registration r " +
+           "WHERE r.isCouponUsed = true AND r.prizeRank IS NOT NULL " +
+           "GROUP BY r.prizeRank ORDER BY r.prizeRank ASC")
+    List<Object[]> countByPrizeRank();
 }
