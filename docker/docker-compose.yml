@@ -17,6 +17,8 @@ services:
     build:
       context: ../front
       dockerfile: ../docker/frontend.Dockerfile
+    deploy:
+      replicas: 2
     networks:
       - reservation-network
     restart: unless-stopped

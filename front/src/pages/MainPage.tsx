@@ -190,7 +190,7 @@ const MainPage: React.FC = () => {
           <div className="flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-semibold text-amber-300 shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>2025 AUTUMN BLOSSOM FESTIVAL · 사전예약 오픈</span>
+              <span>2026 AUTUMN BLOSSOM FESTIVAL · 사전예약 오픈</span>
             </div>
 
             <h1 className="mt-4 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
@@ -212,7 +212,7 @@ const MainPage: React.FC = () => {
               <div className="inline-flex items-center gap-2 rounded-2xl border border-stone-800 bg-stone-900/90 px-4 py-2 text-stone-200">
                 <Calendar className="h-4 w-4 text-amber-400" />
                 <span className="font-semibold">축제 기간:</span>
-                <span className="text-amber-300 font-bold">2025. 09. 01 ~ 10. 30</span>
+                <span className="text-amber-300 font-bold">2026. 09. 01 ~ 10. 30</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-2xl border border-stone-800 bg-stone-900/90 px-4 py-2 text-stone-200">
                 <MapPin className="h-4 w-4 text-orange-400" />
@@ -419,7 +419,7 @@ const MainPage: React.FC = () => {
                     {showPrivacyDetail && (
                       <div className="mt-3 space-y-1.5 border-t border-stone-800 pt-3 text-[11px] leading-relaxed text-stone-400">
                         <p>• 수집 항목: 이메일 주소, 휴대전화 번호</p>
-                        <p>• 수집 목적: 2025 가을 꽃 축제 사전예약 본인 확인, 모바일 QR 티켓 및 경품 추첨권 발급</p>
+                        <p>• 수집 목적: 2026 가을 꽃 축제 사전예약 본인 확인, 모바일 QR 티켓 및 경품 추첨권 발급</p>
                         <p>• 보유 기간: 축제 종료 후 30일 이내 지체 없이 파기</p>
                       </div>
                     )}

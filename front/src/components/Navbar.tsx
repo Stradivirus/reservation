@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { RefreshCw, Server, Sparkles, ShieldCheck, Ticket, Gift } from 'lucide-react';
+import { RefreshCw, Server, ShieldCheck, Ticket, Gift } from 'lucide-react';
 import { fetchLoadBalancerStatus } from '../api';
 import { LoadBalancerStatus } from '../types';
 
@@ -14,12 +14,35 @@ const Navbar: React.FC = () => {
     checkedAt: '--:--:--',
   });
   const [refreshing, setRefreshing] = useState(false);
+  const [nodeSwitched, setNodeSwitched] = useState(false);
+  const knownNodesRef = useRef<string[]>([]);
 
   const checkNode = async () => {
     setRefreshing(true);
     const status = await fetchLoadBalancerStatus();
-    setLbStatus(status);
-    setTimeout(() => setRefreshing(false), 300);
+
+    const rawIpMatch = status.frontendNode.match(/\(([^)]+)\)/);
+    const rawAddr = rawIpMatch ? rawIpMatch[1] : status.frontendNode;
+    if (!knownNodesRef.current.includes(rawAddr)) {
+      knownNodesRef.current.push(rawAddr);
+    }
+    const nodeIdx = knownNodesRef.current.indexOf(rawAddr) + 1;
+    const formattedFrontendNode = rawIpMatch
+      ? `frontend-${nodeIdx} (${rawAddr})`
+      : status.frontendNode;
+
+    setLbStatus((prev) => {
+      if (prev.frontendNode !== formattedFrontendNode) {
+        setNodeSwitched(true);
+        setTimeout(() => setNodeSwitched(false), 900);
+      }
+      return {
+        ...status,
+        frontendNode: formattedFrontendNode,
+      };
+    });
+
+    setTimeout(() => setRefreshing(false), 250);
   };
 
   useEffect(() => {
@@ -39,13 +62,27 @@ const Navbar: React.FC = () => {
       <div className="border-b border-amber-500/15 bg-gradient-to-r from-stone-900 via-stone-900/95 to-stone-900 px-4 py-1.5 text-xs">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-medium text-emerald-300">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-              Nginx Load Balanced Node: <strong className="font-mono text-emerald-200">{lbStatus.frontendNode}</strong>
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-medium transition-all duration-300 ${
+                nodeSwitched
+                  ? 'border-amber-400 bg-amber-500/20 text-amber-200 scale-[1.03]'
+                  : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+              }`}
+            >
+              <span
+                className={`h-2 w-2 animate-pulse rounded-full ${
+                  nodeSwitched ? 'bg-amber-400' : 'bg-emerald-400'
+                }`}
+              />
+              Nginx Load Balanced Node:{' '}
+              <strong className="font-mono text-white">{lbStatus.frontendNode}</strong>
             </span>
             <span className="hidden items-center gap-1.5 text-stone-400 sm:inline-flex">
               <Server className="h-3.5 w-3.5 text-amber-400" />
-              API Upstream: <code className="rounded bg-stone-800 px-1.5 py-0.5 text-stone-200">{lbStatus.backendNode}</code>
+              API Upstream:{' '}
+              <code className="rounded bg-stone-800 px-1.5 py-0.5 text-stone-200">
+                {lbStatus.backendNode}
+              </code>
             </span>
             <span className="hidden items-center gap-1 text-stone-400 md:inline-flex">
               Spring Boot 3.5 · Java <code className="text-amber-300">{lbStatus.javaVersion}</code> · 응답{' '}
@@ -57,7 +94,7 @@ const Navbar: React.FC = () => {
             type="button"
             onClick={checkNode}
             className="inline-flex items-center gap-1.5 rounded-md border border-stone-700 bg-stone-800/90 px-2.5 py-0.5 text-xs font-medium text-stone-200 transition hover:border-amber-500/50 hover:text-amber-300"
-            title="Nginx X-Served-By 헤더 및 백엔드 업스트림 노드를 실시간 재호출합니다"
+            title="클릭할 때마다 Nginx Round-Robin에 의해 frontend-1 ↔ frontend-2 노드가 교차 응답합니다"
           >
             <RefreshCw className={`h-3 w-3 ${refreshing ? 'animate-spin text-amber-400' : ''}`} />
             <span>로드밸런서 응답 확인 ({lbStatus.checkedAt})</span>
@@ -77,7 +114,7 @@ const Navbar: React.FC = () => {
                 가을 꽃 축제
               </span>
               <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-300 border border-amber-500/30">
-                2025 Festival
+                2026 Festival
               </span>
             </div>
             <p className="text-xs text-stone-400">사전예약 & 모바일 패스 · 100% 당첨 럭키드로우</p>

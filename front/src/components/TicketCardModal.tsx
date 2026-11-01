@@ -59,7 +59,7 @@ const TicketCardModal: React.FC<TicketCardModalProps> = ({ ticket, onClose }) =>
         hour: '2-digit',
         minute: '2-digit',
       })
-    : '2025 가을 시즌';
+    : '2026 가을 시즌';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-fadeIn">
@@ -78,7 +78,7 @@ const TicketCardModal: React.FC<TicketCardModalProps> = ({ ticket, onClose }) =>
         <div className="bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 px-6 pb-6 pt-7 text-stone-950">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-stone-950/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-sm">
             <Ticket className="h-3.5 w-3.5" />
-            2025 Autumn Flower Festival Pass
+            2026 Autumn Flower Festival Pass
           </div>
           <h3 className="mt-2.5 text-2xl font-extrabold tracking-tight text-white">
             모바일 사전예약 QR 입장권
