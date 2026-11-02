@@ -19,27 +19,64 @@ const Navbar: React.FC = () => {
 
   const checkNode = async () => {
     setRefreshing(true);
-    const status = await fetchLoadBalancerStatus();
 
-    const rawIpMatch = status.frontendNode.match(/\(([^)]+)\)/);
-    const rawAddr = rawIpMatch ? rawIpMatch[1] : status.frontendNode;
-    if (!knownNodesRef.current.includes(rawAddr)) {
-      knownNodesRef.current.push(rawAddr);
+    const STORAGE_NODES_KEY = 'reservation_lb_known_nodes';
+    const STORAGE_LAST_KEY = 'reservation_lb_last_addr';
+
+    let knownNodes = [...knownNodesRef.current];
+    let lastAddr: string | null = null;
+    try {
+      const savedNodes = sessionStorage.getItem(STORAGE_NODES_KEY);
+      if (savedNodes) {
+        knownNodes = JSON.parse(savedNodes);
+      }
+      lastAddr = sessionStorage.getItem(STORAGE_LAST_KEY);
+    } catch {
+      // Ignore storage errors
     }
-    const nodeIdx = knownNodesRef.current.indexOf(rawAddr) + 1;
-    const formattedFrontendNode = rawIpMatch
+
+    const extractRawAddr = (nodeStr: string) => {
+      const match = nodeStr.match(/\(([^)]+)\)/);
+      return match ? match[1] : nodeStr;
+    };
+
+    let status = await fetchLoadBalancerStatus();
+    let rawAddr = extractRawAddr(status.frontendNode);
+
+    // 새로고침(F5) 시 문서 로드(1회) + 상태 체크(1회) = 짝수(2회) 호출로 인해
+    // 직전과 동일한 노드에 걸린 경우 1회 추가 호출하여 다음 라운드로빈 노드로 전환
+    if (lastAddr && rawAddr === lastAddr) {
+      status = await fetchLoadBalancerStatus();
+      rawAddr = extractRawAddr(status.frontendNode);
+    }
+
+    const hasParens = /\(([^)]+)\)/.test(status.frontendNode);
+    if (!knownNodes.includes(rawAddr)) {
+      knownNodes.push(rawAddr);
+      knownNodes.sort();
+    }
+    knownNodesRef.current = knownNodes;
+
+    try {
+      sessionStorage.setItem(STORAGE_NODES_KEY, JSON.stringify(knownNodes));
+      sessionStorage.setItem(STORAGE_LAST_KEY, rawAddr);
+    } catch {
+      // Ignore storage errors
+    }
+
+    const nodeIdx = knownNodes.indexOf(rawAddr) + 1;
+    const formattedFrontendNode = hasParens
       ? `frontend-${nodeIdx} (${rawAddr})`
       : status.frontendNode;
 
-    setLbStatus((prev) => {
-      if (prev.frontendNode !== formattedFrontendNode) {
-        setNodeSwitched(true);
-        setTimeout(() => setNodeSwitched(false), 900);
-      }
-      return {
-        ...status,
-        frontendNode: formattedFrontendNode,
-      };
+    if (lastAddr && lastAddr !== rawAddr) {
+      setNodeSwitched(true);
+      setTimeout(() => setNodeSwitched(false), 900);
+    }
+
+    setLbStatus({
+      ...status,
+      frontendNode: formattedFrontendNode,
     });
 
     setTimeout(() => setRefreshing(false), 250);
